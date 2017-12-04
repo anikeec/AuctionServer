@@ -5,16 +5,9 @@
  */
 package com.apu.auctionserver.server;
 
-import com.apu.auctionapi.AuctionQuery;
-import com.apu.auctionapi.NewRateQuery;
-import com.apu.auctionapi.PingQuery;
-import com.apu.auctionapi.PollQuery;
-import com.apu.auctionapi.RegistrationQuery;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import com.apu.auctionserver.controller.Controller;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -58,24 +51,12 @@ public class ConnectionHandler implements Runnable{
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
             String line;
-            AuctionQuery query = null;
+            Controller controller = Controller.getInstance();
             while(true) {
                 line = in.readLine(); // ожидаем пока клиент пришлет что-то
                 if(line == null)    break;
-                System.out.println(line);
-                query = Parser.parse(line);
-                if(query instanceof PingQuery) { 
-                    
-                } else if(query instanceof NewRateQuery) {
-                    
-                } else if(query instanceof RegistrationQuery) {
-                    
-                } else if(query instanceof PollQuery) {
-                    
-                } else {
-                    break;
-                } 
-
+                System.out.println(line);                
+                controller.handle(line, socket, in, out);                                 
             } 
             System.out.println("Server stopped");
             os.close();
