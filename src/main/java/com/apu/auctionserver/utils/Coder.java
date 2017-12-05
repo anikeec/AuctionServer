@@ -12,7 +12,6 @@ import com.apu.auctionapi.PingQuery;
 import com.apu.auctionapi.PollQuery;
 import com.apu.auctionapi.RegistrationQuery;
 import com.google.gson.Gson;
-import java.util.Date;
 
 /**
  *
@@ -22,7 +21,6 @@ public class Coder {
 
     private Gson gson = new Gson();
     private static Coder instance;
-    private Date date = new Date();
     
     private Coder() {
     }
@@ -87,10 +85,4 @@ public class Coder {
         return ret;
     }
     
-    public static void main(String[] args) {
-        String time = Coder.getInstance().date.toString();
-        PingQuery query = new PingQuery(1, 2, time);
-        String str = Coder.getInstance().code(query);
-        System.out.println(str);
-    }
 }

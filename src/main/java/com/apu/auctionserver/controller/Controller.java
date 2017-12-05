@@ -17,11 +17,11 @@ import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
+import com.apu.auctionserver.utils.Time;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Date;
 
 /**
  *
@@ -33,7 +33,6 @@ public class Controller {
     private final LotRepository lotRepository = LotRepository.getInstance();
     private final Decoder decoder = Decoder.getInstance();
     private final Coder coder = Coder.getInstance();
-    private Date date = null;
 
     private static Controller instance;
     
@@ -88,10 +87,12 @@ public class Controller {
             System.out.println("User unknown");
             return;
         }
-        date = new Date();
-        String time = date.toString();
+
         AnswerQuery answer = 
-            new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Ping answer");
+            new AnswerQuery(query.getPacketId(), 
+                            user.getUserId(), 
+                            Time.getTime(), 
+                            "Ping answer");
         packetSend(user, answer);
     }
     
@@ -102,10 +103,12 @@ public class Controller {
             System.out.println("User unknown");
             return;
         }
-        date = new Date();
-        String time = date.toString();
+
         AnswerQuery answer = 
-            new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Poll answer");
+            new AnswerQuery(query.getPacketId(), 
+                            user.getUserId(), 
+                            Time.getTime(), 
+                            "Poll answer");
         packetSend(user, answer);
     } 
     
@@ -117,13 +120,15 @@ public class Controller {
         if(userRepository.getUserById(query.getUserId()) == null) {
             User user = new User(query.getUserId(), socket, in, out);
             userRepository.addUser(user);
-            date = new Date();
-            String time = date.toString();
+            
             AnswerQuery answer = 
-                new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Registration answer");
+                new AnswerQuery(query.getPacketId(), 
+                                user.getUserId(), 
+                                Time.getTime(), 
+                                "Registration answer");
             packetSend(user, answer);
         }
-    }  
+    }    
     
     private void packetSend(User user, AnswerQuery answer) throws IOException {
         String str = coder.code(answer);
