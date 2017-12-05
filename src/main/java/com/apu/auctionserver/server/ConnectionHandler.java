@@ -8,6 +8,7 @@ package com.apu.auctionserver.server;
 import com.apu.auctionserver.controller.Controller;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -45,27 +46,32 @@ public class ConnectionHandler implements Runnable{
 
     private void handleSocket(Socket socket) {
         try {
-            // do anything you need
-            InputStream is = socket.getInputStream();
-            OutputStream os = socket.getOutputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
-            String line;
-            Controller controller = Controller.getInstance();
-            while(true) {
-                line = in.readLine(); // ожидаем пока клиент пришлет что-то
-                if(line == null)    break;
-                System.out.println(line);                
-                controller.handle(line, socket, in, out);                                 
-            } 
-            System.out.println("Server stopped");
-            os.close();
-            is.close();
-            socketTemp.close();
-        } catch (Exception ex) {
-            Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            
-        }
+            try {
+                // do anything you need
+                InputStream is = socket.getInputStream();
+                OutputStream os = socket.getOutputStream();
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
+                String line;
+                Controller controller = Controller.getInstance();
+                while(!socket.isClosed()) {
+                    line = in.readLine(); // ожидаем пока клиент пришлет что-то
+                    if(line == null)    break;
+                    System.out.println(line);                
+                    controller.handle(line, socket, in, out);                                 
+                } 
+                System.out.println("Server stopped");
+                os.close();
+                is.close();            
+            } catch (Exception ex) {
+//                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Client closed connection");
+            } finally {
+                System.out.println("Closing socket");
+                socket.close();
+            }
+        } catch (IOException ex) {
+                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 }
