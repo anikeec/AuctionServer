@@ -56,15 +56,17 @@ public class ConnectionHandler implements Runnable{
                 Controller controller = Controller.getInstance();
                 while(!socket.isClosed()) {
                     line = in.readLine(); // ожидаем пока клиент пришлет что-то
-                    if(line == null)    break;
-                    System.out.println(line);                
-                    controller.handle(line, socket, in, out);                                 
+//                        break;                      
+                    if(line != null) {
+                        System.out.println(line);
+                        controller.handle(line, socket, in, out);                                 
+                    }
                 } 
                 System.out.println("Server stopped");
                 os.close();
                 is.close();            
             } catch (Exception ex) {
-//                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("Client closed connection");
             } finally {
                 System.out.println("Closing socket");

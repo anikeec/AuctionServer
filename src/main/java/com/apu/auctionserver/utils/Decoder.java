@@ -52,7 +52,7 @@ public class Decoder {
     }
     
     private void decode(PollQuery result)  throws Exception {
-        throw new Exception("Method has not ready yet");        
+        System.out.println("Poll packet");        
     }
     
     public AuctionQuery decode(String query) throws Exception {
@@ -76,6 +76,7 @@ public class Decoder {
             result = new PingQuery(packetId, userId, time);
             Decoder.this.decode((PingQuery)result);
         } else if(queryType.equals(QueryType.POLL.toString())) {
+            result = new PollQuery(packetId, userId, time);
             Decoder.this.decode((PollQuery)result);
         } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
             result = new RegistrationQuery(packetId, userId, time);

@@ -6,12 +6,15 @@
 package com.apu.auctionserver.controller;
 
 import com.apu.auctionapi.AnswerQuery;
+import com.apu.auctionapi.AuctionLotEntity;
 import com.apu.auctionapi.AuctionQuery;
 import com.apu.auctionapi.DisconnectQuery;
 import com.apu.auctionapi.NewRateQuery;
 import com.apu.auctionapi.PingQuery;
+import com.apu.auctionapi.PollAnswerQuery;
 import com.apu.auctionapi.PollQuery;
 import com.apu.auctionapi.RegistrationQuery;
+import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.UserRepository;
@@ -22,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 /**
  *
@@ -102,13 +106,32 @@ public class Controller {
         if(user == null) {
             System.out.println("User unknown");
             return;
-        }
+        }      
 
-        AnswerQuery answer = 
-            new AnswerQuery(query.getPacketId(), 
-                            user.getUserId(), 
-                            Time.getTime(), 
-                            "Poll answer");
+        PollAnswerQuery answer = 
+            new PollAnswerQuery(query.getPacketId(), 
+                                user.getUserId(), 
+                                Time.getTime());
+        
+        //get list or Lots for current user
+        List<AuctionLot> lots = user.getObservedLots();
+        User lastRateUser;
+        int lastRateUserId;
+        for(AuctionLot lot: lots) {
+            lastRateUser = lot.getLastRateUser();
+            if(lastRateUser != null) 
+                lastRateUserId = lastRateUser.getUserId();
+            else
+                lastRateUserId = 0;
+            AuctionLotEntity entity = 
+                    new AuctionLotEntity(lot.getLotId(),
+                                        lot.getStartPrice(),
+                                        lot.getLotName(),
+                                        lot.getLastRate(),
+                                        lastRateUserId);
+            answer.addLotToCollection(entity);
+        }
+        
         packetSend(user, answer);
     } 
     
@@ -117,8 +140,9 @@ public class Controller {
                         BufferedReader in, 
                         BufferedWriter out) throws IOException {
         System.out.println("Registration query to controller");
-        if(userRepository.getUserById(query.getUserId()) == null) {
-            User user = new User(query.getUserId(), socket, in, out);
+        User user = userRepository.getUserById(query.getUserId());
+        if(user == null) {
+            user = new User(query.getUserId(), socket, in, out);
             userRepository.addUser(user);
             
             AnswerQuery answer = 
@@ -127,10 +151,14 @@ public class Controller {
                                 Time.getTime(), 
                                 "Registration answer");
             packetSend(user, answer);
+        } else {
+            user.setSocket(socket);
+            user.setIn(in);
+            user.setOut(out);
         }
     }    
     
-    private void packetSend(User user, AnswerQuery answer) throws IOException {
+    private void packetSend(User user, AuctionQuery answer) throws IOException {
         String str = coder.code(answer);
         user.getOut().write(str);
         user.getOut().flush();
