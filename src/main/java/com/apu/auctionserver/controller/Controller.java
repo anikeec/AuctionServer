@@ -5,22 +5,22 @@
  */
 package com.apu.auctionserver.controller;
 
-import com.apu.auctionapi.AnswerQuery;
+import com.apu.auctionapi.answer.AnswerQuery;
 import com.apu.auctionapi.AuctionLotEntity;
 import com.apu.auctionapi.AuctionQuery;
-import com.apu.auctionapi.DisconnectQuery;
-import com.apu.auctionapi.NewRateQuery;
-import com.apu.auctionapi.PingQuery;
-import com.apu.auctionapi.PollAnswerQuery;
-import com.apu.auctionapi.PollQuery;
-import com.apu.auctionapi.RegistrationQuery;
+import com.apu.auctionapi.query.DisconnectQuery;
+import com.apu.auctionapi.query.NewRateQuery;
+import com.apu.auctionapi.query.PingQuery;
+import com.apu.auctionapi.answer.PollAnswerQuery;
+import com.apu.auctionapi.query.PollQuery;
+import com.apu.auctionapi.query.RegistrationQuery;
+import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
-import com.apu.auctionserver.utils.Time;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -95,7 +95,6 @@ public class Controller {
         AnswerQuery answer = 
             new AnswerQuery(query.getPacketId(), 
                             user.getUserId(), 
-                            Time.getTime(), 
                             "Ping answer");
         packetSend(user, answer);
     }
@@ -110,8 +109,7 @@ public class Controller {
 
         PollAnswerQuery answer = 
             new PollAnswerQuery(query.getPacketId(), 
-                                user.getUserId(), 
-                                Time.getTime());
+                                user.getUserId());
         
         //get list or Lots for current user
         List<AuctionLot> lots = user.getObservedLots();
@@ -147,8 +145,7 @@ public class Controller {
             
             AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
-                                user.getUserId(), 
-                                Time.getTime(), 
+                                user.getUserId(),  
                                 "Registration answer");
             packetSend(user, answer);
         } else {
@@ -156,7 +153,22 @@ public class Controller {
             user.setIn(in);
             user.setOut(out);
         }
-    }    
+    } 
+    
+    public void handle(SubscribeQuery query) throws IOException {
+        System.out.println("Subscribe query to controller");
+        User user = userRepository.getUserById(query.getUserId());
+        if(user != null) {
+            int lotId = query.getLotId();
+            user.addLotToObserved(lotRepository.getAuctionLotById(lotId));
+            
+            AnswerQuery answer = 
+                new AnswerQuery(query.getPacketId(), 
+                                user.getUserId(),  
+                                "Subscribe answer");
+            packetSend(user, answer);
+        }
+    }
     
     private void packetSend(User user, AuctionQuery answer) throws IOException {
         String str = coder.code(answer);

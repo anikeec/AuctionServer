@@ -6,12 +6,13 @@
 package com.apu.auctionserver.utils;
 
 import com.apu.auctionapi.AuctionQuery;
-import com.apu.auctionapi.NewRateQuery;
-import com.apu.auctionapi.NotifyQuery;
-import com.apu.auctionapi.PingQuery;
-import com.apu.auctionapi.PollQuery;
+import com.apu.auctionapi.query.NewRateQuery;
+import com.apu.auctionapi.query.NotifyQuery;
+import com.apu.auctionapi.query.PingQuery;
+import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.QueryType;
-import com.apu.auctionapi.RegistrationQuery;
+import com.apu.auctionapi.query.RegistrationQuery;
+import com.apu.auctionapi.query.SubscribeQuery;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,6 +26,9 @@ public class Decoder {
     private String query;
     private final JsonParser parser = new JsonParser();
     private static Decoder instance;
+    
+    private JsonElement jsonElement;
+    private JsonObject rootObject;
     
     private Decoder() {
     }
@@ -55,12 +59,17 @@ public class Decoder {
         System.out.println("Poll packet");        
     }
     
+    private void decode(SubscribeQuery result)  throws Exception {
+        System.out.println("Subscribe packet decode");
+        int lotId = rootObject.get("lotId").getAsInt();
+        result.setLotId(lotId);
+    }
+    
     public AuctionQuery decode(String query) throws Exception {
-        this.query = query;       
-        
-        JsonElement jsonElement = parser.parse(query);
-        JsonObject rootObject = jsonElement.getAsJsonObject();
+        this.query = query;    
 
+        jsonElement = parser.parse(query);
+        rootObject = jsonElement.getAsJsonObject();
         String queryType = rootObject.get("queryType").getAsString();
         String time = rootObject.get("time").getAsString();
         Long packetId = rootObject.get("packetId").getAsLong();
@@ -81,6 +90,9 @@ public class Decoder {
         } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
             result = new RegistrationQuery(packetId, userId, time);
             Decoder.this.decode((RegistrationQuery)result);
+        } else if(queryType.equals(QueryType.SUBSCRIBE.toString())) {
+            result = new SubscribeQuery(packetId, userId, time);
+            Decoder.this.decode((SubscribeQuery)result);
         }
         
         return result;

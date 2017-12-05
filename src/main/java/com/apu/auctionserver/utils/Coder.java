@@ -6,11 +6,11 @@
 package com.apu.auctionserver.utils;
 
 import com.apu.auctionapi.AuctionQuery;
-import com.apu.auctionapi.DisconnectQuery;
-import com.apu.auctionapi.NewRateQuery;
-import com.apu.auctionapi.PingQuery;
-import com.apu.auctionapi.PollQuery;
-import com.apu.auctionapi.RegistrationQuery;
+import com.apu.auctionapi.query.DisconnectQuery;
+import com.apu.auctionapi.query.NewRateQuery;
+import com.apu.auctionapi.query.PingQuery;
+import com.apu.auctionapi.query.PollQuery;
+import com.apu.auctionapi.query.RegistrationQuery;
 import com.google.gson.Gson;
 
 /**
@@ -33,9 +33,11 @@ public class Coder {
     
     public String code(AuctionQuery object) {
         String ret = null;
-
-        if(object != null)
-            ret = gson.toJson(object) + "\r\n";
+        
+        if(object == null)  
+            return ret;
+        object.setTime(Time.getTime());        
+        ret = gson.toJson(object) + "\r\n";
         
 //        if(object instanceof DisconnectQuery) {
 //            ret = code((DisconnectQuery)object);
