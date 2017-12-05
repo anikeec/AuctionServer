@@ -91,15 +91,23 @@ public class Controller {
         date = new Date();
         String time = date.toString();
         AnswerQuery answer = 
-            new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Ping ask");
-        String str = coder.code(answer);
-        user.getOut().write(str);
-        user.getOut().flush();
+            new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Ping answer");
+        packetSend(user, answer);
     }
     
-    public void handle(PollQuery query) {
-        
-    }
+    public void handle(PollQuery query) throws IOException {
+        System.out.println("Poll query to controller");
+        User user = userRepository.getUserById(query.getUserId());
+        if(user == null) {
+            System.out.println("User unknown");
+            return;
+        }
+        date = new Date();
+        String time = date.toString();
+        AnswerQuery answer = 
+            new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Poll answer");
+        packetSend(user, answer);
+    } 
     
     public void handle(RegistrationQuery query, 
                         Socket socket,
@@ -112,11 +120,15 @@ public class Controller {
             date = new Date();
             String time = date.toString();
             AnswerQuery answer = 
-                new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Registration ask");
-            String str = coder.code(answer);
-            user.getOut().write(str);
-            user.getOut().flush();
+                new AnswerQuery(query.getPacketId(), user.getUserId(), time, "Registration answer");
+            packetSend(user, answer);
         }
-    }    
+    }  
+    
+    private void packetSend(User user, AnswerQuery answer) throws IOException {
+        String str = coder.code(answer);
+        user.getOut().write(str);
+        user.getOut().flush();
+    }
     
 }
