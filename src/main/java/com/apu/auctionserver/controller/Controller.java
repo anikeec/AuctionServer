@@ -80,8 +80,26 @@ public class Controller {
         }
     }
     
-    public void handle(NewRateQuery query) {
-        
+    public void handle(NewRateQuery query) throws IOException {
+        System.out.println("NewRateQuery query to controller");
+        AuctionLot lot = lotRepository.getAuctionLotById(query.getLotId());
+        User user = userRepository.getUserById(query.getUserId());
+        if((lot != null)&& (user != null)) {
+            int price = query.getPrice();            
+            AnswerQuery answer;
+            if(price > lot.getLastRate()) {
+                lot.setLastRate(price);                
+                lot.setLastRateUser(user);
+                answer = new AnswerQuery(query.getPacketId(), 
+                                        user.getUserId(), 
+                                        "NewRateQuery - OK. Your rate is last.");
+            } else {
+                answer = new AnswerQuery(query.getPacketId(), 
+                                        user.getUserId(), 
+                                        "NewRateQuery - Error. Your rate is low.");
+            }
+            packetSend(user, answer);
+        }
     }
     
     public void handle(PingQuery query) throws IOException {

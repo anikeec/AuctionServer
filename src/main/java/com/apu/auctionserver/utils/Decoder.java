@@ -48,12 +48,16 @@ public class Decoder {
     }
     
     private void decode(NewRateQuery result)  throws Exception {
-        throw new Exception("Method has not ready yet");        
+        System.out.println("NewRateQuery packet"); 
+        int lotId = rootObject.get("lotId").getAsInt();
+        result.setLotId(lotId);
+        int price = rootObject.get("price").getAsInt();
+        result.setPrice(price);        
     }
     
-    private void decode(NotifyQuery result)  throws Exception {
-        throw new Exception("Method has not ready yet");        
-    }
+//    private void decode(NotifyQuery result)  throws Exception {
+//        throw new Exception("Method has not ready yet");        
+//    }
     
     private void decode(PollQuery result)  throws Exception {
         System.out.println("Poll packet");        
@@ -79,8 +83,8 @@ public class Decoder {
         if(queryType.equals(QueryType.NEW_RATE.toString())) {
             result = new NewRateQuery(packetId, userId, time);
             Decoder.this.decode((NewRateQuery)result);
-        } else if(queryType.equals(QueryType.NOTIFY.toString())) {
-            Decoder.this.decode((NotifyQuery)result);
+//        } else if(queryType.equals(QueryType.NOTIFY.toString())) {
+//            Decoder.this.decode((NotifyQuery)result);
         } else if(queryType.equals(QueryType.PING.toString())) {
             result = new PingQuery(packetId, userId, time);
             Decoder.this.decode((PingQuery)result);
