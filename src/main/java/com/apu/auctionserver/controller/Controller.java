@@ -126,7 +126,8 @@ public class Controller {
                                         lot.getStartPrice(),
                                         lot.getLotName(),
                                         lot.getLastRate(),
-                                        lastRateUserId);
+                                        lastRateUserId,
+                                        lot.getAmountObservers());
             answer.addLotToCollection(entity);
         }
         

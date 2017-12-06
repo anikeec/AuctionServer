@@ -76,4 +76,8 @@ public class AuctionLot {
             orservers.remove(user);
     }
     
+    public int getAmountObservers() {
+        return orservers.size();
+    }
+    
 }
