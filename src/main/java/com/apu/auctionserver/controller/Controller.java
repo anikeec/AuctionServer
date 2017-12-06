@@ -160,18 +160,17 @@ public class Controller {
         User user = userRepository.getUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId(), socket, in, out);
-            userRepository.addUser(user);
-            
-            AnswerQuery answer = 
-                new AnswerQuery(query.getPacketId(), 
-                                user.getUserId(),  
-                                "Registration answer");
-            packetSend(user, answer);
+            userRepository.addUser(user);            
         } else {
             user.setSocket(socket);
             user.setIn(in);
             user.setOut(out);
         }
+        AnswerQuery answer = 
+                new AnswerQuery(query.getPacketId(), 
+                                user.getUserId(),  
+                                "Registration answer");
+        packetSend(user, answer);
     } 
     
     public void handle(SubscribeQuery query) throws IOException {
