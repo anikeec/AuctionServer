@@ -54,12 +54,31 @@ public class ConnectionHandler implements Runnable{
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
                 String line;
                 Controller controller = Controller.getInstance();
+                String str;
+                int amount;
+                StringBuilder sb = new StringBuilder();
+                byte[] bytes = new byte[1024];
                 while(!socket.isClosed()) {
-                    line = in.readLine(); // ожидаем пока клиент пришлет что-то
-//                        break;                      
-                    if(line != null) {
-                        System.out.println(line);
-                        controller.handle(line, socket, in, out);                                 
+                    if(Thread.currentThread().isInterrupted()) {
+                        System.out.println("Server thread. Interrupted.");
+                        break;
+                    }
+//                    if(is.available() == 0) continue;
+                    amount = is.read(bytes, 0, 1024);
+                    if(amount == -1) {
+                        System.out.println("Receive end of socket.");
+                        break;
+                    }
+                    if(amount == 0) continue;
+                    str = new String(bytes, 0, amount);
+                    sb.append(str);
+                    if(sb.toString().contains("\r\n")) {
+                        line = sb.toString();
+                        sb.delete(0, sb.capacity());
+                        if(line != null) {
+                            System.out.println(line);
+                            controller.handle(line, socket, in, out);
+                        }
                     }
                 } 
                 System.out.println("Server stopped");
