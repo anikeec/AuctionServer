@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
  * @author apu
  */
 public class ConnectionHandler implements Runnable{
+    private final int SOCKET_RECEIVE_TIMEOUT = 1000;
     private BlockingQueue<Socket> queue;
     private Socket socketTemp;
 	
@@ -55,16 +57,21 @@ public class ConnectionHandler implements Runnable{
                 String line;
                 Controller controller = Controller.getInstance();
                 String str;
-                int amount;
+                int amount = 0;
                 StringBuilder sb = new StringBuilder();
                 byte[] bytes = new byte[1024];
+                socket.setSoTimeout(SOCKET_RECEIVE_TIMEOUT);
                 while(!socket.isClosed()) {
                     if(Thread.currentThread().isInterrupted()) {
                         System.out.println("Server thread. Interrupted.");
                         break;
                     }
 //                    if(is.available() == 0) continue;
-                    amount = is.read(bytes, 0, 1024);
+                    try {
+                        amount = is.read(bytes, 0, 1024);
+                    } catch (SocketTimeoutException ex) {
+                        continue;
+                    }
                     if(amount == -1) {
                         System.out.println("Receive end of socket.");
                         break;
