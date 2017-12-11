@@ -80,7 +80,7 @@ public class Controller {
         }
     }
     
-    public void handle(NewRateQuery query) throws IOException {
+    public synchronized void handle(NewRateQuery query) throws IOException {
         System.out.println("NewRateQuery query to controller");
         AuctionLot lot = lotRepository.getAuctionLotById(query.getLotId());
         User user = userRepository.getUserById(query.getUserId());
@@ -90,6 +90,7 @@ public class Controller {
             if(price > lot.getLastRate()) {
                 lot.setLastRate(price);                
                 lot.setLastRateUser(user);
+                lotRepository.updateAuctionLot(lot);
                 answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
                                         "NewRateQuery - OK. Your rate is last.");

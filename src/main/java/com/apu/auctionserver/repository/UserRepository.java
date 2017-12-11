@@ -7,6 +7,7 @@ package com.apu.auctionserver.repository;
 
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.User;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class UserRepository {
 
-    private final List<User> users = Auction.getInstance().getAuctionUsers();
+    private final List<User> users = new ArrayList<>();
     private static UserRepository instance;
     
     private UserRepository() {
@@ -30,6 +31,10 @@ public class UserRepository {
     public void addUser(User user) {
         if(!users.contains(user))
             users.add(user);
+    }
+    
+    public List<User> getAuctionUsers() {
+        return users;
     }
     
     public void removeUser(User user) {

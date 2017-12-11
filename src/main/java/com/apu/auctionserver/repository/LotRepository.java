@@ -26,14 +26,33 @@ public class LotRepository {
         return instance;
     }
     
+    public List<AuctionLot> getAuctionLots() {
+        return auctionLots;
+    }
+    
     public void addAuctionLot(AuctionLot lot) {
         if(!auctionLots.contains(lot))
             auctionLots.add(lot);
     }
     
+    public void removeAuctionLot(AuctionLot lot) {
+        if(auctionLots.contains(lot)) {
+            auctionLots.remove(lot);
+        }
+    }
+    
     public AuctionLot getAuctionLotById(int lotId) {
         AuctionLot ret = null;
-        
+        for(AuctionLot lot:auctionLots) {
+            if(lot.getLotId() == lotId) return lot;
+        }
         return ret;
+    }
+    
+    public void updateAuctionLot(AuctionLot lot) {
+        AuctionLot lotSrc = getAuctionLotById(lot.getLotId());
+        if(lotSrc == null) return;
+        lotSrc.setLastRate(lot.getLastRate());
+        lotSrc.setLastRateUser(lot.getLastRateUser());
     }
 }

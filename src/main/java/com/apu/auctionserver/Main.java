@@ -8,6 +8,8 @@ package com.apu.auctionserver;
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
+import com.apu.auctionserver.repository.LotRepository;
+import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.server.Server;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -34,18 +36,21 @@ public class Main {
     }
     
     private static void auctionInit() {
-        AuctionLot lot;
+        AuctionLot lot1, lot2;
         User user;
-        Auction auction = Auction.getInstance();
         
         user = new User(1);
-        auction.addUserToAuction(user);
-        lot = new AuctionLot(1, 10, "Book");
-        auction.addLotToAuction(lot);
-        user.addLotToObserved(lot); 
-        lot = new AuctionLot(2, 25, "TVset");
-        auction.addLotToAuction(lot);
-        user.addLotToObserved(lot);
+        UserRepository.getInstance().addUser(user);
+        lot1 = new AuctionLot(1, 10, "Book");
+        LotRepository.getInstance().addAuctionLot(lot1);
+        user.addLotToObserved(lot1); 
+        lot2 = new AuctionLot(2, 25, "TVset");
+        LotRepository.getInstance().addAuctionLot(lot2);
+        user.addLotToObserved(lot2);
+        user = new User(2);
+        UserRepository.getInstance().addUser(user);
+        user.addLotToObserved(lot1); 
+        
         
     }
     

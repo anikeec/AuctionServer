@@ -5,6 +5,8 @@
  */
 package com.apu.auctionserver.entity;
 
+import com.apu.auctionserver.repository.LotRepository;
+import com.apu.auctionserver.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,10 @@ import java.util.List;
  * @author apu
  */
 public class Auction {
-    private final List<AuctionLot> auctionLots = new ArrayList<>();
-    private final List<User> auctionUsers = new ArrayList<>();
+    private final LotRepository lotRepository = 
+                        LotRepository.getInstance();
+    private final UserRepository userRepository = 
+                        UserRepository.getInstance();
     
     private static Auction instance;
     
@@ -28,35 +32,27 @@ public class Auction {
     }
     
     public List<AuctionLot> getAuctionLots() {
-        return auctionLots;
+        return lotRepository.getAuctionLots();
     }
     
     public void addLotToAuction(AuctionLot lot) {
-        if(!auctionLots.contains(lot)) {
-            auctionLots.add(lot);
-        }
+        lotRepository.addAuctionLot(lot);
     }
     
     public void removeLotFromAuction(AuctionLot lot) {
-        if(auctionLots.contains(lot)) {
-            auctionLots.remove(lot);
-        }
+        lotRepository.removeAuctionLot(lot);
     }
     
     public List<User> getAuctionUsers() {
-        return auctionUsers;
+        return userRepository.getAuctionUsers();
     }
     
     public void addUserToAuction(User user) {
-        if(!auctionUsers.contains(user)) {
-            auctionUsers.add(user);
-        }
+        userRepository.addUser(user);
     }
     
     public void removeUserFromAuction(User user) {
-        if(auctionUsers.contains(user)) {
-            auctionUsers.remove(user);
-        }
+        userRepository.removeUser(user);
     }
     
 }
