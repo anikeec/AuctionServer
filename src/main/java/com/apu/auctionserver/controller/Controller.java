@@ -160,13 +160,20 @@ public class Controller {
         System.out.println("Registration query to controller");
         User user = userRepository.getUserById(query.getUserId());
         if(user == null) {
-            user = new User(query.getUserId(), socket, in, out);
-            userRepository.addUser(user);            
+            user = new User(query.getUserId(), socket, in, out);                   
         } else {
             user.setSocket(socket);
             user.setIn(in);
             user.setOut(out);
         }
+        List<Integer> lotIdList = query.getObservableLotIdList();
+        AuctionLot lot;
+        user.eraseObservableList();
+        for(Integer lotId : lotIdList) {
+            lot = lotRepository.getAuctionLotById(lotId);
+            user.addLotToObserved(lot);
+        }
+        userRepository.addUser(user);     
         AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 user.getUserId(),  

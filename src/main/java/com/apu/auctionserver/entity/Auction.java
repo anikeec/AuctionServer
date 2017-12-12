@@ -7,7 +7,6 @@ package com.apu.auctionserver.entity;
 
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.UserRepository;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

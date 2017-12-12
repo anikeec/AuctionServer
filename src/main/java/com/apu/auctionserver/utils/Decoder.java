@@ -13,6 +13,7 @@ import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.QueryType;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,6 +42,12 @@ public class Decoder {
     
     private void decode(RegistrationQuery result) throws Exception {
         System.out.println("Registration packet");
+        JsonArray array = rootObject.get("observableLotIdList").getAsJsonArray();
+        Integer lotId;
+        for(JsonElement element:array) {
+            lotId = element.getAsInt();
+            result.addLotIdToObservableList(lotId);
+        }
     }
     
     private void decode(PingQuery result)  throws Exception {

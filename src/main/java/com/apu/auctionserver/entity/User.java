@@ -79,4 +79,8 @@ public class User {
         }
     }
     
+    public void eraseObservableList() {
+        observedLots.clear();
+    }
+    
 }
