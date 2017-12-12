@@ -34,6 +34,10 @@ public class Auction {
         return lotRepository.getAuctionLots();
     }
     
+    public AuctionLot getAuctionLotById(int lotId) {
+        return lotRepository.getAuctionLotById(lotId);
+    }
+    
     public void addLotToAuction(AuctionLot lot) {
         lotRepository.addAuctionLot(lot);
     }
@@ -42,8 +46,16 @@ public class Auction {
         lotRepository.removeAuctionLot(lot);
     }
     
+    public void updateAuctionLot(AuctionLot lot) {
+        lotRepository.updateAuctionLot(lot);
+    }
+    
     public List<User> getAuctionUsers() {
         return userRepository.getAuctionUsers();
+    }
+    
+    public User getAuctionUserById(int userId) {
+        return userRepository.getUserById(userId);
     }
     
     public void addUserToAuction(User user) {

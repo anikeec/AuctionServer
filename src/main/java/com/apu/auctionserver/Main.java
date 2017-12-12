@@ -18,8 +18,8 @@ import java.util.logging.Logger;
  * @author apu
  */
 public class Main {
-    private static int CONNECTIONS_MAX = 10;
-    private static int CONNECTION_PORT = 5050;    
+    private static final int CONNECTIONS_MAX = 10;
+    private static final int CONNECTION_PORT = 5050;    
     static Server server;
     
     public static void main(String[] args) {

@@ -80,6 +80,9 @@ public class User {
     }
     
     public void eraseObservableList() {
+        for(AuctionLot lot : observedLots) {
+            lot.removeUserFromObservers(this);
+        }
         observedLots.clear();
     }
     

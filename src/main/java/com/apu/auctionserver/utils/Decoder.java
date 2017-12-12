@@ -7,10 +7,10 @@ package com.apu.auctionserver.utils;
 
 import com.apu.auctionapi.AuctionQuery;
 import com.apu.auctionapi.query.NewRateQuery;
-import com.apu.auctionapi.query.NotifyQuery;
 import com.apu.auctionapi.query.PingQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.QueryType;
+import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
 import com.google.gson.JsonArray;
@@ -48,6 +48,10 @@ public class Decoder {
             lotId = element.getAsInt();
             result.addLotIdToObservableList(lotId);
         }
+    }
+    
+    private void decode(DisconnectQuery result)  throws Exception {
+        System.out.println("DisconnectQuery packet");        
     }
     
     private void decode(PingQuery result)  throws Exception {
@@ -98,6 +102,9 @@ public class Decoder {
         } else if(queryType.equals(QueryType.POLL.toString())) {
             result = new PollQuery(packetId, userId, time);
             Decoder.this.decode((PollQuery)result);
+        } else if(queryType.equals(QueryType.DISCONNECT.toString())) {
+            result = new DisconnectQuery(packetId, userId, time);
+            Decoder.this.decode((DisconnectQuery)result);
         } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
             result = new RegistrationQuery(packetId, userId, time);
             Decoder.this.decode((RegistrationQuery)result);
