@@ -24,6 +24,9 @@ import com.google.gson.JsonParser;
  */
 public class Decoder {
     
+    private static final Log log = Log.getInstance();
+    private final Class classname = Decoder.class;
+    
     private String query;
     private final JsonParser parser = new JsonParser();
     private static Decoder instance;
@@ -41,7 +44,7 @@ public class Decoder {
     }
     
     private void decode(RegistrationQuery result) throws Exception {
-        System.out.println("Registration packet");
+        log.debug(classname, "Registration packet");
         JsonArray array = rootObject.get("observableLotIdList").getAsJsonArray();
         Integer lotId;
         for(JsonElement element:array) {
@@ -51,7 +54,7 @@ public class Decoder {
     }
     
     private void decode(DisconnectQuery result)  throws Exception {
-        System.out.println("DisconnectQuery packet");        
+        log.debug(classname, "DisconnectQuery packet");        
     }
     
     private void decode(PingQuery result)  throws Exception {
@@ -59,7 +62,7 @@ public class Decoder {
     }
     
     private void decode(NewRateQuery result)  throws Exception {
-        System.out.println("NewRateQuery packet"); 
+        log.debug(classname, "NewRateQuery packet"); 
         int lotId = rootObject.get("lotId").getAsInt();
         result.setLotId(lotId);
         int price = rootObject.get("price").getAsInt();
@@ -71,11 +74,11 @@ public class Decoder {
 //    }
     
     private void decode(PollQuery result)  throws Exception {
-        System.out.println("Poll packet");        
+        log.debug(classname, "Poll packet");        
     }
     
     private void decode(SubscribeQuery result)  throws Exception {
-        System.out.println("Subscribe packet decode");
+        log.debug(classname, "Subscribe packet decode");
         int lotId = rootObject.get("lotId").getAsInt();
         result.setLotId(lotId);
     }

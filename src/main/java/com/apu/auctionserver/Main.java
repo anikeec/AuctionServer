@@ -9,15 +9,17 @@ import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
 import com.apu.auctionserver.server.Server;
+import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  *
  * @author apu
  */
 public class Main {
+    private static final Log log = Log.getInstance();
+    private static final Class classname = Main.class;
     private static final int CONNECTIONS_MAX = 10;
     private static final int CONNECTION_PORT = 5050;    
     static Server server;
@@ -29,7 +31,7 @@ public class Main {
             server = new Server(CONNECTION_PORT, CONNECTIONS_MAX);
             server.accept();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
         }
     }
     

@@ -6,6 +6,7 @@
 package com.apu.auctionserver.server;
 
 import com.apu.auctionserver.controller.Controller;
+import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,14 +17,17 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  *
  * @author apu
  */
 public class ConnectionHandler implements Runnable{
+    
+    private static final Log log = Log.getInstance();
+    private final Class classname = ConnectionHandler.class;
+    
     private final int SOCKET_RECEIVE_TIMEOUT = 1000;
     private BlockingQueue<Socket> queue;
     private Socket socketTemp;
@@ -38,7 +42,7 @@ public class ConnectionHandler implements Runnable{
             try {
                 socketTemp = queue.take();
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
             }
             if(socketTemp != null) {
                 handleSocket(socketTemp);
@@ -63,7 +67,7 @@ public class ConnectionHandler implements Runnable{
                 socket.setSoTimeout(SOCKET_RECEIVE_TIMEOUT);
                 while(!socket.isClosed()) {
                     if(Thread.currentThread().isInterrupted()) {
-                        System.out.println("Server thread. Interrupted.");
+                        log.debug(classname, "Server thread. Interrupted.");
                         break;
                     }
 //                    if(is.available() == 0) continue;
@@ -73,7 +77,7 @@ public class ConnectionHandler implements Runnable{
                         continue;
                     }
                     if(amount == -1) {
-                        System.out.println("Receive end of socket.");
+                        log.debug(classname, "Receive end of socket.");
                         break;
                     }
                     if(amount == 0) continue;
@@ -83,23 +87,23 @@ public class ConnectionHandler implements Runnable{
                         line = sb.toString();
                         sb.delete(0, sb.capacity());
                         if(line != null) {
-                            System.out.println(line);
+                            log.debug(classname, line);
                             controller.handle(line, socket, in, out);
                         }
                     }
                 } 
-                System.out.println("Server stopped");
+                log.debug(classname, "Server stopped");
                 os.close();
                 is.close();            
             } catch (Exception ex) {
-                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Client closed connection");
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+                log.debug(classname, "Client closed connection");
             } finally {
-                System.out.println("Closing socket");
+                log.debug(classname, "Closing socket");
                 socket.close();
             }
         } catch (IOException ex) {
-                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));;
             }
     }
 }

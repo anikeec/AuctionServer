@@ -5,6 +5,7 @@
  */
 package com.apu.auctionserver.server;
 
+import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,6 +15,10 @@ import java.net.Socket;
  * @author apu
  */
 public class Server {
+    
+    private static final Log log = Log.getInstance();
+    private final Class classname = Server.class;
+    
     private ServerSocket serverSocket;
     private ConnectionHandlerPool handlerPool;
     private int backlog;  
@@ -25,7 +30,7 @@ public class Server {
 
     public void accept() throws IOException {
             handlerPool = new ConnectionHandlerPool(backlog);
-            System.out.println("Server started");
+            log.debug(classname, "Server started");
             while (true) {
                     Socket socket = serverSocket.accept();
                     handlerPool.addConnection(socket);

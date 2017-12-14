@@ -5,6 +5,7 @@
  */
 package com.apu.auctionserver.server;
 
+import com.apu.auctionserver.utils.Log;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -17,14 +18,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  *
  * @author apu
  */
 public class ConnectionThread implements Runnable{
+    
+    private static final Log log = Log.getInstance();
+    private final Class classname = ConnectionThread.class;
+    
     private Socket socketTemp;
 	
     public ConnectionThread(Socket socket) {
@@ -45,14 +49,14 @@ public class ConnectionThread implements Runnable{
             while(true) {
                 line = in.readLine(); // ожидаем пока клиент пришлет строку текста.
                 if(line.contains("Bue")) break;
-                System.out.println(line);
+                log.debug(classname, line);
                 out.write(line + "\n"); // отсылаем клиенту обратно ту самую строку текста.
                 out.flush(); // заставляем поток закончить передачу данных.
 //                System.out.println();
             }  
             socketTemp.close();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
         }
     }
 }

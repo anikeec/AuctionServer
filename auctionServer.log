@@ -1,0 +1,259 @@
+2017-12-14 17:34:43 DEBUG main - (com.apu.auctionserver.server.Server) - Server started
+2017-12-14 17:35:02 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2017.12.14 17:35:02","packetId":0,"userId":1}
+2017-12-14 17:35:02 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Registration packet
+2017-12-14 17:35:02 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Registration query to controller
+2017-12-14 17:35:03 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:03","packetId":1,"userId":1}
+2017-12-14 17:35:03 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:03 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:04 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:04","packetId":2,"userId":1}
+2017-12-14 17:35:04 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:04 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:05 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:05","packetId":3,"userId":1}
+2017-12-14 17:35:05 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:05 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":10,"queryType":"NEW_RATE","time":"2017.12.14 17:35:06","packetId":4,"userId":1}
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":10,"queryType":"NEW_RATE","time":"2017.12.14 17:35:06","packetId":5,"userId":1}
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:06","packetId":6,"userId":1}
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:06 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:07 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:07","packetId":7,"userId":1}
+2017-12-14 17:35:07 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:07 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":20,"queryType":"NEW_RATE","time":"2017.12.14 17:35:08","packetId":8,"userId":1}
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:08","packetId":9,"userId":1}
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":30,"queryType":"NEW_RATE","time":"2017.12.14 17:35:08","packetId":10,"userId":1}
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:08 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:09 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:09","packetId":11,"userId":1}
+2017-12-14 17:35:09 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:09 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:10 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:10","packetId":12,"userId":1}
+2017-12-14 17:35:10 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:10 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:11 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:11","packetId":13,"userId":1}
+2017-12-14 17:35:11 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:11 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:12 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:12","packetId":14,"userId":1}
+2017-12-14 17:35:12 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:12 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:13 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:13","packetId":15,"userId":1}
+2017-12-14 17:35:13 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:13 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:14 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:14","packetId":16,"userId":1}
+2017-12-14 17:35:14 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:14 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:15 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:15","packetId":17,"userId":1}
+2017-12-14 17:35:15 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:15 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:16 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:16","packetId":18,"userId":1}
+2017-12-14 17:35:16 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:16 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:16 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2017.12.14 17:35:16","packetId":0,"userId":2}
+2017-12-14 17:35:16 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Registration packet
+2017-12-14 17:35:16 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Registration query to controller
+2017-12-14 17:35:17 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:17","packetId":19,"userId":1}
+2017-12-14 17:35:17 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:17 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:17 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:17","packetId":1,"userId":2}
+2017-12-14 17:35:17 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:17 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:18 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:18","packetId":20,"userId":1}
+2017-12-14 17:35:18 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:18 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:18","packetId":2,"userId":2}
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":40,"queryType":"NEW_RATE","time":"2017.12.14 17:35:18","packetId":3,"userId":2}
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:18 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:19 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:19","packetId":21,"userId":1}
+2017-12-14 17:35:19 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:19 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:19","packetId":4,"userId":2}
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"lotId":1,"price":50,"queryType":"NEW_RATE","time":"2017.12.14 17:35:19","packetId":5,"userId":2}
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - NewRateQuery packet
+2017-12-14 17:35:19 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - NewRateQuery query to controller
+2017-12-14 17:35:20 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:20","packetId":22,"userId":1}
+2017-12-14 17:35:20 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:20 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:20 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:20","packetId":6,"userId":2}
+2017-12-14 17:35:20 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:20 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:21 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:21","packetId":23,"userId":1}
+2017-12-14 17:35:21 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:21 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:21 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:21","packetId":7,"userId":2}
+2017-12-14 17:35:21 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:21 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:22 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:22","packetId":24,"userId":1}
+2017-12-14 17:35:22 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:22 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:22 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:22","packetId":8,"userId":2}
+2017-12-14 17:35:22 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:22 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:23 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:23","packetId":25,"userId":1}
+2017-12-14 17:35:23 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:23 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:23 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:23","packetId":9,"userId":2}
+2017-12-14 17:35:23 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:23 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:24 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:24","packetId":26,"userId":1}
+2017-12-14 17:35:24 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:24 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:24 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:24","packetId":10,"userId":2}
+2017-12-14 17:35:24 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:24 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:25 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:25","packetId":27,"userId":1}
+2017-12-14 17:35:25 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:25 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:25 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:25","packetId":11,"userId":2}
+2017-12-14 17:35:25 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:25 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:26 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:26","packetId":28,"userId":1}
+2017-12-14 17:35:26 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:26 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:26 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:26","packetId":12,"userId":2}
+2017-12-14 17:35:26 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:26 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:27 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:27","packetId":29,"userId":1}
+2017-12-14 17:35:27 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:27 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:27 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:27","packetId":13,"userId":2}
+2017-12-14 17:35:27 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:27 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:28 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:28","packetId":30,"userId":1}
+2017-12-14 17:35:28 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:28 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:28 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:28","packetId":14,"userId":2}
+2017-12-14 17:35:28 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:28 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:29 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:29","packetId":31,"userId":1}
+2017-12-14 17:35:29 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:29 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:29 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:29","packetId":15,"userId":2}
+2017-12-14 17:35:29 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:29 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:30 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:30","packetId":32,"userId":1}
+2017-12-14 17:35:30 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:30 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:30 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:30","packetId":16,"userId":2}
+2017-12-14 17:35:30 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:30 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:31 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:31","packetId":33,"userId":1}
+2017-12-14 17:35:31 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:31 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:31 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:31","packetId":17,"userId":2}
+2017-12-14 17:35:31 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:31 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:32 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:32","packetId":34,"userId":1}
+2017-12-14 17:35:32 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:32 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:32 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:32","packetId":18,"userId":2}
+2017-12-14 17:35:32 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:32 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:33 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:33","packetId":35,"userId":1}
+2017-12-14 17:35:33 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:33 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:33 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:33","packetId":19,"userId":2}
+2017-12-14 17:35:33 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:33 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:34 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:34","packetId":36,"userId":1}
+2017-12-14 17:35:34 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:34 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:34 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:34","packetId":20,"userId":2}
+2017-12-14 17:35:34 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:34 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:35 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:35","packetId":37,"userId":1}
+2017-12-14 17:35:35 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:35 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:35 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:35","packetId":21,"userId":2}
+2017-12-14 17:35:35 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:35 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:36 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:36","packetId":38,"userId":1}
+2017-12-14 17:35:36 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:36 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:36 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:36","packetId":22,"userId":2}
+2017-12-14 17:35:36 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:36 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:37","packetId":39,"userId":1}
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:37 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:37","packetId":23,"userId":2}
+2017-12-14 17:35:37 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:37 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"DISCONNECT","time":"2017.12.14 17:35:37","packetId":40,"userId":1}
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.utils.Decoder) - DisconnectQuery packet
+2017-12-14 17:35:37 DEBUG Thread-0 - (com.apu.auctionserver.controller.Controller) - Disconnect query to controller
+2017-12-14 17:35:38 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:38","packetId":24,"userId":2}
+2017-12-14 17:35:38 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:38 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:39 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:39","packetId":25,"userId":2}
+2017-12-14 17:35:39 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:39 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:40 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:40","packetId":26,"userId":2}
+2017-12-14 17:35:40 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:40 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:41 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:41","packetId":27,"userId":2}
+2017-12-14 17:35:41 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:41 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:42 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:42","packetId":28,"userId":2}
+2017-12-14 17:35:42 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:42 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:43 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:43","packetId":29,"userId":2}
+2017-12-14 17:35:43 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:43 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:44 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:44","packetId":30,"userId":2}
+2017-12-14 17:35:44 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:44 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:45 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:45","packetId":31,"userId":2}
+2017-12-14 17:35:45 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:45 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:46 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:46","packetId":32,"userId":2}
+2017-12-14 17:35:46 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:46 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:47 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:47","packetId":33,"userId":2}
+2017-12-14 17:35:47 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:47 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:48 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:48","packetId":34,"userId":2}
+2017-12-14 17:35:48 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:48 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:49 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:49","packetId":35,"userId":2}
+2017-12-14 17:35:49 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:49 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:50 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:50","packetId":36,"userId":2}
+2017-12-14 17:35:50 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:50 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:51 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:51","packetId":37,"userId":2}
+2017-12-14 17:35:51 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:51 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:52 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - Receive end of socket.
+2017-12-14 17:35:52 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - Server stopped
+2017-12-14 17:35:52 DEBUG Thread-0 - (com.apu.auctionserver.server.ConnectionHandler) - Closing socket
+2017-12-14 17:35:52 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:52","packetId":38,"userId":2}
+2017-12-14 17:35:52 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:52 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:53 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:53","packetId":39,"userId":2}
+2017-12-14 17:35:53 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:53 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:54 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:54","packetId":40,"userId":2}
+2017-12-14 17:35:54 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:54 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:55 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"POLL","time":"2017.12.14 17:35:55","packetId":41,"userId":2}
+2017-12-14 17:35:55 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - Poll packet
+2017-12-14 17:35:55 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Poll query to controller
+2017-12-14 17:35:56 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - {"queryType":"DISCONNECT","time":"2017.12.14 17:35:56","packetId":42,"userId":2}
+2017-12-14 17:35:56 DEBUG Thread-1 - (com.apu.auctionserver.utils.Decoder) - DisconnectQuery packet
+2017-12-14 17:35:56 DEBUG Thread-1 - (com.apu.auctionserver.controller.Controller) - Disconnect query to controller
+2017-12-14 17:35:57 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - Receive end of socket.
+2017-12-14 17:35:57 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - Server stopped
+2017-12-14 17:35:57 DEBUG Thread-1 - (com.apu.auctionserver.server.ConnectionHandler) - Closing socket

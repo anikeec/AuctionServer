@@ -20,6 +20,7 @@ import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
+import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,6 +32,9 @@ import java.util.List;
  * @author apu
  */
 public class Controller {
+    
+    private static final Log log = Log.getInstance();
+    private final Class classname = Controller.class;
     
     private final Auction auction = Auction.getInstance();
     private final Decoder decoder = Decoder.getInstance();
@@ -69,7 +73,7 @@ public class Controller {
     }
     
     public void handle(DisconnectQuery query) throws IOException {
-        System.out.println("Disconnect query to controller");
+        log.debug(classname, "Disconnect query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         user.eraseObservableList();
         AnswerQuery answer;
@@ -81,7 +85,7 @@ public class Controller {
             
             
         } else {
-            System.out.println("User unknown");
+            log.debug(classname, "User unknown");
             answer = new AnswerQuery(query.getPacketId(), 
                                         query.getUserId(), 
                                         "DisconnectQuery - Error. User unknown.");
@@ -90,7 +94,7 @@ public class Controller {
     }
     
     public synchronized void handle(NewRateQuery query) throws IOException {
-        System.out.println("NewRateQuery query to controller");
+        log.debug(classname, "NewRateQuery query to controller");
         AuctionLot lot = auction.getAuctionLotById(query.getLotId());
         User user = auction.getAuctionUserById(query.getUserId());
         if((lot != null)&& (user != null)) {
@@ -113,10 +117,10 @@ public class Controller {
     }
     
     public void handle(PingQuery query) throws IOException {
-        System.out.println("Ping query to controller");
+        log.debug(classname, "Ping query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
-            System.out.println("User unknown");
+            log.debug(classname, "User unknown");
             return;
         }
 
@@ -128,10 +132,10 @@ public class Controller {
     }
     
     public void handle(PollQuery query) throws IOException {
-        System.out.println("Poll query to controller");
+        log.debug(classname, "Poll query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
-            System.out.println("User unknown");
+            log.debug(classname, "User unknown");
             return;
         }      
 
@@ -166,7 +170,7 @@ public class Controller {
                         Socket socket,
                         BufferedReader in, 
                         BufferedWriter out) throws IOException {
-        System.out.println("Registration query to controller");
+        log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId(), socket, in, out);                   
@@ -191,7 +195,7 @@ public class Controller {
     } 
     
     public void handle(SubscribeQuery query) throws IOException {
-        System.out.println("Subscribe query to controller");
+        log.debug(classname, "Subscribe query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user != null) {
             int lotId = query.getLotId();
