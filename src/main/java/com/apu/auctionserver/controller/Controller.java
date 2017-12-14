@@ -21,9 +21,10 @@ import com.apu.auctionserver.entity.User;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.List;
 
@@ -52,9 +53,7 @@ public class Controller {
     }
     
     public void handle(String queryStr, 
-                        Socket socket,
-                        BufferedReader in, 
-                        BufferedWriter out) throws IOException, Exception {
+                        Socket socket) throws IOException, Exception {
         AuctionQuery query = decoder.decode(queryStr);
                 
         if(query instanceof DisconnectQuery) {
@@ -66,7 +65,7 @@ public class Controller {
         } else if(query instanceof PollQuery) { 
             handle((PollQuery)query);
         } else if(query instanceof RegistrationQuery) {
-            handle((RegistrationQuery)query, socket, in, out);
+            handle((RegistrationQuery)query, socket);
         } else {
             
         }
@@ -167,17 +166,13 @@ public class Controller {
     } 
     
     public void handle(RegistrationQuery query, 
-                        Socket socket,
-                        BufferedReader in, 
-                        BufferedWriter out) throws IOException {
+                        Socket socket) throws IOException {
         log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
-            user = new User(query.getUserId(), socket, in, out);                   
+            user = new User(query.getUserId(), socket);                   
         } else {
             user.setSocket(socket);
-            user.setIn(in);
-            user.setOut(out);
         }
         List<Integer> lotIdList = query.getObservableLotIdList();
         AuctionLot lot;
@@ -211,8 +206,10 @@ public class Controller {
     
     private void packetSend(User user, AuctionQuery answer) throws IOException {
         String str = coder.code(answer);
-        user.getOut().write(str);
-        user.getOut().flush();
+        OutputStream os = user.getSocket().getOutputStream();
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
+        out.write(str);
+        out.flush();
     }
     
 }

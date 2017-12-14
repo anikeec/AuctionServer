@@ -18,19 +18,15 @@ import java.util.List;
 public class User {
     private final int userId;
     private Socket socket;
-    private BufferedReader in;
-    private BufferedWriter out;
     private final List<AuctionLot> observedLots = new ArrayList<>();
 
     public User(int userId) {
-        this(userId, null, null, null);
+        this(userId, null);
     }    
     
-    public User(int userId, Socket socket, BufferedReader in, BufferedWriter out) {
+    public User(int userId, Socket socket) {
         this.userId = userId;
         this.socket = socket;
-        this.in = in;
-        this.out = out;
     }
 
     public int getUserId() {
@@ -43,22 +39,6 @@ public class User {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
-
-    public BufferedReader getIn() {
-        return in;
-    }
-
-    public void setIn(BufferedReader in) {
-        this.in = in;
-    }
-
-    public BufferedWriter getOut() {
-        return out;
-    }
-
-    public void setOut(BufferedWriter out) {
-        this.out = out;
     }
     
     public List<AuctionLot> getObservedLots() {

@@ -8,12 +8,9 @@ package com.apu.auctionserver.server;
 import com.apu.auctionserver.controller.Controller;
 import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.BlockingQueue;
@@ -54,10 +51,8 @@ public class ConnectionHandler implements Runnable{
         try {
             try {
                 // do anything you need
-                InputStream is = socket.getInputStream();
-                OutputStream os = socket.getOutputStream();
-                BufferedReader in = new BufferedReader(new InputStreamReader(is));
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
+                InputStream is = socket.getInputStream();                
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));                
                 String line;
                 Controller controller = Controller.getInstance();
                 String str;
@@ -88,13 +83,11 @@ public class ConnectionHandler implements Runnable{
                         sb.delete(0, sb.capacity());
                         if(line != null) {
                             log.debug(classname, line);
-                            controller.handle(line, socket, in, out);
+                            controller.handle(line, socket);
                         }
                     }
                 } 
-                log.debug(classname, "Server stopped");
-                os.close();
-                is.close();            
+                log.debug(classname, "Server stopped");           
             } catch (Exception ex) {
                 log.debug(classname,ExceptionUtils.getStackTrace(ex));
                 log.debug(classname, "Client closed connection");
