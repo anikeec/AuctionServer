@@ -76,10 +76,10 @@ public class Controller {
     
     public void handle(DisconnectQuery query) throws IOException {
         log.debug(classname, "Disconnect query to controller");
-        User user = auction.getAuctionUserById(query.getUserId());
-        user.eraseObservableList();
+        User user = auction.getAuctionUserById(query.getUserId());        
         AnswerQuery answer;
         if(user != null) {
+            user.eraseObservableList();
             auction.removeUserFromAuction(user);
             answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
