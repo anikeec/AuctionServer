@@ -5,9 +5,6 @@
  */
 package com.apu.auctionserver.entity;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,28 +14,14 @@ import java.util.List;
  */
 public class User {
     private final int userId;
-    private Socket socket;
     private final List<AuctionLot> observedLots = new ArrayList<>();
 
     public User(int userId) {
-        this(userId, null);
-    }    
-    
-    public User(int userId, Socket socket) {
         this.userId = userId;
-        this.socket = socket;
-    }
+    }    
 
     public int getUserId() {
         return userId;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
     }
     
     public List<AuctionLot> getObservedLots() {

@@ -18,6 +18,7 @@ import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
+import com.apu.auctionserver.repository.SocketRepository;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
@@ -40,6 +41,8 @@ public class Controller {
     private final Auction auction = Auction.getInstance();
     private final Decoder decoder = Decoder.getInstance();
     private final Coder coder = Coder.getInstance();
+    private final SocketRepository socketRepository = 
+                            SocketRepository.getInstance();
 
     private static Controller instance;
     
@@ -170,10 +173,11 @@ public class Controller {
         log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
-            user = new User(query.getUserId(), socket);                   
+            user = new User(query.getUserId());            
         } else {
-            user.setSocket(socket);
+//            user.setSocket(socket);
         }
+        socketRepository.addSocket(user, socket);
         List<Integer> lotIdList = query.getObservableLotIdList();
         AuctionLot lot;
         user.eraseObservableList();
@@ -205,8 +209,9 @@ public class Controller {
     }
     
     private void packetSend(User user, AuctionQuery answer) throws IOException {
-        String str = coder.code(answer);
-        OutputStream os = user.getSocket().getOutputStream();
+        String str = coder.code(answer);        
+        OutputStream os = 
+                socketRepository.getSocketByUser(user).getOutputStream();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
         out.write(str);
         out.flush();
