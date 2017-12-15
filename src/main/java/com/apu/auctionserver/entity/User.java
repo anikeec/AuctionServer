@@ -13,8 +13,10 @@ import java.util.List;
  * @author apu
  */
 public class User {
+    public static enum STATUS{ONLINE, OFFLINE};
     private final int userId;
     private final List<AuctionLot> observedLots = new ArrayList<>();
+    private STATUS status;
 
     public User(int userId) {
         this.userId = userId;
@@ -22,6 +24,14 @@ public class User {
 
     public int getUserId() {
         return userId;
+    }
+
+    public STATUS getStatus() {
+        return status;
+    }
+
+    public void setStatus(STATUS status) {
+        this.status = status;
     }
     
     public List<AuctionLot> getObservedLots() {

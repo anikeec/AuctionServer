@@ -8,9 +8,12 @@ package com.apu.auctionserver.server;
 import com.apu.auctionserver.controller.Controller;
 import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.BlockingQueue;
@@ -54,7 +57,6 @@ public class ConnectionHandler implements Runnable{
                 InputStream is = socket.getInputStream();                
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));                
                 String line;
-                Controller controller = Controller.getInstance();
                 String str;
                 int amount = 0;
                 StringBuilder sb = new StringBuilder();
@@ -83,7 +85,8 @@ public class ConnectionHandler implements Runnable{
                         sb.delete(0, sb.capacity());
                         if(line != null) {
                             log.debug(classname, line);
-                            controller.handle(line, socket);
+                            String answer = new Controller().handle(line);
+                            packetSend(socket, answer);
                         }
                     }
                 } 
@@ -99,4 +102,12 @@ public class ConnectionHandler implements Runnable{
                 log.debug(classname,ExceptionUtils.getStackTrace(ex));;
             }
     }
+    
+    private void packetSend(Socket socket, String answer) throws IOException {                          
+        OutputStream os = socket.getOutputStream();
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
+        out.write(answer);
+        out.flush();
+    }
+    
 }
