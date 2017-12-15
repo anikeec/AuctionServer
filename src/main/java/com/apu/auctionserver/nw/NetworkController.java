@@ -18,9 +18,9 @@ import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
-import com.apu.auctionserver.exception.ErrorQueryException;
-import com.apu.auctionserver.utils.Coder;
-import com.apu.auctionserver.utils.Decoder;
+import com.apu.auctionserver.nw.exception.ErrorQueryException;
+import com.apu.auctionserver.nw.utils.Coder;
+import com.apu.auctionserver.nw.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
 import java.util.List;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.utils;
+package com.apu.auctionserver.nw.utils;
 
 import com.apu.auctionapi.AuctionQuery;
 import com.apu.auctionapi.query.NewRateQuery;
@@ -13,7 +13,8 @@ import com.apu.auctionapi.QueryType;
 import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
-import com.apu.auctionserver.exception.ErrorQueryException;
+import com.apu.auctionserver.nw.exception.ErrorQueryException;
+import com.apu.auctionserver.utils.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

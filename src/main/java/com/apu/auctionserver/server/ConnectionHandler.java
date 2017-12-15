@@ -5,7 +5,7 @@
  */
 package com.apu.auctionserver.server;
 
-import com.apu.auctionserver.exception.ErrorQueryException;
+import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.NetworkController;
 import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
