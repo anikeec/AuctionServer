@@ -5,7 +5,8 @@
  */
 package com.apu.auctionserver.server;
 
-import com.apu.auctionserver.controller.Controller;
+import com.apu.auctionserver.exception.ErrorQueryException;
+import com.apu.auctionserver.nw.NetworkController;
 import com.apu.auctionserver.utils.Log;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -85,8 +86,12 @@ public class ConnectionHandler implements Runnable{
                         sb.delete(0, sb.capacity());
                         if(line != null) {
                             log.debug(classname, line);
-                            String answer = new Controller().handle(line);
-                            packetSend(socket, answer);
+                            try {
+                                String answer = new NetworkController().handle(line);
+                                packetSend(socket, answer);
+                            } catch (ErrorQueryException ex) {
+                                log.debug(classname, ExceptionUtils.getStackTrace(ex));
+                            }                            
                         }
                     }
                 } 

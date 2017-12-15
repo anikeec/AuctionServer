@@ -13,10 +13,12 @@ import com.apu.auctionapi.QueryType;
 import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
+import com.apu.auctionserver.exception.ErrorQueryException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  *
@@ -83,39 +85,40 @@ public class Decoder {
         result.setLotId(lotId);
     }
     
-    public AuctionQuery decode(String query) throws Exception {
-        this.query = query;    
-
-        jsonElement = parser.parse(query);
-        rootObject = jsonElement.getAsJsonObject();
-        String queryType = rootObject.get("queryType").getAsString();
-        String time = rootObject.get("time").getAsString();
-        Long packetId = rootObject.get("packetId").getAsLong();
-        Integer userId = rootObject.get("userId").getAsInt();        
-        
+    public AuctionQuery decode(String query) throws ErrorQueryException {
+        this.query = query;
         AuctionQuery result = null;
-        if(queryType.equals(QueryType.NEW_RATE.toString())) {
-            result = new NewRateQuery(packetId, userId, time);
-            Decoder.this.decode((NewRateQuery)result);
-//        } else if(queryType.equals(QueryType.NOTIFY.toString())) {
-//            Decoder.this.decode((NotifyQuery)result);
-        } else if(queryType.equals(QueryType.PING.toString())) {
-            result = new PingQuery(packetId, userId, time);
-            Decoder.this.decode((PingQuery)result);
-        } else if(queryType.equals(QueryType.POLL.toString())) {
-            result = new PollQuery(packetId, userId, time);
-            Decoder.this.decode((PollQuery)result);
-        } else if(queryType.equals(QueryType.DISCONNECT.toString())) {
-            result = new DisconnectQuery(packetId, userId, time);
-            Decoder.this.decode((DisconnectQuery)result);
-        } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
-            result = new RegistrationQuery(packetId, userId, time);
-            Decoder.this.decode((RegistrationQuery)result);
-        } else if(queryType.equals(QueryType.SUBSCRIBE.toString())) {
-            result = new SubscribeQuery(packetId, userId, time);
-            Decoder.this.decode((SubscribeQuery)result);
-        }
-        
+        try {
+            jsonElement = parser.parse(query);
+            rootObject = jsonElement.getAsJsonObject();
+            String queryType = rootObject.get("queryType").getAsString();
+            String time = rootObject.get("time").getAsString();
+            Long packetId = rootObject.get("packetId").getAsLong();
+            Integer userId = rootObject.get("userId").getAsInt();       
+
+            if(queryType.equals(QueryType.NEW_RATE.toString())) {            
+                result = new NewRateQuery(packetId, userId, time);
+                decode((NewRateQuery)result);            
+            } else if(queryType.equals(QueryType.PING.toString())) {
+                result = new PingQuery(packetId, userId, time);
+                decode((PingQuery)result);
+            } else if(queryType.equals(QueryType.POLL.toString())) {
+                result = new PollQuery(packetId, userId, time);
+                decode((PollQuery)result);
+            } else if(queryType.equals(QueryType.DISCONNECT.toString())) {
+                result = new DisconnectQuery(packetId, userId, time);
+                decode((DisconnectQuery)result);
+            } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
+                result = new RegistrationQuery(packetId, userId, time);
+                decode((RegistrationQuery)result);
+            } else if(queryType.equals(QueryType.SUBSCRIBE.toString())) {
+                result = new SubscribeQuery(packetId, userId, time);
+                decode((SubscribeQuery)result);
+            }
+        } catch (Exception ex) {
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            throw new ErrorQueryException("Error decoding message", ex);
+        }        
         return result;
     }
 }

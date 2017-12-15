@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.controller;
+package com.apu.auctionserver.nw;
 
 import com.apu.auctionapi.answer.AnswerQuery;
 import com.apu.auctionapi.AuctionLotEntity;
@@ -18,29 +18,29 @@ import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
+import com.apu.auctionserver.exception.ErrorQueryException;
 import com.apu.auctionserver.utils.Coder;
 import com.apu.auctionserver.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
-import java.io.IOException;
 import java.util.List;
 
 /**
  *
  * @author apu
  */
-public class Controller {
+public class NetworkController {
     
     private static final Log log = Log.getInstance();
-    private final Class classname = Controller.class;
+    private final Class classname = NetworkController.class;
     
     private final Auction auction = Auction.getInstance();
     private final Decoder decoder = Decoder.getInstance();
     private final Coder coder = Coder.getInstance();    
     
-    public String handle(String queryStr) throws IOException, Exception {
+    public String handle(String queryStr) throws ErrorQueryException {
         AuctionQuery query = decoder.decode(queryStr);
         AuctionQuery answer;
-                
+        
         if(query instanceof DisconnectQuery) {
             answer = handle((DisconnectQuery)query);
         } else if(query instanceof NewRateQuery) {
@@ -57,7 +57,7 @@ public class Controller {
         return coder.code(answer);    
     }
     
-    public AnswerQuery handle(DisconnectQuery query) throws IOException {
+    public AnswerQuery handle(DisconnectQuery query) {
         log.debug(classname, "Disconnect query to controller");
         User user = auction.getAuctionUserById(query.getUserId());        
         AnswerQuery answer;
@@ -77,7 +77,7 @@ public class Controller {
         return answer;
     }
     
-    public AuctionQuery handle(NewRateQuery query) throws IOException {
+    public AuctionQuery handle(NewRateQuery query) {
         log.debug(classname, "NewRateQuery query to controller");
         AuctionLot lot = auction.getAuctionLotById(query.getLotId());
         User user = auction.getAuctionUserById(query.getUserId());
@@ -105,7 +105,7 @@ public class Controller {
         return answer;
     }
     
-    public AuctionQuery handle(PingQuery query) throws IOException {
+    public AuctionQuery handle(PingQuery query) {
         log.debug(classname, "Ping query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         AnswerQuery answer;
@@ -122,7 +122,7 @@ public class Controller {
         return answer;
     }
     
-    public AuctionQuery handle(PollQuery query) throws IOException {
+    public AuctionQuery handle(PollQuery query) {
         log.debug(classname, "Poll query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
@@ -160,7 +160,7 @@ public class Controller {
         }         
     } 
     
-    public AuctionQuery handle(RegistrationQuery query) throws IOException {
+    public AuctionQuery handle(RegistrationQuery query) {
         log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
@@ -183,7 +183,7 @@ public class Controller {
         return answer;
     } 
     
-    public AuctionQuery handle(SubscribeQuery query) throws IOException {
+    public AuctionQuery handle(SubscribeQuery query) {
         log.debug(classname, "Subscribe query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         AnswerQuery answer;
