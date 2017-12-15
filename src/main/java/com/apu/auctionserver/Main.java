@@ -6,7 +6,7 @@
 package com.apu.auctionserver;
 
 import com.apu.auctionserver.DB.HibernateSessionFactory;
-import com.apu.auctionserver.entities.Lotstatus;
+import com.apu.auctionserver.entities.AuctionLotStatus;
 import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.entity.AuctionLot;
 import com.apu.auctionserver.entity.User;
@@ -53,7 +53,7 @@ public class Main {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             session.beginTransaction();
             
-            Lotstatus lotStatus = new Lotstatus(1);
+            AuctionLotStatus lotStatus = new AuctionLotStatus(1);
             lotStatus.setName("temp");
             session.save(lotStatus);
             session.getTransaction().commit();

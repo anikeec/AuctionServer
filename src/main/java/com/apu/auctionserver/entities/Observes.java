@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "observes")
@@ -36,10 +35,10 @@ public class Observes implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "lot_id", referencedColumnName = "lot_id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Lot lotId;
+    @ManyToOne
+    private AuctionLot lotId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User userId;
 
     public Observes() {
@@ -57,11 +56,11 @@ public class Observes implements Serializable {
         this.id = id;
     }
 
-    public Lot getLotId() {
+    public AuctionLot getLotId() {
         return lotId;
     }
 
-    public void setLotId(Lot lotId) {
+    public void setLotId(AuctionLot lotId) {
         this.lotId = lotId;
     }
 

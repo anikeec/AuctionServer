@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,16 +20,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "ustatus")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ustatus.findAll", query = "SELECT u FROM Ustatus u")
-    , @NamedQuery(name = "Ustatus.findByStatusId", query = "SELECT u FROM Ustatus u WHERE u.statusId = :statusId")
-    , @NamedQuery(name = "Ustatus.findByName", query = "SELECT u FROM Ustatus u WHERE u.name = :name")})
-public class Ustatus implements Serializable {
+    @NamedQuery(name = "UStatus.findAll", query = "SELECT u FROM UStatus u")
+    , @NamedQuery(name = "UStatus.findByStatusId", query = "SELECT u FROM UStatus u WHERE u.statusId = :statusId")
+    , @NamedQuery(name = "UStatus.findByName", query = "SELECT u FROM UStatus u WHERE u.name = :name")})
+public class UStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,13 +38,13 @@ public class Ustatus implements Serializable {
     private Integer statusId;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "statusId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "statusId")
     private Collection<User> userCollection;
 
-    public Ustatus() {
+    public UStatus() {
     }
 
-    public Ustatus(Integer statusId) {
+    public UStatus(Integer statusId) {
         this.statusId = statusId;
     }
 
@@ -84,10 +83,10 @@ public class Ustatus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ustatus)) {
+        if (!(object instanceof UStatus)) {
             return false;
         }
-        Ustatus other = (Ustatus) object;
+        UStatus other = (UStatus) object;
         if ((this.statusId == null && other.statusId != null) || (this.statusId != null && !this.statusId.equals(other.statusId))) {
             return false;
         }
@@ -96,7 +95,7 @@ public class Ustatus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.auctionserver.entities.Ustatus[ statusId=" + statusId + " ]";
+        return "com.apu.auctionserver.entities.UStatus[ statusId=" + statusId + " ]";
     }
     
 }

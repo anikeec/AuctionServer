@@ -14,11 +14,11 @@
         <property name="connection.username">app</property>
         <property name="connection.password">qwerty</property>
          <!-- NOTE that after automapping with IDEA property username and password will delete -->
-        <mapping class="com.apu.auctionserver.entities.Lot"/>
-        <mapping class="com.apu.auctionserver.entities.Lotstatus"/>
+        <mapping class="com.apu.auctionserver.entities.AuctionLot"/>
+        <mapping class="com.apu.auctionserver.entities.AuctionLotStatus"/>
         <mapping class="com.apu.auctionserver.entities.Observes"/>
         <mapping class="com.apu.auctionserver.entities.User"/>
-        <mapping class="com.apu.auctionserver.entities.Ustatus"/>
+        <mapping class="com.apu.auctionserver.entities.UStatus"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

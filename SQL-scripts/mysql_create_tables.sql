@@ -22,7 +22,7 @@ CREATE TABLE USER(
 
 /* DROP TABLE LOTSTATUS; */
 
-CREATE TABLE LOTSTATUS(
+CREATE TABLE AUCTIONLOTSTATUS(
  status_id  INT NOT NULL,
  name VARCHAR(20),
  PRIMARY KEY (status_id)
@@ -30,9 +30,9 @@ CREATE TABLE LOTSTATUS(
 
 /* DROP TABLE LOT; */
 
-CREATE TABLE LOT(
+CREATE TABLE AUCTIONLOT(
  lot_id  INT NOT NULL,
- name VARCHAR(30),
+ lot_name VARCHAR(30),
  start_price INT,
  start_date DATE,
  finish_date DATE,
@@ -40,7 +40,7 @@ CREATE TABLE LOT(
  last_rate_user_id INT,
  status_id INT,
  PRIMARY KEY (lot_id),
- FOREIGN KEY (status_id) REFERENCES LOTSTATUS (status_id),
+ FOREIGN KEY (status_id) REFERENCES AUCTIONLOTSTATUS (status_id),
  FOREIGN KEY (last_rate_user_id) REFERENCES USER (user_id)
 );
 
@@ -52,7 +52,7 @@ CREATE TABLE OBSERVES(
  lot_id INT,
  PRIMARY KEY (id),
  FOREIGN KEY (user_id) REFERENCES USER (user_id),
- FOREIGN KEY (lot_id) REFERENCES LOT (lot_id)
+ FOREIGN KEY (lot_id) REFERENCES AUCTIONLOT (lot_id)
 );
 
 

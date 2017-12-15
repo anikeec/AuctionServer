@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "user")
@@ -47,13 +46,13 @@ public class User implements Serializable {
     private String passwHash;
     @Column(name = "used")
     private Boolean used;
-    @OneToMany(mappedBy = "lastRateUserId", fetch = FetchType.EAGER)
-    private Collection<Lot> lotCollection;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lastRateUserId")
+    private Collection<AuctionLot> auctionLotCollection;
+    @OneToMany(mappedBy = "userId")
     private Collection<Observes> observesCollection;
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Ustatus statusId;
+    @ManyToOne
+    private UStatus statusId;
 
     public User() {
     }
@@ -95,12 +94,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Lot> getLotCollection() {
-        return lotCollection;
+    public Collection<AuctionLot> getAuctionLotCollection() {
+        return auctionLotCollection;
     }
 
-    public void setLotCollection(Collection<Lot> lotCollection) {
-        this.lotCollection = lotCollection;
+    public void setAuctionLotCollection(Collection<AuctionLot> auctionLotCollection) {
+        this.auctionLotCollection = auctionLotCollection;
     }
 
     @XmlTransient
@@ -112,11 +111,11 @@ public class User implements Serializable {
         this.observesCollection = observesCollection;
     }
 
-    public Ustatus getStatusId() {
+    public UStatus getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Ustatus statusId) {
+    public void setStatusId(UStatus statusId) {
         this.statusId = statusId;
     }
 

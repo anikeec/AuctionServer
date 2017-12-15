@@ -10,7 +10,6 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,16 +20,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
-@Table(name = "lotstatus")
+@Table(name = "auctionlotstatus")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lotstatus.findAll", query = "SELECT l FROM Lotstatus l")
-    , @NamedQuery(name = "Lotstatus.findByStatusId", query = "SELECT l FROM Lotstatus l WHERE l.statusId = :statusId")
-    , @NamedQuery(name = "Lotstatus.findByName", query = "SELECT l FROM Lotstatus l WHERE l.name = :name")})
-public class Lotstatus implements Serializable {
+    @NamedQuery(name = "AuctionLotStatus.findAll", query = "SELECT a FROM AuctionLotStatus a")
+    , @NamedQuery(name = "AuctionLotStatus.findByStatusId", query = "SELECT a FROM AuctionLotStatus a WHERE a.statusId = :statusId")
+    , @NamedQuery(name = "AuctionLotStatus.findByName", query = "SELECT a FROM AuctionLotStatus a WHERE a.name = :name")})
+public class AuctionLotStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,13 +38,13 @@ public class Lotstatus implements Serializable {
     private Integer statusId;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "statusId", fetch = FetchType.EAGER)
-    private Collection<Lot> lotCollection;
+    @OneToMany(mappedBy = "statusId")
+    private Collection<AuctionLot> auctionLotCollection;
 
-    public Lotstatus() {
+    public AuctionLotStatus() {
     }
 
-    public Lotstatus(Integer statusId) {
+    public AuctionLotStatus(Integer statusId) {
         this.statusId = statusId;
     }
 
@@ -66,12 +65,12 @@ public class Lotstatus implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Lot> getLotCollection() {
-        return lotCollection;
+    public Collection<AuctionLot> getAuctionLotCollection() {
+        return auctionLotCollection;
     }
 
-    public void setLotCollection(Collection<Lot> lotCollection) {
-        this.lotCollection = lotCollection;
+    public void setAuctionLotCollection(Collection<AuctionLot> auctionLotCollection) {
+        this.auctionLotCollection = auctionLotCollection;
     }
 
     @Override
@@ -84,10 +83,10 @@ public class Lotstatus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lotstatus)) {
+        if (!(object instanceof AuctionLotStatus)) {
             return false;
         }
-        Lotstatus other = (Lotstatus) object;
+        AuctionLotStatus other = (AuctionLotStatus) object;
         if ((this.statusId == null && other.statusId != null) || (this.statusId != null && !this.statusId.equals(other.statusId))) {
             return false;
         }
@@ -96,7 +95,7 @@ public class Lotstatus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.auctionserver.entities.Lotstatus[ statusId=" + statusId + " ]";
+        return "com.apu.auctionserver.entities.AuctionLotStatus[ statusId=" + statusId + " ]";
     }
     
 }

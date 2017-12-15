@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,28 +25,28 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
-@Table(name = "lot")
+@Table(name = "auctionlot")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lot.findAll", query = "SELECT l FROM Lot l")
-    , @NamedQuery(name = "Lot.findByLotId", query = "SELECT l FROM Lot l WHERE l.lotId = :lotId")
-    , @NamedQuery(name = "Lot.findByName", query = "SELECT l FROM Lot l WHERE l.name = :name")
-    , @NamedQuery(name = "Lot.findByStartPrice", query = "SELECT l FROM Lot l WHERE l.startPrice = :startPrice")
-    , @NamedQuery(name = "Lot.findByStartDate", query = "SELECT l FROM Lot l WHERE l.startDate = :startDate")
-    , @NamedQuery(name = "Lot.findByFinishDate", query = "SELECT l FROM Lot l WHERE l.finishDate = :finishDate")
-    , @NamedQuery(name = "Lot.findByLastRate", query = "SELECT l FROM Lot l WHERE l.lastRate = :lastRate")})
-public class Lot implements Serializable {
+    @NamedQuery(name = "AuctionLot.findAll", query = "SELECT a FROM AuctionLot a")
+    , @NamedQuery(name = "AuctionLot.findByLotId", query = "SELECT a FROM AuctionLot a WHERE a.lotId = :lotId")
+    , @NamedQuery(name = "AuctionLot.findByLotName", query = "SELECT a FROM AuctionLot a WHERE a.lotName = :lotName")
+    , @NamedQuery(name = "AuctionLot.findByStartPrice", query = "SELECT a FROM AuctionLot a WHERE a.startPrice = :startPrice")
+    , @NamedQuery(name = "AuctionLot.findByStartDate", query = "SELECT a FROM AuctionLot a WHERE a.startDate = :startDate")
+    , @NamedQuery(name = "AuctionLot.findByFinishDate", query = "SELECT a FROM AuctionLot a WHERE a.finishDate = :finishDate")
+    , @NamedQuery(name = "AuctionLot.findByLastRate", query = "SELECT a FROM AuctionLot a WHERE a.lastRate = :lastRate")})
+public class AuctionLot implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "lot_id")
     private Integer lotId;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "lot_name")
+    private String lotName;
     @Column(name = "start_price")
     private Integer startPrice;
     @Column(name = "start_date")
@@ -59,18 +58,18 @@ public class Lot implements Serializable {
     @Column(name = "last_rate")
     private Integer lastRate;
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Lotstatus statusId;
+    @ManyToOne
+    private AuctionLotStatus statusId;
     @JoinColumn(name = "last_rate_user_id", referencedColumnName = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User lastRateUserId;
-    @OneToMany(mappedBy = "lotId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lotId")
     private Collection<Observes> observesCollection;
 
-    public Lot() {
+    public AuctionLot() {
     }
 
-    public Lot(Integer lotId) {
+    public AuctionLot(Integer lotId) {
         this.lotId = lotId;
     }
 
@@ -82,12 +81,12 @@ public class Lot implements Serializable {
         this.lotId = lotId;
     }
 
-    public String getName() {
-        return name;
+    public String getLotName() {
+        return lotName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLotName(String lotName) {
+        this.lotName = lotName;
     }
 
     public Integer getStartPrice() {
@@ -122,11 +121,11 @@ public class Lot implements Serializable {
         this.lastRate = lastRate;
     }
 
-    public Lotstatus getStatusId() {
+    public AuctionLotStatus getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Lotstatus statusId) {
+    public void setStatusId(AuctionLotStatus statusId) {
         this.statusId = statusId;
     }
 
@@ -157,10 +156,10 @@ public class Lot implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lot)) {
+        if (!(object instanceof AuctionLot)) {
             return false;
         }
-        Lot other = (Lot) object;
+        AuctionLot other = (AuctionLot) object;
         if ((this.lotId == null && other.lotId != null) || (this.lotId != null && !this.lotId.equals(other.lotId))) {
             return false;
         }
@@ -169,7 +168,7 @@ public class Lot implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.auctionserver.entities.Lot[ lotId=" + lotId + " ]";
+        return "com.apu.auctionserver.entities.AuctionLot[ lotId=" + lotId + " ]";
     }
     
 }
