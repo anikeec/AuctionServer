@@ -8,7 +8,6 @@ CREATE TABLE USER(
  passw_hash VARCHAR(20),
  status VARCHAR(20),
  used BOOLEAN DEFAULT TRUE,
- observed INT, 
  PRIMARY KEY (user_id) 
 );
 
@@ -23,13 +22,20 @@ CREATE TABLE AUCTIONLOT(
  last_rate INT,
  last_rate_user INT,
  status VARCHAR(20), 
- observer INT,
  PRIMARY KEY (lot_id),
- FOREIGN KEY (last_rate_user) REFERENCES USER (user_id),
- FOREIGN KEY (observer) REFERENCES USER (user_id)
+ FOREIGN KEY (last_rate_user) REFERENCES USER (user_id)
 );
 
-ALTER TABLE USER ADD FOREIGN KEY (observed) REFERENCES AUCTIONLOT (lot_id);
+/* DROP TABLE OBSERVE; */
+
+CREATE TABLE OBSERVE(
+ id INT NOT NULL,  
+ user INT,
+ lot INT,
+ PRIMARY KEY (id),
+ FOREIGN KEY (user) REFERENCES USER (user_id),
+ FOREIGN KEY (lot) REFERENCES AUCTIONLOT (lot_id)
+);
 
 
 

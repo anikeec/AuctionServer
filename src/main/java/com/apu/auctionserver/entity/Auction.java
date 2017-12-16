@@ -75,6 +75,10 @@ public class Auction {
         userRepository.saveUser(user);
     }
     
+    public void addAuctionLotListToUserObservable(User user, List<Integer> list) {
+        userRepository.addAuctionLotListToObservable(user, list);
+    }
+    
     public void init() {
         AuctionLot lot1, lot2;
         User user;

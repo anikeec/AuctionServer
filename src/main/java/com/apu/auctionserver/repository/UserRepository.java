@@ -6,6 +6,7 @@
 package com.apu.auctionserver.repository;
 
 import com.apu.auctionserver.DB.HibernateSessionFactory;
+import com.apu.auctionserver.DB.entity.AuctionLot;
 import com.apu.auctionserver.DB.entity.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,25 @@ public class UserRepository {
 //            ret = session.load(User.class, userId);
         }
         return ret;
+    }
+    
+    public void addAuctionLotListToObservable(User user, List<Integer> lotIds) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            
+            User findUser = session.load(User.class, user.getUserId());   
+            AuctionLot lot; 
+            List<AuctionLot> list = findUser.getObservedAuctionLotList();
+            for(Integer lotId : lotIds) {
+                lot = session.load(AuctionLot.class, lotId);
+                list.add(lot);
+//                lot.getUserList().add(user);
+                session.saveOrUpdate(lot);
+            }
+            session.saveOrUpdate(user);
+            
+            session.getTransaction().commit();
+        }
     }
     
 }

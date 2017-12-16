@@ -175,22 +175,8 @@ public class NetworkController {
         }
 //        socketRepository.addSocket(user, socket);        
         List<Integer> lotIdList = query.getObservableLotIdList();
-        AuctionLot lot; 
-        List<AuctionLot> list = user.getObservedAuctionLotList();
-        for(Integer lotId : lotIdList) {
-            lot = auction.getAuctionLotById(lotId);
-            list.add(lot);
-//            user.getObservedAuctionLotList().add(lot);
-            lot.getUserList().add(user);
-            auction.updateAuctionLot(lot);
-        }
-//        user.setObservedAuctionLotList(list);
-        if(user.getStatus() == null) {
-            user.setStatus(Auction.USER_ONLINE);
-            auction.addUserToAuction(user); 
-        } else {
-            auction.updateUser(user);
-        }               
+        auction.addAuctionLotListToUserObservable(user, lotIdList);
+//        auction.updateUser(user);
         AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 user.getUserId(),  
