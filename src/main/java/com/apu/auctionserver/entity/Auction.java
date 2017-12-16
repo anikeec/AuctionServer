@@ -5,6 +5,8 @@
  */
 package com.apu.auctionserver.entity;
 
+import com.apu.auctionserver.DB.entity.AuctionLot;
+import com.apu.auctionserver.DB.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import java.util.List;
@@ -18,6 +20,9 @@ public class Auction {
                         LotRepository.getInstance();
     private final UserRepository userRepository = 
                         UserRepository.getInstance();
+    
+    public static String USER_ONLINE = "online";
+    public static String USER_OFFLINE = "offline";
     
     private static Auction instance;
     
@@ -64,6 +69,24 @@ public class Auction {
     
     public void removeUserFromAuction(User user) {
         userRepository.removeUser(user);
+    }
+    
+    public void updateUser(User user) {
+        userRepository.updateUser(user);
+    }
+    
+    public void init() {
+        AuctionLot lot1, lot2;
+        User user;
+        
+        lot1 = new AuctionLot(1);
+        lot1.setStartPrice(10);
+        lot1.setLotName("Book");
+        addLotToAuction(lot1);
+        lot2 = new AuctionLot(2);
+        lot2.setStartPrice(25);
+        lot2.setLotName("TVset");
+        addLotToAuction(lot2);         
     }
     
 }

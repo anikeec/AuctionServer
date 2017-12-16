@@ -5,15 +5,19 @@
  */
 package com.apu.auctionserver.repository;
 
-import com.apu.auctionserver.entity.AuctionLot;
+import com.apu.auctionserver.DB.HibernateSessionFactory;
+import com.apu.auctionserver.DB.entity.AuctionLot;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
  * @author apu
  */
 public class LotRepository {
+    private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
     private final List<AuctionLot> auctionLots = new ArrayList<>();
     private static LotRepository instance;
     
@@ -31,8 +35,14 @@ public class LotRepository {
     }
     
     public void addAuctionLot(AuctionLot lot) {
-        if(!auctionLots.contains(lot))
-            auctionLots.add(lot);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+//        session.g
+//        if(!auctionLots.contains(lot))
+//            auctionLots.add(lot);       
+        session.save(lot);
+        session.getTransaction().commit();
+        session.close();
     }
     
     public void removeAuctionLot(AuctionLot lot) {
@@ -55,4 +65,6 @@ public class LotRepository {
         lotSrc.setLastRate(lot.getLastRate());
         lotSrc.setLastRateUser(lot.getLastRateUser());
     }
+    
+    
 }

@@ -5,16 +5,20 @@
  */
 package com.apu.auctionserver.repository;
 
-import com.apu.auctionserver.entity.User;
+import com.apu.auctionserver.DB.HibernateSessionFactory;
+import com.apu.auctionserver.DB.entity.User;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
  * @author apu
  */
 public class UserRepository {
-
+    private SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
     private final List<User> users = new ArrayList<>();
     private static UserRepository instance;
     
@@ -28,8 +32,14 @@ public class UserRepository {
     }
     
     public void addUser(User user) {
-        if(!users.contains(user))
-            users.add(user);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+            session.close();
+        }      
+//        if(!users.contains(user))
+//            users.add(user);
     }
     
     public List<User> getAuctionUsers() {
@@ -42,11 +52,25 @@ public class UserRepository {
     }
     
     public User getUserById(int userId) {
-        User ret = null;
-        for(User u:users) {
-            if(u.getUserId() == userId) return u;
+        User ret;
+        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+            Query query = session.getNamedQuery("User.findByUserId");
+            query.setInteger("userId", userId);
+            ret = (User) query.uniqueResult();
+//            ret = null;
+//            for(User u:users) {
+//                if(u.getUserId() == userId) return u;
+//            }   
+//          session.save(lot);
+//            session.getTransaction().commit();
+            session.close();
         }
         return ret;
+    }
+    
+    public void updateUser(User user) {
+        
     }
     
 }

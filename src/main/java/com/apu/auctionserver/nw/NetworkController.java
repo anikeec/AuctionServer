@@ -16,8 +16,8 @@ import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.entity.Auction;
-import com.apu.auctionserver.entity.AuctionLot;
-import com.apu.auctionserver.entity.User;
+import com.apu.auctionserver.DB.entity.AuctionLot;
+import com.apu.auctionserver.DB.entity.User;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
@@ -62,8 +62,9 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());        
         AnswerQuery answer;
         if(user != null) {
-            user.eraseObservableList();
-            user.setStatus(User.STATUS.OFFLINE);
+            user.getObservedAuctionLotList().clear();
+            user.setStatus(Auction.USER_OFFLINE);
+//            auction.updateUser(user);
             auction.removeUserFromAuction(user);
             answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
@@ -87,7 +88,9 @@ public class NetworkController {
             if(price > lot.getLastRate()) {
                 lot.setLastRate(price);                
                 lot.setLastRateUser(user);
+//                user.getAuctionLotList().add(lot);
                 auction.updateAuctionLot(lot);
+//                auction.updateUser(user);
                 answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
                                         "NewRateQuery - OK. Your rate is last.");
@@ -117,7 +120,7 @@ public class NetworkController {
             log.debug(classname, "User unknown");
             answer = new AnswerQuery(query.getPacketId(), 
                                         query.getUserId(), 
-                                        "NewRateQuery - Error. User unknown.");
+                                        "Ping - Error. User unknown.");
         }        
         return answer;
     }
@@ -132,29 +135,28 @@ public class NetworkController {
                                         "PollQuery - Error. User unknown.");
             return answer;
         } else {     
+            PollAnswerQuery answer = 
+                new PollAnswerQuery(query.getPacketId(), 
+                                    user.getUserId());
 
-        PollAnswerQuery answer = 
-            new PollAnswerQuery(query.getPacketId(), 
-                                user.getUserId());
-        
-        //get list or Lots for current user
-        List<AuctionLot> lots = user.getObservedLots();
-        User lastRateUser;
-        int lastRateUserId;
-        for(AuctionLot lot: lots) {
-            lastRateUser = lot.getLastRateUser();
-            if(lastRateUser != null) 
-                lastRateUserId = lastRateUser.getUserId();
-            else
-                lastRateUserId = 0;
-            AuctionLotEntity entity = 
-                    new AuctionLotEntity(lot.getLotId(),
-                                        lot.getStartPrice(),
-                                        lot.getLotName(),
-                                        lot.getLastRate(),
-                                        lastRateUserId,
-                                        lot.getAmountObservers());
-            answer.addLotToCollection(entity);
+            //get list or Lots for current user
+            List<AuctionLot> lots = user.getObservedAuctionLotList();
+            User lastRateUser;
+//            int lastRateUserId;
+            for(AuctionLot lot: lots) {
+//                lastRateUser = lot.getLastRateUserId();
+//                if(lastRateUser != null) 
+//                    lastRateUserId = lastRateUser.getUserId();
+//                else
+//                    lastRateUserId = 0;
+                AuctionLotEntity entity = 
+                        new AuctionLotEntity(lot.getLotId(),
+                                            lot.getStartPrice(),
+                                            lot.getLotName(),
+                                            lot.getLastRate(),
+                                            lot.getLastRateUser().getUserId(),
+                                            lot.getUserList().size());
+                answer.addLotToCollection(entity);
         }
         return answer;
         }         
@@ -167,15 +169,17 @@ public class NetworkController {
             user = new User(query.getUserId());            
         }
 //        socketRepository.addSocket(user, socket);
-        user.setStatus(User.STATUS.ONLINE);
+        user.setStatus(Auction.USER_ONLINE);
         List<Integer> lotIdList = query.getObservableLotIdList();
         AuctionLot lot;
-        user.eraseObservableList();
+        user.getObservedAuctionLotList().clear();
         for(Integer lotId : lotIdList) {
             lot = auction.getAuctionLotById(lotId);
-            user.addLotToObserved(lot);
+            user.getObservedAuctionLotList().add(lot);
+//            lot.getUserList().add(user);
+//            auction.updateAuctionLot(lot);
         }
-        auction.addUserToAuction(user);     
+        auction.addUserToAuction(user);        
         AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 user.getUserId(),  
@@ -189,11 +193,14 @@ public class NetworkController {
         AnswerQuery answer;
         if(user != null) {
             int lotId = query.getLotId();
-            user.addLotToObserved(auction.getAuctionLotById(lotId));
-            
+            AuctionLot lot = auction.getAuctionLotById(lotId);
+            user.getObservedAuctionLotList().add(lot);
+            lot.getUserList().add(user);
+            auction.updateUser(user);
+            auction.updateAuctionLot(lot);
             answer = 
                 new AnswerQuery(query.getPacketId(), 
-                                user.getUserId(),  
+                                query.getUserId(),  
                                 "Subscribe answer");            
         } else {
             answer = new AnswerQuery(query.getPacketId(), 
@@ -201,8 +208,6 @@ public class NetworkController {
                                         "SubscribeQuery - Error. User unknown.");
         }
         return answer;
-    }
-    
-    
+    } 
     
 }

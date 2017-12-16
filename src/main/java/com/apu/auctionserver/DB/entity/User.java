@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,9 +50,12 @@ public class User implements Serializable {
     @Column(name = "used")
     private Boolean used;
     @OneToMany(mappedBy = "lastRateUser")
-    private List<AuctionLot> auctionLotList;
+    private List<AuctionLot> lastRateAuctionLotList;
     @OneToMany(mappedBy = "observer")
-    private List<AuctionLot> auctionLotList1;
+    private List<AuctionLot> observedAuctionLotList;
+    @JoinColumn(name = "observed", referencedColumnName = "lot_id")
+    @ManyToOne
+    private AuctionLot observed;
 
     public User() {
     }
@@ -101,20 +106,28 @@ public class User implements Serializable {
 
     @XmlTransient
     public List<AuctionLot> getLastRateAuctionLotList() {
-        return auctionLotList;
+        return lastRateAuctionLotList;
     }
 
     public void setLastRateAuctionLotList(List<AuctionLot> auctionLotList) {
-        this.auctionLotList = auctionLotList;
+        this.lastRateAuctionLotList = auctionLotList;
     }
 
     @XmlTransient
-    public List<AuctionLot> getAuctionLotList1() {
-        return auctionLotList1;
+    public List<AuctionLot> getObservedAuctionLotList() {
+        return observedAuctionLotList;
     }
 
-    public void setAuctionLotList1(List<AuctionLot> auctionLotList1) {
-        this.auctionLotList1 = auctionLotList1;
+    public void setObservedAuctionLotList(List<AuctionLot> auctionLotList) {
+        this.observedAuctionLotList = auctionLotList;
+    }
+
+    public AuctionLot getObserved() {
+        return observed;
+    }
+
+    public void setObserved(AuctionLot observed) {
+        this.observed = observed;
     }
 
     @Override
