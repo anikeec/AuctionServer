@@ -63,20 +63,20 @@ public class AuctionLot implements Serializable {
     @Column(name = "status")
     private String status;
     @JoinColumn(name = "last_rate_user", referencedColumnName = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User lastRateUser;
-    @JoinColumn(name = "observer", referencedColumnName = "user_id")
-    @ManyToOne
-    private User observer;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
-            mappedBy = "observed")
-    private List<User> userList;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "lot", fetch = FetchType.EAGER)
+    private List<Observe> observeList;
 
     public AuctionLot() {
     }
 
     public AuctionLot(Integer lotId) {
         this.lotId = lotId;
+        this.lotName = "";
+        this.startPrice = 0;
+        this.lastRate = 0;
+        this.status = "";
     }
 
     public Integer getLotId() {
@@ -143,21 +143,13 @@ public class AuctionLot implements Serializable {
         this.lastRateUser = lastRateUser;
     }
 
-    public User getObserver() {
-        return observer;
-    }
-
-    public void setObserver(User observer) {
-        this.observer = observer;
-    }
-
     @XmlTransient
-    public List<User> getUserList() {
-        return userList;
+    public List<Observe> getObserveList() {
+        return observeList;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setObserveList(List<Observe> observeList) {
+        this.observeList = observeList;
     }
 
     @Override

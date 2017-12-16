@@ -13,8 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -51,21 +49,20 @@ public class User implements Serializable {
     private String status;
     @Column(name = "used")
     private Boolean used;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
-            mappedBy = "lastRateUser")
-    private List<AuctionLot> lastRateAuctionLotList;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
-            mappedBy = "observer")
-    private List<AuctionLot> observedAuctionLotList;
-    @JoinColumn(name = "observed", referencedColumnName = "lot_id")
-    @ManyToOne
-    private AuctionLot observed;
+    @OneToMany(mappedBy = "lastRateUser", fetch = FetchType.EAGER)
+    private List<AuctionLot> auctionLotList;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Observe> observeList;
 
     public User() {
     }
 
     public User(Integer userId) {
         this.userId = userId;
+        this.login = "";
+        this.passwHash = "";
+        this.status = "OFFLINE";
+        this.used = true;
     }
 
     public Integer getUserId() {
@@ -109,29 +106,21 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public List<AuctionLot> getLastRateAuctionLotList() {
-        return lastRateAuctionLotList;
+    public List<AuctionLot> getAuctionLotList() {
+        return auctionLotList;
     }
 
-    public void setLastRateAuctionLotList(List<AuctionLot> auctionLotList) {
-        this.lastRateAuctionLotList = auctionLotList;
+    public void setAuctionLotList(List<AuctionLot> auctionLotList) {
+        this.auctionLotList = auctionLotList;
     }
 
     @XmlTransient
-    public List<AuctionLot> getObservedAuctionLotList() {
-        return observedAuctionLotList;
+    public List<Observe> getObserveList() {
+        return observeList;
     }
 
-    public void setObservedAuctionLotList(List<AuctionLot> auctionLotList) {
-        this.observedAuctionLotList = auctionLotList;
-    }
-
-    public AuctionLot getObserved() {
-        return observed;
-    }
-
-    public void setObserved(AuctionLot observed) {
-        this.observed = observed;
+    public void setObserveList(List<Observe> observeList) {
+        this.observeList = observeList;
     }
 
     @Override

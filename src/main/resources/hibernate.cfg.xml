@@ -16,6 +16,7 @@
          <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <mapping class="com.apu.auctionserver.DB.entity.AuctionLot"/>
         <mapping class="com.apu.auctionserver.DB.entity.User"/>
+        <mapping class="com.apu.auctionserver.DB.entity.Observe"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

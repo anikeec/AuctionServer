@@ -8,6 +8,7 @@ package com.apu.auctionserver.entity;
 import com.apu.auctionserver.DB.entity.AuctionLot;
 import com.apu.auctionserver.DB.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
+import com.apu.auctionserver.repository.ObserveRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class Auction {
                         LotRepository.getInstance();
     private final UserRepository userRepository = 
                         UserRepository.getInstance();
+    private final ObserveRepository observeRepository = 
+                        ObserveRepository.getInstance();
     
     public static String USER_ONLINE = "online";
     public static String USER_OFFLINE = "offline";
@@ -35,48 +38,64 @@ public class Auction {
         return instance;
     }
     
-    public List<AuctionLot> getAuctionLots() {
+    public synchronized List<AuctionLot> getAuctionLots() {
         return lotRepository.getAuctionLots();
     }
     
-    public AuctionLot getAuctionLotById(int lotId) {
+    public synchronized AuctionLot getAuctionLotById(int lotId) {
         return lotRepository.getAuctionLotById(lotId);
     }
     
-    public void addLotToAuction(AuctionLot lot) {
+    public synchronized void addLotToAuction(AuctionLot lot) {
         lotRepository.saveAuctionLot(lot);
     }
     
-    public void removeLotFromAuction(AuctionLot lot) {
+    public synchronized void removeLotFromAuction(AuctionLot lot) {
         lotRepository.removeAuctionLot(lot);
     }
     
-    public void updateAuctionLot(AuctionLot lot) {
+    public synchronized void updateAuctionLot(AuctionLot lot) {
         lotRepository.saveAuctionLot(lot);
     }
     
-    public List<User> getAuctionUsers() {
+    public synchronized List<User> getAuctionUsers() {
         return userRepository.getAuctionUsers();
     }
     
-    public User getAuctionUserById(int userId) {
+    public synchronized User getAuctionUserById(int userId) {
         return userRepository.getUserById(userId);
     }
     
-    public void addUserToAuction(User user) {
+    public synchronized void addUserToAuction(User user) {
         userRepository.saveUser(user);
     }
     
-    public void removeUserFromAuction(User user) {
+    public synchronized void removeUserFromAuction(User user) {
         userRepository.removeUser(user);
     }
     
-    public void updateUser(User user) {
+    public synchronized void updateUser(User user) {
         userRepository.saveUser(user);
     }
     
-    public void addAuctionLotListToUserObservable(User user, List<Integer> list) {
-        userRepository.addAuctionLotListToObservable(user, list);
+    public synchronized void addAuctionLotIdListToObservableByUser(User user, List<Integer> list) {
+        observeRepository.addAuctionLotIdListToObservableByUser(user, list);
+    }
+    
+    public synchronized List<AuctionLot> getObservableAuctionLotsByUser(User user) {
+        return observeRepository.getObservableAuctionLotsByUser(user);
+    }
+    
+    public synchronized void addAuctionLotToObservableByUser(User user, AuctionLot lot) {
+        observeRepository.addAuctionLotToObservableByUser(user, lot);
+    }
+    
+    public synchronized void clearObservableAuctionLotsByUser(User user) {
+        observeRepository.clearObservableAuctionLotsByUser(user);
+    }
+    
+    public synchronized List<Integer> getObserverIdListByAuctionLot(AuctionLot lot) {
+        return observeRepository.getObserverIdListByAuctionLot(lot);
     }
     
     public void init() {

@@ -22,7 +22,6 @@ import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,13 +62,15 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());        
         AnswerQuery answer;
         if(user != null) {
-            user.getObservedAuctionLotList().clear();
+//            user.getObservedAuctionLotList().clear();
+            auction.clearObservableAuctionLotsByUser(user);
             user.setStatus(Auction.USER_OFFLINE);
 //            auction.updateUser(user);
-            auction.removeUserFromAuction(user);
+//            auction.removeUserFromAuction(user);
             answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
-                                        "DisconnectQuery - OK. Disconnected");   
+                                        "DisconnectQuery - OK. Disconnected");
+            auction.updateUser(user);
         } else {
             log.debug(classname, "User unknown");
             answer = new AnswerQuery(query.getPacketId(), 
@@ -141,22 +142,26 @@ public class NetworkController {
                                     user.getUserId());
 
             //get list or Lots for current user
-            List<AuctionLot> lots = user.getObservedAuctionLotList();
+            List<AuctionLot> lots = auction.getObservableAuctionLotsByUser(user);
+//user.getObservedAuctionLotList();
             User lastRateUser;
-//            int lastRateUserId;
+            int lastRateUserId;
             for(AuctionLot lot: lots) {
-//                lastRateUser = lot.getLastRateUserId();
-//                if(lastRateUser != null) 
-//                    lastRateUserId = lastRateUser.getUserId();
-//                else
-//                    lastRateUserId = 0;
+                lastRateUser = lot.getLastRateUser();    
+                if(lastRateUser != null) 
+                    lastRateUserId = lastRateUser.getUserId();
+                else
+                    lastRateUserId = 0;
+                List<Integer> observers = 
+                        auction.getObserverIdListByAuctionLot(lot);
+            
                 AuctionLotEntity entity = 
                         new AuctionLotEntity(lot.getLotId(),
                                             lot.getStartPrice(),
                                             lot.getLotName(),
                                             lot.getLastRate(),
-                                            lot.getLastRateUser().getUserId(),
-                                            lot.getUserList().size());
+                                            lastRateUserId,
+                                            observers.size());
                 answer.addLotToCollection(entity);
         }
         return answer;
@@ -168,18 +173,19 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId());
-//            auction.addUserToAuction(user);            
-        } else {
-            user.getObservedAuctionLotList().clear();
             user.setStatus(Auction.USER_ONLINE);
+            auction.addUserToAuction(user);            
+        } else {
+            auction.clearObservableAuctionLotsByUser(user);
+            user.setStatus(Auction.USER_ONLINE);
+            auction.updateUser(user);
         }
 //        socketRepository.addSocket(user, socket);        
         List<Integer> lotIdList = query.getObservableLotIdList();
-        auction.addAuctionLotListToUserObservable(user, lotIdList);
-//        auction.updateUser(user);
+        auction.addAuctionLotIdListToObservableByUser(user, lotIdList);
         AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
-                                user.getUserId(),  
+                                query.getUserId(),  
                                 "Registration answer");
         return answer;
     } 
@@ -191,10 +197,11 @@ public class NetworkController {
         if(user != null) {
             int lotId = query.getLotId();
             AuctionLot lot = auction.getAuctionLotById(lotId);
-            user.getObservedAuctionLotList().add(lot);
-            lot.getUserList().add(user);
-            auction.updateUser(user);
-            auction.updateAuctionLot(lot);
+//            user.getObservedAuctionLotList().add(lot);
+            auction.addAuctionLotToObservableByUser(user, lot);
+//            lot.getUserList().add(user);
+//            auction.updateUser(user);
+//            auction.updateAuctionLot(lot);
             answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 query.getUserId(),  
