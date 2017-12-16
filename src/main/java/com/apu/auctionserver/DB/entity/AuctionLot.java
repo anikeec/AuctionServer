@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -66,7 +68,8 @@ public class AuctionLot implements Serializable {
     @JoinColumn(name = "observer", referencedColumnName = "user_id")
     @ManyToOne
     private User observer;
-    @OneToMany(mappedBy = "observed")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
+            mappedBy = "observed")
     private List<User> userList;
 
     public AuctionLot() {

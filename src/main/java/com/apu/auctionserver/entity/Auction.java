@@ -44,7 +44,7 @@ public class Auction {
     }
     
     public void addLotToAuction(AuctionLot lot) {
-        lotRepository.addAuctionLot(lot);
+        lotRepository.saveAuctionLot(lot);
     }
     
     public void removeLotFromAuction(AuctionLot lot) {
@@ -52,7 +52,7 @@ public class Auction {
     }
     
     public void updateAuctionLot(AuctionLot lot) {
-        lotRepository.updateAuctionLot(lot);
+        lotRepository.saveAuctionLot(lot);
     }
     
     public List<User> getAuctionUsers() {
@@ -64,7 +64,7 @@ public class Auction {
     }
     
     public void addUserToAuction(User user) {
-        userRepository.addUser(user);
+        userRepository.saveUser(user);
     }
     
     public void removeUserFromAuction(User user) {
@@ -72,7 +72,7 @@ public class Auction {
     }
     
     public void updateUser(User user) {
-        userRepository.updateUser(user);
+        userRepository.saveUser(user);
     }
     
     public void init() {

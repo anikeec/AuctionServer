@@ -8,8 +8,10 @@ package com.apu.auctionserver.DB.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -49,9 +51,11 @@ public class User implements Serializable {
     private String status;
     @Column(name = "used")
     private Boolean used;
-    @OneToMany(mappedBy = "lastRateUser")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
+            mappedBy = "lastRateUser")
     private List<AuctionLot> lastRateAuctionLotList;
-    @OneToMany(mappedBy = "observer")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
+            mappedBy = "observer")
     private List<AuctionLot> observedAuctionLotList;
     @JoinColumn(name = "observed", referencedColumnName = "lot_id")
     @ManyToOne

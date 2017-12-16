@@ -22,6 +22,7 @@ import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
 import com.apu.auctionserver.utils.Log;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -166,20 +167,30 @@ public class NetworkController {
         log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
-            user = new User(query.getUserId());            
+            user = new User(query.getUserId());
+//            auction.addUserToAuction(user);            
+        } else {
+            user.getObservedAuctionLotList().clear();
+            user.setStatus(Auction.USER_ONLINE);
         }
-//        socketRepository.addSocket(user, socket);
-        user.setStatus(Auction.USER_ONLINE);
+//        socketRepository.addSocket(user, socket);        
         List<Integer> lotIdList = query.getObservableLotIdList();
-        AuctionLot lot;
-        user.getObservedAuctionLotList().clear();
+        AuctionLot lot; 
+        List<AuctionLot> list = user.getObservedAuctionLotList();
         for(Integer lotId : lotIdList) {
             lot = auction.getAuctionLotById(lotId);
-            user.getObservedAuctionLotList().add(lot);
-//            lot.getUserList().add(user);
-//            auction.updateAuctionLot(lot);
+            list.add(lot);
+//            user.getObservedAuctionLotList().add(lot);
+            lot.getUserList().add(user);
+            auction.updateAuctionLot(lot);
         }
-        auction.addUserToAuction(user);        
+//        user.setObservedAuctionLotList(list);
+        if(user.getStatus() == null) {
+            user.setStatus(Auction.USER_ONLINE);
+            auction.addUserToAuction(user); 
+        } else {
+            auction.updateUser(user);
+        }               
         AnswerQuery answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 user.getUserId(),  
@@ -208,6 +219,12 @@ public class NetworkController {
                                         "SubscribeQuery - Error. User unknown.");
         }
         return answer;
-    } 
+    }
+    
+    public static void main(String[] args) {
+        RegistrationQuery query = new RegistrationQuery(1);
+        query.addLotIdToObservableList(1);
+        new NetworkController().handle(query);
+    }
     
 }

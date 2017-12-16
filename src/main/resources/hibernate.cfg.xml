@@ -8,7 +8,7 @@
         <property name="connection.url">jdbc:mariadb://localhost:3306/auctiondb</property>
         <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
         <property name="show_sql">true</property>   
-        <property name="connection.pool_size">1</property>
+        <property name="connection.pool_size">5</property>
         <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <!--and will be:  Initial SessionFactory failedorg.hibernate.service.spi.ServiceException: Unable to create requested service-->
         <property name="connection.username">app</property>
