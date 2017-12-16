@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.entities;
+package com.apu.auctionserver.DB.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId")
     , @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login")
     , @NamedQuery(name = "User.findByPasswHash", query = "SELECT u FROM User u WHERE u.passwHash = :passwHash")
+    , @NamedQuery(name = "User.findByStatus", query = "SELECT u FROM User u WHERE u.status = :status")
     , @NamedQuery(name = "User.findByUsed", query = "SELECT u FROM User u WHERE u.used = :used")})
 public class User implements Serializable {
 
@@ -44,15 +43,14 @@ public class User implements Serializable {
     private String login;
     @Column(name = "passw_hash")
     private String passwHash;
+    @Column(name = "status")
+    private String status;
     @Column(name = "used")
     private Boolean used;
-    @OneToMany(mappedBy = "lastRateUserId")
-    private Collection<AuctionLot> auctionLotCollection;
-    @OneToMany(mappedBy = "userId")
-    private Collection<Observes> observesCollection;
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne
-    private UStatus statusId;
+    @OneToMany(mappedBy = "lastRateUser")
+    private List<AuctionLot> auctionLotList;
+    @OneToMany(mappedBy = "observer")
+    private List<AuctionLot> auctionLotList1;
 
     public User() {
     }
@@ -85,6 +83,14 @@ public class User implements Serializable {
         this.passwHash = passwHash;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Boolean getUsed() {
         return used;
     }
@@ -94,29 +100,21 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<AuctionLot> getAuctionLotCollection() {
-        return auctionLotCollection;
+    public List<AuctionLot> getLastRateAuctionLotList() {
+        return auctionLotList;
     }
 
-    public void setAuctionLotCollection(Collection<AuctionLot> auctionLotCollection) {
-        this.auctionLotCollection = auctionLotCollection;
+    public void setLastRateAuctionLotList(List<AuctionLot> auctionLotList) {
+        this.auctionLotList = auctionLotList;
     }
 
     @XmlTransient
-    public Collection<Observes> getObservesCollection() {
-        return observesCollection;
+    public List<AuctionLot> getAuctionLotList1() {
+        return auctionLotList1;
     }
 
-    public void setObservesCollection(Collection<Observes> observesCollection) {
-        this.observesCollection = observesCollection;
-    }
-
-    public UStatus getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(UStatus statusId) {
-        this.statusId = statusId;
+    public void setAuctionLotList1(List<AuctionLot> auctionLotList1) {
+        this.auctionLotList1 = auctionLotList1;
     }
 
     @Override
@@ -141,7 +139,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.auctionserver.entities.User[ userId=" + userId + " ]";
+        return "com.apu.auctionserver.DB.entity.User[ userId=" + userId + " ]";
     }
     
 }

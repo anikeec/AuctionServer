@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.entities;
+package com.apu.auctionserver.DB.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,12 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "AuctionLot.findByStartPrice", query = "SELECT a FROM AuctionLot a WHERE a.startPrice = :startPrice")
     , @NamedQuery(name = "AuctionLot.findByStartDate", query = "SELECT a FROM AuctionLot a WHERE a.startDate = :startDate")
     , @NamedQuery(name = "AuctionLot.findByFinishDate", query = "SELECT a FROM AuctionLot a WHERE a.finishDate = :finishDate")
-    , @NamedQuery(name = "AuctionLot.findByLastRate", query = "SELECT a FROM AuctionLot a WHERE a.lastRate = :lastRate")})
+    , @NamedQuery(name = "AuctionLot.findByLastRate", query = "SELECT a FROM AuctionLot a WHERE a.lastRate = :lastRate")
+    , @NamedQuery(name = "AuctionLot.findByStatus", query = "SELECT a FROM AuctionLot a WHERE a.status = :status")})
 public class AuctionLot implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,14 +55,14 @@ public class AuctionLot implements Serializable {
     private Date finishDate;
     @Column(name = "last_rate")
     private Integer lastRate;
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
+    @Column(name = "status")
+    private String status;
+    @JoinColumn(name = "last_rate_user", referencedColumnName = "user_id")
     @ManyToOne
-    private AuctionLotStatus statusId;
-    @JoinColumn(name = "last_rate_user_id", referencedColumnName = "user_id")
+    private User lastRateUser;
+    @JoinColumn(name = "observer", referencedColumnName = "user_id")
     @ManyToOne
-    private User lastRateUserId;
-    @OneToMany(mappedBy = "lotId")
-    private Collection<Observes> observesCollection;
+    private User observer;
 
     public AuctionLot() {
     }
@@ -121,29 +119,28 @@ public class AuctionLot implements Serializable {
         this.lastRate = lastRate;
     }
 
-    public AuctionLotStatus getStatusId() {
-        return statusId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusId(AuctionLotStatus statusId) {
-        this.statusId = statusId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public User getLastRateUserId() {
-        return lastRateUserId;
+    public User getLastRateUser() {
+        return lastRateUser;
     }
 
-    public void setLastRateUserId(User lastRateUserId) {
-        this.lastRateUserId = lastRateUserId;
+    public void setLastRateUser(User lastRateUser) {
+        this.lastRateUser = lastRateUser;
     }
 
-    @XmlTransient
-    public Collection<Observes> getObservesCollection() {
-        return observesCollection;
+    public User getObserver() {
+        return observer;
     }
 
-    public void setObservesCollection(Collection<Observes> observesCollection) {
-        this.observesCollection = observesCollection;
+    public void setObserver(User observer) {
+        this.observer = observer;
     }
 
     @Override
@@ -168,7 +165,7 @@ public class AuctionLot implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.auctionserver.entities.AuctionLot[ lotId=" + lotId + " ]";
+        return "com.apu.auctionserver.DB.entity.AuctionLot[ lotId=" + lotId + " ]";
     }
     
 }
