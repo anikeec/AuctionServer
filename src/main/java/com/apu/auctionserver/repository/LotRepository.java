@@ -13,12 +13,12 @@ import java.util.List;
  * @author apu
  */
 public interface LotRepository {
-
-    AuctionLot getAuctionLotById(int lotId);
-
+    
     List<AuctionLot> getAuctionLots();
 
-    void removeAuctionLot(AuctionLot lot);
+    AuctionLot getAuctionLotById(int lotId);    
+
+    void removeAuctionLotById(int lotId);
 
     void saveAuctionLot(AuctionLot lot);
     

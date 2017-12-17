@@ -14,15 +14,15 @@ import java.util.List;
  * @author apu
  */
 public interface ObserveRepository {
+    
+    List<AuctionLot> getObservableAuctionLotsByUser(User user);
+
+    List<Integer> getObserverIdListByAuctionLot(AuctionLot lot);
 
     void addAuctionLotIdListToObservableByUser(User user, List<Integer> lotIds);
 
     void addAuctionLotToObservableByUser(User user, AuctionLot lot);
 
-    void clearObservableAuctionLotsByUser(User user);
-
-    List<AuctionLot> getObservableAuctionLotsByUser(User user);
-
-    List<Integer> getObserverIdListByAuctionLot(AuctionLot lot);
+    void clearObservableAuctionLotsByUser(User user);    
     
 }

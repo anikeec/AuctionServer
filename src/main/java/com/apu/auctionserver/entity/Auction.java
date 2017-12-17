@@ -19,7 +19,7 @@ import com.apu.auctionserver.repository.UserRepository;
  *
  * @author apu
  */
-public class Auction {
+public class Auction implements AuctionI {
     private final LotRepository lotRepository = 
                         LotRepositoryH.getInstance();
     private final UserRepository userRepository = 
@@ -41,66 +41,82 @@ public class Auction {
         return instance;
     }
     
+    @Override
     public synchronized List<AuctionLot> getAuctionLots() {
         return lotRepository.getAuctionLots();
     }
     
+    @Override
     public synchronized AuctionLot getAuctionLotById(int lotId) {
         return lotRepository.getAuctionLotById(lotId);
     }
     
+    @Override
     public synchronized void addLotToAuction(AuctionLot lot) {
         lotRepository.saveAuctionLot(lot);
     }
     
-    public synchronized void removeLotFromAuction(AuctionLot lot) {
-        lotRepository.removeAuctionLot(lot);
+    @Override
+    public synchronized void removeLotFromAuctionById(int lotId) {
+        lotRepository.removeAuctionLotById(lotId);
     }
     
+    @Override
     public synchronized void updateAuctionLot(AuctionLot lot) {
         lotRepository.saveAuctionLot(lot);
     }
     
+    @Override
     public synchronized List<User> getAuctionUsers() {
         return userRepository.getAuctionUsers();
     }
     
+    @Override
     public synchronized User getAuctionUserById(int userId) {
         return userRepository.getUserById(userId);
     }
     
+    @Override
     public synchronized void addUserToAuction(User user) {
         userRepository.saveUser(user);
     }
     
-    public synchronized void removeUserFromAuction(User user) {
-        userRepository.removeUser(user);
+    @Override
+    public synchronized void removeUserFromAuctionById(int userId) {
+        userRepository.removeUserById(userId);
     }
     
+    @Override
     public synchronized void updateUser(User user) {
         userRepository.saveUser(user);
     }
     
+    @Override
     public synchronized void addAuctionLotIdListToObservableByUser(User user, List<Integer> list) {
         observeRepository.addAuctionLotIdListToObservableByUser(user, list);
     }
     
+    @Override
     public synchronized List<AuctionLot> getObservableAuctionLotsByUser(User user) {
         return observeRepository.getObservableAuctionLotsByUser(user);
     }
     
+    @Override
     public synchronized void addAuctionLotToObservableByUser(User user, AuctionLot lot) {
         observeRepository.addAuctionLotToObservableByUser(user, lot);
     }
     
+    @Override
     public synchronized void clearObservableAuctionLotsByUser(User user) {
         observeRepository.clearObservableAuctionLotsByUser(user);
     }
     
+    @Override
     public synchronized List<Integer> getObserverIdListByAuctionLot(AuctionLot lot) {
         return observeRepository.getObserverIdListByAuctionLot(lot);
     }
     
+    @Override
     public void init() {
         AuctionLot lot1, lot2;
         User user;

@@ -51,9 +51,10 @@ public class UserRepositoryH implements UserRepository {
     }
     
     @Override
-    public void removeUser(User user) {
+    public void removeUserById(int userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+            User user = session.load(User.class, userId);
             session.delete(user);
             session.getTransaction().commit();
         }

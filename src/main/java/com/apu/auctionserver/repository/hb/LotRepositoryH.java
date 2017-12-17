@@ -51,9 +51,10 @@ public class LotRepositoryH implements LotRepository {
     }
     
     @Override
-    public void removeAuctionLot(AuctionLot lot) {
+    public void removeAuctionLotById(int lotId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+            AuctionLot lot = session.load(AuctionLot.class, lotId);
             session.delete(lot);
             session.getTransaction().commit();
         }

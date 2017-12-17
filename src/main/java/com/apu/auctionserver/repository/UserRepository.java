@@ -18,7 +18,7 @@ public interface UserRepository {
 
     User getUserById(int userId);
 
-    void removeUser(User user);
+    void removeUserById(int userId);
 
     void saveUser(User user);
     
