@@ -15,8 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
@@ -30,22 +28,14 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final Log log = Log.getInstance();
     private static final Class classname = UserRepositoryJDBC.class;
     
-    PreparedStatement findUser = null;
-    PreparedStatement insertUser = null;
-    PreparedStatement updateUser = null;
-    PreparedStatement removeUser = null;
+    PreparedStatement findStatement = null;
+    PreparedStatement insertStatement = null;
+    PreparedStatement updateStatement = null;
+    PreparedStatement removeStatement = null;
     String findByIdString =
         "select * from USER where user.user_id = ?"; 
     String findAllString =
-        "select * from USER";
-//    String saveString =
-//        "IF EXISTS(select * from USER where id = ? )" +
-//        " update USER set login = ?," +
-//        " passw_hash = ?," +
-//        " status = ? " +
-//        " where id = ? " +
-//        " ELSE" +
-//        " insert into USER(login,passw_hash,status) values(?,?,?);"; 
+        "select * from USER"; 
     String insertString = 
         " insert into USER(user_id,login,passw_hash,status) values(?,?,?,?);";
     String updateString = 
@@ -73,9 +63,9 @@ public class UserRepositoryJDBC implements UserRepository {
             try {
                 con = dbService.dbConnect();
                 con.setAutoCommit(false);
-                findUser = con.prepareStatement(findAllString);
-                log.debug(classname, findUser.toString());
-                ResultSet rs = findUser.executeQuery();
+                findStatement = con.prepareStatement(findAllString);
+                log.debug(classname, findStatement.toString());
+                ResultSet rs = findStatement.executeQuery();
                 User user;
                 while(rs.next()) {
                     user = new User(rs.getInt("user_id"));
@@ -84,11 +74,9 @@ public class UserRepositoryJDBC implements UserRepository {
                     user.setStatus(rs.getString("status"));
                     userList.add(user);
                 }
-            } catch (SQLException ex ) {
-                throw ex;
             } finally {
-                if (findUser != null) {
-                    findUser.close();
+                if (findStatement != null) {
+                    findStatement.close();
                 }
                 if(con != null) {
                     con.setAutoCommit(true);
@@ -109,24 +97,19 @@ public class UserRepositoryJDBC implements UserRepository {
             try {
                 con = dbService.dbConnect();
                 con.setAutoCommit(false);
-                findUser = con.prepareStatement(findByIdString);
-                findUser.setInt(1, userId);
-                log.debug(classname, findUser.toString());
-                ResultSet rs = findUser.executeQuery();
+                findStatement = con.prepareStatement(findByIdString);
+                findStatement.setInt(1, userId);
+                log.debug(classname, findStatement.toString());
+                ResultSet rs = findStatement.executeQuery();
                 while(rs.next()) {
                     user = new User(rs.getInt("user_id"));
                     user.setLogin(rs.getString("login"));
                     user.setPasswHash(rs.getString("passw_hash"));
                     user.setStatus(rs.getString("status"));
                 }
-            } catch (SQLException ex ) {
-                if (con != null) {
-                    log.debug(classname, "Transaction is being rolled back");
-                }
-                throw ex;
             } finally {
-                if (findUser != null) {
-                    findUser.close();
+                if (findStatement != null) {
+                    findStatement.close();
                 }
                 if(con != null) {
                     con.setAutoCommit(true);
@@ -146,10 +129,10 @@ public class UserRepositoryJDBC implements UserRepository {
             try {
                 con = dbService.dbConnect();
                 con.setAutoCommit(false);
-                removeUser = con.prepareStatement(removeString);
-                removeUser.setInt(1, userId);
-                log.debug(classname, removeUser.toString());
-                removeUser.executeUpdate();
+                removeStatement = con.prepareStatement(removeString);
+                removeStatement.setInt(1, userId);
+                log.debug(classname, removeStatement.toString());
+                removeStatement.executeUpdate();
                 con.commit();
             } catch (SQLException ex ) {
                 if (con != null) {
@@ -158,8 +141,8 @@ public class UserRepositoryJDBC implements UserRepository {
                 }
                 throw ex;
             } finally {
-                if (removeUser != null) {
-                    removeUser.close();
+                if (removeStatement != null) {
+                    removeStatement.close();
                 }
                 if(con != null) {
                     con.setAutoCommit(true);
@@ -177,52 +160,50 @@ public class UserRepositoryJDBC implements UserRepository {
             try {
                 con = dbService.dbConnect();
                 con.setAutoCommit(false);
-                findUser = con.prepareStatement(findByIdString);
-                findUser.setInt(1, user.getUserId());
-                log.debug(classname, findUser.toString());
-                ResultSet rs = findUser.executeQuery();
+                findStatement = con.prepareStatement(findByIdString);
+                findStatement.setInt(1, user.getUserId());
+                log.debug(classname, findStatement.toString());
+                ResultSet rs = findStatement.executeQuery();
                 String str;
                 Integer intValue;
                 if(!rs.next()) {
-                    //insert
-                    insertUser = con.prepareStatement(insertString);
+                    insertStatement = con.prepareStatement(insertString);
                     intValue = user.getUserId();
                     if(intValue == null) 
                         intValue = 0;    
-                    insertUser.setInt(1, intValue);
+                    insertStatement.setInt(1, intValue);
                     str = user.getLogin();
                     if(str == null) 
                         str = "";
-                    insertUser.setString(2, str);
+                    insertStatement.setString(2, str);
                     str = user.getPasswHash();
                     if(str == null) 
                         str = "";
-                    insertUser.setString(3, str);
+                    insertStatement.setString(3, str);
                     str = user.getStatus();
                     if(str == null) 
                         str = "";
-                    insertUser.setString(4, str);
-                    insertUser.executeUpdate();
+                    insertStatement.setString(4, str);
+                    insertStatement.executeUpdate();
                 } else {
-                    //update
-                    updateUser = con.prepareStatement(updateString);                    
+                    updateStatement = con.prepareStatement(updateString);                    
                     str = user.getLogin();
                     if(str == null) 
                         str = "";
-                    updateUser.setString(1, str);
+                    updateStatement.setString(1, str);
                     str = user.getPasswHash();
                     if(str == null) 
                         str = "";
-                    updateUser.setString(2, str);
+                    updateStatement.setString(2, str);
                     str = user.getStatus();
                     if(str == null) 
                         str = "";
-                    updateUser.setString(3, str);
+                    updateStatement.setString(3, str);
                     intValue = user.getUserId();
                     if(intValue == null) 
                         intValue = 0;    
-                    updateUser.setInt(4, intValue);
-                    updateUser.executeUpdate();
+                    updateStatement.setInt(4, intValue);
+                    updateStatement.executeUpdate();
                 }                
                 con.commit();
             } catch (SQLException ex ) {
@@ -232,11 +213,11 @@ public class UserRepositoryJDBC implements UserRepository {
                 }
                 throw ex;
             } finally {
-                if (insertUser != null) {
-                    insertUser.close();
+                if (insertStatement != null) {
+                    insertStatement.close();
                 }
-                if (updateUser != null) {
-                    updateUser.close();
+                if (updateStatement != null) {
+                    updateStatement.close();
                 }
                 if(con != null) {
                     con.setAutoCommit(true);
