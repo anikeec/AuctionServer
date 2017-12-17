@@ -14,6 +14,7 @@ import java.util.List;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.ObserveRepository;
 import com.apu.auctionserver.repository.UserRepository;
+import com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC;
 import com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC;
 
 /**
@@ -22,7 +23,7 @@ import com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC;
  */
 public class Auction implements AuctionI {
     private final LotRepository lotRepository = 
-                        LotRepositoryH.getInstance();
+                        LotRepositoryJDBC.getInstance();
     private final UserRepository userRepository = 
                         UserRepositoryJDBC.getInstance();
     private final ObserveRepository observeRepository = 
