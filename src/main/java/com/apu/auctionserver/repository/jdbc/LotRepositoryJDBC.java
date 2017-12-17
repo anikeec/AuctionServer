@@ -191,17 +191,6 @@ public class LotRepositoryJDBC implements LotRepository {
                 String str;
                 Integer intValue;
                 Date date;
-                /*
-                " insert into AUCTIONLOT(lot_id,"
-                + "lot_name,"
-                + "start_price,"
-                + "start_date,"
-                + "finish_date,"
-                + "last_rate,"
-                + "last_rate_user,"
-                + "status) "
-                + "values(?,?,?,?,?,?,?,?);"
-                */
                 if(!rs.next()) {
                     insertStatement = con.prepareStatement(insertString);
                     intValue = lot.getLotId();
@@ -222,8 +211,6 @@ public class LotRepositoryJDBC implements LotRepository {
                     } else {
                         date = null;
                     } 
-//                    if(date == null) 
-//                        date = null;
                     insertStatement.setDate(4, date);
                     dateTemp = lot.getFinishDate();
                     if(dateTemp != null) {
@@ -231,8 +218,6 @@ public class LotRepositoryJDBC implements LotRepository {
                     } else {
                         date = null;
                     }
-//                    if(date == null) 
-//                        date = null;
                     insertStatement.setDate(5, date);
                     intValue = lot.getLastRate();
                     if(intValue == null) 
@@ -265,8 +250,6 @@ public class LotRepositoryJDBC implements LotRepository {
                     } else {
                         date = null;
                     }                    
-//                    if(date == null) 
-//                        date = null;
                     updateStatement.setDate(3, date);
                     dateTemp = lot.getFinishDate();
                     if(dateTemp != null) {
@@ -274,8 +257,6 @@ public class LotRepositoryJDBC implements LotRepository {
                     } else {
                         date = null;
                     }
-//                    if(date == null) 
-//                        date = null;
                     updateStatement.setDate(4, date);
                     intValue = lot.getLastRate();
                     if(intValue == null) 
