@@ -5,7 +5,7 @@
  */
 package com.apu.auctionserver.repository;
 
-import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.repository.entity.User;
 import java.util.List;
 
 /**

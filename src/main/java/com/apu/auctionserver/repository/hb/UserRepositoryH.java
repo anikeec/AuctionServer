@@ -5,8 +5,7 @@
  */
 package com.apu.auctionserver.repository.hb;
 
-import com.apu.auctionserver.DB.HibernateSessionFactory;
-import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.repository.UserRepository;
 import java.util.List;
 import org.hibernate.Query;
@@ -19,7 +18,7 @@ import org.hibernate.SessionFactory;
  */
 public class UserRepositoryH implements UserRepository {
     private final SessionFactory sessionFactory = 
-            HibernateSessionFactory.getSessionFactory();
+            HibernateService.getSessionFactory();
     private static UserRepositoryH instance;
     
     private UserRepositoryH() {

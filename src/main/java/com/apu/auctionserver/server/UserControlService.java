@@ -5,7 +5,7 @@
  */
 package com.apu.auctionserver.server;
 
-import com.apu.auctionserver.entity.Auction;
+import com.apu.auctionserver.auction.Auction;
 import com.apu.auctionserver.utils.Time;
 import java.util.Date;
 import java.util.HashMap;

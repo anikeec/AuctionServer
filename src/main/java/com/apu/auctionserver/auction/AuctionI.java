@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.entity;
+package com.apu.auctionserver.auction;
 
-import com.apu.auctionserver.DB.entity.AuctionLot;
-import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.repository.entity.AuctionLot;
+import com.apu.auctionserver.repository.entity.User;
 import java.util.List;
 
 /**

@@ -5,8 +5,7 @@
  */
 package com.apu.auctionserver.repository.hb;
 
-import com.apu.auctionserver.DB.HibernateSessionFactory;
-import com.apu.auctionserver.DB.entity.AuctionLot;
+import com.apu.auctionserver.repository.entity.AuctionLot;
 import com.apu.auctionserver.repository.LotRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import org.hibernate.SessionFactory;
  * @author apu
  */
 public class LotRepositoryH implements LotRepository {
-    private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
+    private final SessionFactory sessionFactory = HibernateService.getSessionFactory();
     private static LotRepositoryH instance;
     
     private LotRepositoryH() {

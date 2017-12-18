@@ -15,9 +15,9 @@ import com.apu.auctionapi.answer.PollAnswerQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
-import com.apu.auctionserver.entity.Auction;
-import com.apu.auctionserver.DB.entity.AuctionLot;
-import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.auction.Auction;
+import com.apu.auctionserver.repository.entity.AuctionLot;
+import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
@@ -63,10 +63,8 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());        
         AnswerQuery answer;
         if(user != null) {
-//            user.getObservedAuctionLotList().clear();
             auction.clearObservableAuctionLotsByUser(user);
             user.setStatus(Auction.USER_OFFLINE);
-//            auction.updateUser(user);
 //            auction.removeUserFromAuction(user);
             answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
@@ -92,9 +90,7 @@ public class NetworkController {
             if(price > lot.getLastRate()) {
                 lot.setLastRate(price);                
                 lot.setLastRateUser(user);
-//                user.getAuctionLotList().add(lot);
                 auction.updateAuctionLot(lot);
-//                auction.updateUser(user);
                 answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
                                         "NewRateQuery - OK. Your rate is last.");
@@ -103,6 +99,11 @@ public class NetworkController {
                                         user.getUserId(), 
                                         "NewRateQuery - Error. Your rate is low.");
             }            
+        } else if(user != null) {
+            log.debug(classname, "Lot unknown");
+            answer = new AnswerQuery(query.getPacketId(), 
+                                        query.getUserId(), 
+                                        "NewRateQuery - Error. Lot unknown.");
         } else {
             log.debug(classname, "User unknown");
             answer = new AnswerQuery(query.getPacketId(), 
@@ -202,11 +203,7 @@ public class NetworkController {
             UserControlService.notifyService(user.getUserId());
             int lotId = query.getLotId();
             AuctionLot lot = auction.getAuctionLotById(lotId);
-//            user.getObservedAuctionLotList().add(lot);
             auction.addAuctionLotToObservableByUser(user, lot);
-//            lot.getUserList().add(user);
-//            auction.updateUser(user);
-//            auction.updateAuctionLot(lot);
             answer = 
                 new AnswerQuery(query.getPacketId(), 
                                 query.getUserId(),  

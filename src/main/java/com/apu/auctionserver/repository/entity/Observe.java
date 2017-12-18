@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.DB.entity;
+package com.apu.auctionserver.repository.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;

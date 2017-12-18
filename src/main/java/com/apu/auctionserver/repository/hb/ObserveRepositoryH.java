@@ -5,10 +5,9 @@
  */
 package com.apu.auctionserver.repository.hb;
 
-import com.apu.auctionserver.DB.HibernateSessionFactory;
-import com.apu.auctionserver.DB.entity.AuctionLot;
-import com.apu.auctionserver.DB.entity.Observe;
-import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.repository.entity.AuctionLot;
+import com.apu.auctionserver.repository.entity.Observe;
+import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.repository.ObserveRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import org.hibernate.SessionFactory;
  */
 public class ObserveRepositoryH implements ObserveRepository {
     private final SessionFactory sessionFactory = 
-            HibernateSessionFactory.getSessionFactory();
+            HibernateService.getSessionFactory();
     private final LotRepositoryH lotRepository = 
                         LotRepositoryH.getInstance();
     private static ObserveRepositoryH instance;
