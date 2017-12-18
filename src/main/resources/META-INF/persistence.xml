@@ -2,9 +2,9 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.apu_AuctionServer_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.apu.auctionserver.DB.entity.AuctionLot</class>
-    <class>com.apu.auctionserver.DB.entity.User</class>
-    <class>com.apu.auctionserver.DB.entity.Observe</class>
+    <class>com.apu.auctionserver.repository.entity.AuctionLot</class>
+    <class>com.apu.auctionserver.repository.entity.Observe</class>
+    <class>com.apu.auctionserver.repository.entity.User</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/auctiondb"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
