@@ -71,5 +71,20 @@ public class UserRepositoryH implements UserRepository {
         }
         return ret;
     } 
+
+    @Override
+    public void updateUserByIdSetOnline(int userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateUserByIdSetOffline(int userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateUserAllSetStatus(String status) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

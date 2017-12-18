@@ -23,7 +23,7 @@ public class Main {
     static Server server;
     
     public static void main(String[] args) {
-//        Auction.getInstance().init();
+        Auction.getInstance().init();
         
         try {
             server = new Server(CONNECTION_PORT, CONNECTIONS_MAX);

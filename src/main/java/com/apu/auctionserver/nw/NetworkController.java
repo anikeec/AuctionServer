@@ -21,6 +21,7 @@ import com.apu.auctionserver.DB.entity.User;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
+import com.apu.auctionserver.server.UserControlService;
 import com.apu.auctionserver.utils.Log;
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());
         AnswerQuery answer;
         if((lot != null)&& (user != null)) {
+            UserControlService.notifyService(user.getUserId());
             int price = query.getPrice();        
             if(price > lot.getLastRate()) {
                 lot.setLastRate(price);                
@@ -115,6 +117,7 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());
         AnswerQuery answer;
         if(user != null) {
+            UserControlService.notifyService(user.getUserId());
             answer = new AnswerQuery(query.getPacketId(), 
                                         query.getUserId(), 
                                         "Ping answer");
@@ -136,14 +139,14 @@ public class NetworkController {
                                         query.getUserId(), 
                                         "PollQuery - Error. User unknown.");
             return answer;
-        } else {     
+        } else {    
+            UserControlService.notifyService(user.getUserId());
             PollAnswerQuery answer = 
                 new PollAnswerQuery(query.getPacketId(), 
                                     user.getUserId());
 
             //get list or Lots for current user
             List<AuctionLot> lots = auction.getObservableAuctionLotsByUser(user);
-//user.getObservedAuctionLotList();
             User lastRateUser;
             int lastRateUserId;
             for(AuctionLot lot: lots) {
@@ -180,7 +183,8 @@ public class NetworkController {
             user.setStatus(Auction.USER_ONLINE);
             auction.updateUser(user);
         }
-//        socketRepository.addSocket(user, socket);        
+//        socketRepository.addSocket(user, socket); 
+        UserControlService.notifyService(user.getUserId());
         List<Integer> lotIdList = query.getObservableLotIdList();
         auction.addAuctionLotIdListToObservableByUser(user, lotIdList);
         AnswerQuery answer = 
@@ -195,6 +199,7 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());
         AnswerQuery answer;
         if(user != null) {
+            UserControlService.notifyService(user.getUserId());
             int lotId = query.getLotId();
             AuctionLot lot = auction.getAuctionLotById(lotId);
 //            user.getObservedAuctionLotList().add(lot);

@@ -13,6 +13,10 @@ import java.util.Date;
  * @author apu
  */
 public class Time {
+    public static final long SECOND = 1000l;
+    public static final long MINUTE = 1000*SECOND;
+    public static final long USER_TIMEOUT = 10*SECOND;
+    public static final long USER_CHECK_TIMEOUT = 5*SECOND;
     
     public static String getTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");

@@ -31,6 +31,9 @@ public class Server {
     public void accept() throws IOException {
             handlerPool = new ConnectionHandlerPool(backlog);
             log.debug(classname, "Server started");
+            Thread userControlThread = new Thread(new UserControlThread());
+            userControlThread.setDaemon(true);
+            userControlThread.start();
             while (true) {
                     Socket socket = serverSocket.accept();
                     handlerPool.addConnection(socket);

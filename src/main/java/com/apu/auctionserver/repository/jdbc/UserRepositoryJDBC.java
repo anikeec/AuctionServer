@@ -6,6 +6,7 @@
 package com.apu.auctionserver.repository.jdbc;
 
 import com.apu.auctionserver.DB.entity.User;
+import com.apu.auctionserver.entity.Auction;
 import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
@@ -45,6 +46,11 @@ public class UserRepositoryJDBC implements UserRepository {
         " where user_id = ? ";    
     String removeString =
         "delete from USER where user.user_id = ?";
+    String updateStatusString = 
+        " update USER set status = ? " +
+        " where user_id = ? ";
+    String updateAllStatusString = 
+        " update USER set status = ? ";
     
     private UserRepositoryJDBC() {
     }
@@ -251,5 +257,116 @@ public class UserRepositoryJDBC implements UserRepository {
             }
         }
     }
+
+    @Override
+    public void updateUserByIdSetOnline(int userId) {
+        Connection con = null;
+        try {        
+            try {
+                con = dbService.dbConnect();
+                con.setAutoCommit(false);
+                updateStatement = con.prepareStatement(updateStatusString);                    
+                updateStatement.setString(1, Auction.USER_ONLINE); 
+                updateStatement.setInt(2, userId);
+                updateStatement.executeUpdate();                
+                con.commit();
+            } catch (SQLException ex ) {
+                if (con != null) {
+                    log.debug(classname, "Transaction is being rolled back");
+                    con.rollback();
+                }
+                throw ex;
+            } finally {
+                if (updateStatement != null) {
+                    updateStatement.close();
+                }
+                if(con != null) {
+                    con.setAutoCommit(true);
+                }
+            }
+        } catch(IOException | ClassNotFoundException | SQLException ex) {
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
+        }
+    }
+
+    @Override
+    public void updateUserByIdSetOffline(int userId) {
+        Connection con = null;
+        try {        
+            try {
+                con = dbService.dbConnect();
+                con.setAutoCommit(false);
+                updateStatement = con.prepareStatement(updateStatusString);                    
+                updateStatement.setString(1, Auction.USER_OFFLINE); 
+                updateStatement.setInt(2, userId);
+                updateStatement.executeUpdate();                
+                con.commit();
+            } catch (SQLException ex ) {
+                if (con != null) {
+                    log.debug(classname, "Transaction is being rolled back");
+                    con.rollback();
+                }
+                throw ex;
+            } finally {
+                if (updateStatement != null) {
+                    updateStatement.close();
+                }
+                if(con != null) {
+                    con.setAutoCommit(true);
+                }
+            }
+        } catch(IOException | ClassNotFoundException | SQLException ex) {
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
+        }
+    }
+
+    @Override
+    public void updateUserAllSetStatus(String status) {
+        Connection con = null;
+        try {        
+            try {
+                con = dbService.dbConnect();
+                con.setAutoCommit(false);
+                updateStatement = con.prepareStatement(updateAllStatusString);                    
+                updateStatement.setString(1, status); 
+                updateStatement.executeUpdate();                
+                con.commit();
+            } catch (SQLException ex ) {
+                if (con != null) {
+                    log.debug(classname, "Transaction is being rolled back");
+                    con.rollback();
+                }
+                throw ex;
+            } finally {
+                if (updateStatement != null) {
+                    updateStatement.close();
+                }
+                if(con != null) {
+                    con.setAutoCommit(true);
+                }
+            }
+        } catch(IOException | ClassNotFoundException | SQLException ex) {
+            log.debug(classname,ExceptionUtils.getStackTrace(ex));
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
+        }
+    }
     
 }
+

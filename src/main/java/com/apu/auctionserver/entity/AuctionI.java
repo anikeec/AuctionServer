@@ -47,4 +47,10 @@ public interface AuctionI {
 
     void updateUser(User user);
     
+    void updateUserByIdSetOnline(int userId);
+    
+    void updateUserByIdSetOffline(int userId);
+    
+    void updateUserAllSetStatus(String status);
+    
 }

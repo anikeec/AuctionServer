@@ -118,6 +118,11 @@ public class Auction implements AuctionI {
     
     @Override
     public void init() {
+//        initAuction();
+        initUsers();
+    }
+    
+    private void initAuction() {
         AuctionLot lot1, lot2;
         User user;
         
@@ -128,7 +133,26 @@ public class Auction implements AuctionI {
         lot2 = new AuctionLot(2);
         lot2.setStartPrice(25);
         lot2.setLotName("TVset");
-        addLotToAuction(lot2);         
+        addLotToAuction(lot2);
+    }
+    
+    private void initUsers() {
+        updateUserAllSetStatus(USER_OFFLINE);
+    }
+
+    @Override
+    public synchronized void updateUserByIdSetOnline(int userId) {
+        userRepository.updateUserByIdSetOnline(userId);
+    }
+
+    @Override
+    public synchronized void updateUserByIdSetOffline(int userId) {
+        userRepository.updateUserByIdSetOffline(userId);
+    }
+
+    @Override
+    public void updateUserAllSetStatus(String status) {
+        userRepository.updateUserAllSetStatus(status);
     }
     
 }
