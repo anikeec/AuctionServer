@@ -7,14 +7,12 @@ package com.apu.auctionserver.entity;
 
 import com.apu.auctionserver.DB.entity.AuctionLot;
 import com.apu.auctionserver.DB.entity.User;
-import com.apu.auctionserver.repository.hb.LotRepositoryH;
-import com.apu.auctionserver.repository.hb.ObserveRepositoryH;
-import com.apu.auctionserver.repository.hb.UserRepositoryH;
 import java.util.List;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.ObserveRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC;
+import com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC;
 import com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC;
 
 /**
@@ -27,7 +25,7 @@ public class Auction implements AuctionI {
     private final UserRepository userRepository = 
                         UserRepositoryJDBC.getInstance();
     private final ObserveRepository observeRepository = 
-                        ObserveRepositoryH.getInstance();
+                        ObserveRepositoryJDBC.getInstance();
     
     public static String USER_ONLINE = "online";
     public static String USER_OFFLINE = "offline";
