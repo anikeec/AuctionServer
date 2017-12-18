@@ -116,8 +116,7 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
                 User user;
                 while(rs.next()) {
                     int userId = rs.getInt("user");
-                    user = userRepository.getUserById(userId);
-                    userIdList.add(user.getUserId());
+                    userIdList.add(userId);
                 }
             } finally {
                 if (findStatement != null) {
