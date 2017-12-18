@@ -104,6 +104,12 @@ public class LotRepositoryJDBC implements LotRepository {
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
         return lotList;
     }
@@ -142,6 +148,12 @@ public class LotRepositoryJDBC implements LotRepository {
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
         return auctionLot;
     }
@@ -174,6 +186,12 @@ public class LotRepositoryJDBC implements LotRepository {
             }
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
     }
 
@@ -298,7 +316,13 @@ public class LotRepositoryJDBC implements LotRepository {
             }
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
-        }    
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
+        }   
     }
     
 }

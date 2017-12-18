@@ -91,6 +91,12 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
         return lotList;
     }
@@ -124,6 +130,12 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
         return userIdList;
     }
@@ -171,7 +183,13 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
             }
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
-        }    
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
+        }  
     }
 
     @Override
@@ -202,6 +220,12 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
             }
         } catch(IOException | ClassNotFoundException | SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
+        } finally {
+            try {
+                dbService.dbDisconnect();
+            } catch (SQLException ex) {
+                log.debug(classname,ExceptionUtils.getStackTrace(ex));
+            }
         }
     }
     
