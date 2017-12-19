@@ -26,14 +26,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public class LotRepositoryJDBC implements LotRepository {
     
     private static LotRepositoryJDBC instance;
-    private final JDBCService dbService = JDBCService.getInstance();
+    private static JDBCPool dbPool = JDBCPool.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = LotRepositoryJDBC.class;
     
-    PreparedStatement findStatement = null;
-    PreparedStatement insertStatement = null;
-    PreparedStatement updateStatement = null;
-    PreparedStatement removeStatement = null;
     String findByIdString =
         "select * from AUCTIONLOT where lot_id = ?"; 
     String findAllString =
@@ -72,10 +68,11 @@ public class LotRepositoryJDBC implements LotRepository {
     @Override
     public List<AuctionLot> getAuctionLots() {
         Connection con = null;
+        PreparedStatement findStatement = null;
         List<AuctionLot> lotList = new ArrayList<>();
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findAllString);
                 log.debug(classname, findStatement.toString());
@@ -101,15 +98,11 @@ public class LotRepositoryJDBC implements LotRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return lotList;
     }
@@ -117,10 +110,11 @@ public class LotRepositoryJDBC implements LotRepository {
     @Override
     public AuctionLot getAuctionLotById(int lotId) {
         Connection con = null;
+        PreparedStatement findStatement = null;
         AuctionLot auctionLot = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByIdString);
                 findStatement.setInt(1, lotId);
@@ -145,15 +139,11 @@ public class LotRepositoryJDBC implements LotRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return auctionLot;
     }
@@ -161,9 +151,10 @@ public class LotRepositoryJDBC implements LotRepository {
     @Override
     public void removeAuctionLotById(int lotId) {
         Connection con = null;
+        PreparedStatement removeStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 removeStatement = con.prepareStatement(removeString);
                 removeStatement.setInt(1, lotId);
@@ -184,23 +175,22 @@ public class LotRepositoryJDBC implements LotRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
 
     @Override
     public void saveAuctionLot(AuctionLot lot) {
         Connection con = null;
+        PreparedStatement findStatement = null;
+        PreparedStatement insertStatement = null;
+        PreparedStatement updateStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByIdString);
                 findStatement.setInt(1, lot.getLotId());
@@ -314,14 +304,10 @@ public class LotRepositoryJDBC implements LotRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }   
     }
     

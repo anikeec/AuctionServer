@@ -7,11 +7,11 @@ package com.apu.auctionserver.server;
 
 import com.apu.auctionserver.auction.Auction;
 import com.apu.auctionserver.utils.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  *
@@ -33,13 +33,17 @@ public class UserControlService {
         long curTime = new Date().getTime();
         int userId;
         long userLastQueryTimeValue;
+        List<Integer> idsToRemove = new ArrayList<>();
         for(Map.Entry<Integer,Date> entry:userLastQueryTime.entrySet()) {
             userId = entry.getKey();
             userLastQueryTimeValue = entry.getValue().getTime();
             if((curTime - userLastQueryTimeValue) > Time.USER_TIMEOUT) {
-                auction.updateUserByIdSetOffline(userId);
-                userLastQueryTime.remove(userId);
+                idsToRemove.add(userId);                
             }            
+        }
+        for(int id:idsToRemove) {
+            auction.updateUserByIdSetOffline(id);
+            userLastQueryTime.remove(id);
         }
     }
     

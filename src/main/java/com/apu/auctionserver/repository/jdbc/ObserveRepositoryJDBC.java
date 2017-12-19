@@ -27,15 +27,12 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public class ObserveRepositoryJDBC implements ObserveRepository {
     
     private static ObserveRepositoryJDBC instance;
-    private final JDBCService dbService = JDBCService.getInstance();
+    private static JDBCPool dbPool = JDBCPool.getInstance();
     private final LotRepository lotRepository = LotRepositoryJDBC.getInstance();
     private final UserRepository userRepository = UserRepositoryJDBC.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = ObserveRepositoryJDBC.class;
-    
-    PreparedStatement findStatement = null;
-    PreparedStatement insertStatement = null;
-    PreparedStatement removeStatement = null;
+
     String findByIdString =
         "select * from OBSERVE where lot_id = ?";
     String findByUserIdString =
@@ -65,10 +62,11 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
     @Override
     public List<AuctionLot> getObservableAuctionLotsByUser(User user) {
         Connection con = null;
+        PreparedStatement findStatement = null;
         List<AuctionLot> lotList = new ArrayList<>();
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByUserIdString);
                 findStatement.setInt(1, user.getUserId());
@@ -88,15 +86,11 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return lotList;
     }
@@ -104,10 +98,11 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
     @Override
     public List<Integer> getObserverIdListByAuctionLot(AuctionLot lot) {
         Connection con = null;
+        PreparedStatement findStatement = null;
         List<Integer> userIdList = new ArrayList<>();
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByLotIdString);
                 findStatement.setInt(1, lot.getLotId());
@@ -126,15 +121,11 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return userIdList;
     }
@@ -149,9 +140,10 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
     @Override
     public void addAuctionLotToObservableByUser(User user, AuctionLot lot) {
         Connection con = null;
+        PreparedStatement insertStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 Integer intValue;
                 insertStatement = con.prepareStatement(insertString);
@@ -180,23 +172,20 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }  
     }
 
     @Override
     public void clearObservableAuctionLotsByUser(User user) {
         Connection con = null;
+        PreparedStatement removeStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 removeStatement = con.prepareStatement(removeByUserIdString);
                 removeStatement.setInt(1, user.getUserId());
@@ -217,14 +206,10 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
     

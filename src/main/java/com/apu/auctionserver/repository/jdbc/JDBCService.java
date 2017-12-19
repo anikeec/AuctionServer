@@ -22,9 +22,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public class JDBCService {
     
     private static final Log log = Log.getInstance();
-    private static final Class classname = JDBCService.class;
-    private static Connection connection;
-    private static Statement statement;
+    private static final Class classname = JDBCService.class;    
     private static JDBCService instance;
     
     private JDBCService() {
@@ -44,19 +42,10 @@ public class JDBCService {
         }
         return props.getProperty(propertyName, "");        
     }
-
-    public synchronized Connection getConnection() {
-        return connection;
-    }
-
-    public synchronized Statement getStatement() {
-        return statement;
-    }
     
     public synchronized Connection dbConnect() 
                     throws IOException, ClassNotFoundException, SQLException  {
-        connection = null;
-//        try {
+        
             String dbDriver = loadProperty("DB_DRIVER");
             String dbConnectionUrl = loadProperty("DB_CONNECTION_URL");
             String dbUser = loadProperty("DB_USER");
@@ -65,18 +54,12 @@ public class JDBCService {
             
             Class.forName(dbDriver);
             
-            connection = DriverManager.getConnection(
+            Connection connection = DriverManager.getConnection(
                     dbConnectionUrl + dbName, dbUser, dbPassword);        
-            statement = connection.createStatement();
-//        } catch (SQLException | IOException | ClassNotFoundException ex) {
-//            log.debug(classname,ExceptionUtils.getStackTrace(ex));
-//        }
         return connection;
     }
     
-    public synchronized void dbDisconnect() throws SQLException {
-        if(statement != null) 
-                statement.close();
+    public synchronized void dbDisconnect(Connection connection) throws SQLException {
         if(connection != null) 
                 connection.close();
     }

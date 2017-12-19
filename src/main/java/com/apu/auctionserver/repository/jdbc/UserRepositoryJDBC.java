@@ -25,14 +25,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public class UserRepositoryJDBC implements UserRepository {
     
     private static UserRepositoryJDBC instance;
-    private final JDBCService dbService = JDBCService.getInstance();
+    private static JDBCPool dbPool = JDBCPool.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = UserRepositoryJDBC.class;
     
-    PreparedStatement findStatement = null;
-    PreparedStatement insertStatement = null;
-    PreparedStatement updateStatement = null;
-    PreparedStatement removeStatement = null;
     String findByIdString =
         "select * from USER where user.user_id = ?"; 
     String findAllString =
@@ -64,10 +60,11 @@ public class UserRepositoryJDBC implements UserRepository {
     @Override
     public List<User> getAuctionUsers() {
         Connection con = null;
+        PreparedStatement findStatement = null;
         List<User> userList = new ArrayList<>();
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findAllString);
                 log.debug(classname, findStatement.toString());
@@ -88,15 +85,11 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return userList;
     }
@@ -104,10 +97,11 @@ public class UserRepositoryJDBC implements UserRepository {
     @Override
     public User getUserById(int userId) {
         Connection con = null;
+        PreparedStatement findStatement = null;
         User user = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByIdString);
                 findStatement.setInt(1, userId);
@@ -127,15 +121,11 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
             return null;
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
         return user;
     }
@@ -143,9 +133,10 @@ public class UserRepositoryJDBC implements UserRepository {
     @Override
     public void removeUserById(int userId) {
         Connection con = null;
+        PreparedStatement removeStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 removeStatement = con.prepareStatement(removeString);
                 removeStatement.setInt(1, userId);
@@ -166,23 +157,22 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
 
     @Override
     public void saveUser(User user) {
         Connection con = null;
+        PreparedStatement findStatement = null;
+        PreparedStatement insertStatement = null;
+        PreparedStatement updateStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 findStatement = con.prepareStatement(findByIdString);
                 findStatement.setInt(1, user.getUserId());
@@ -247,23 +237,20 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
 
     @Override
     public void updateUserByIdSetOnline(int userId) {
         Connection con = null;
+        PreparedStatement updateStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 updateStatement = con.prepareStatement(updateStatusString);                    
                 updateStatement.setString(1, Auction.USER_ONLINE); 
@@ -284,23 +271,20 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
 
     @Override
     public void updateUserByIdSetOffline(int userId) {
         Connection con = null;
+        PreparedStatement updateStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 updateStatement = con.prepareStatement(updateStatusString);                    
                 updateStatement.setString(1, Auction.USER_OFFLINE); 
@@ -321,23 +305,20 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
 
     @Override
     public void updateUserAllSetStatus(String status) {
         Connection con = null;
+        PreparedStatement updateStatement = null;
         try {        
             try {
-                con = dbService.dbConnect();
+                con = dbPool.getConnection();
                 con.setAutoCommit(false);
                 updateStatement = con.prepareStatement(updateAllStatusString);                    
                 updateStatement.setString(1, status); 
@@ -357,14 +338,10 @@ public class UserRepositoryJDBC implements UserRepository {
                     con.setAutoCommit(true);
                 }
             }
-        } catch(IOException | ClassNotFoundException | SQLException ex) {
+        } catch(SQLException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         } finally {
-            try {
-                dbService.dbDisconnect();
-            } catch (SQLException ex) {
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
+            dbPool.putConnection(con);
         }
     }
     
