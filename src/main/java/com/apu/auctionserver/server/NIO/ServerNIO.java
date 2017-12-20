@@ -5,17 +5,15 @@
  */
 package com.apu.auctionserver.server.NIO;
 
-import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageReaderFactory;
-import com.apu.auctionserver.server.NIO.message.IMessageReaderFactory;
 import com.apu.auctionserver.server.NIO.message.MessageBuffer;
 import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageProcessor;
+import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageReader;
 import com.apu.auctionserver.server.NIO.message.IMessageProcessor;
+import com.apu.auctionserver.server.NIO.message.IMessageReader;
 import com.apu.auctionserver.server.Server;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -36,11 +34,11 @@ public class ServerNIO implements Server {
     private ServerSocketNIOAccepter  socketAccepter  = null;
     private ServerSocketNIOProcessor socketProcessor = null;
     
-    private IMessageReaderFactory messageReaderFactory = 
-            new AuctionAPIMessageReaderFactory();
+    private final IMessageReader messageReader = 
+                                new AuctionAPIMessageReader();
     
-    private IMessageProcessor messageProcessor = 
-            new AuctionAPIMessageProcessor();
+    private final IMessageProcessor messageProcessor = 
+                                new AuctionAPIMessageProcessor();
 
     public ServerNIO(int port, int backlog) {
         this.serverPort = port;
@@ -63,7 +61,7 @@ public class ServerNIO implements Server {
                 new ServerSocketNIOProcessor(socketQueue, 
                                                 readBuffer, 
                                                 writeBuffer, 
-                                                this.messageReaderFactory, 
+                                                this.messageReader, 
                                                 this.messageProcessor);
         
         Thread accepterThread  = new Thread(this.socketAccepter);

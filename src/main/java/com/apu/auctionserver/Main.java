@@ -8,6 +8,7 @@ package com.apu.auctionserver;
 import com.apu.auctionserver.auction.Auction;
 import com.apu.auctionserver.server.Server;
 import com.apu.auctionserver.server.IO.ServerIO;
+import com.apu.auctionserver.server.NIO.ServerNIO;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -27,7 +28,7 @@ public class Main {
         Auction.getInstance().init();
         
         try {
-            server = new ServerIO(CONNECTION_PORT, CONNECTIONS_MAX);
+            server = new ServerNIO(CONNECTION_PORT, CONNECTIONS_MAX);
             server.accept();
         } catch (IOException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));

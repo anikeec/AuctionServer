@@ -43,10 +43,12 @@ public class AuctionAPIMessageReader implements IMessageReader {
 
         this.nextMessage.writeToMessage(byteBuffer);
 
-        int endIndex = HttpUtil.parseHttpRequest(this.nextMessage.sharedArray, this.nextMessage.offset, this.nextMessage.offset + this.nextMessage.length, (HttpHeaders) this.nextMessage.metaData);
+        int endIndex = AuctionAPIUtil
+                .parseRequest(this.nextMessage.sharedArray, 
+                            this.nextMessage.offset, 
+                            this.nextMessage.offset + this.nextMessage.length);
         if(endIndex != -1){
             Message message = this.messageBuffer.getMessage();
-            message.metaData = new HttpHeaders();
 
             message.writePartialMessageToMessage(nextMessage, endIndex);
 

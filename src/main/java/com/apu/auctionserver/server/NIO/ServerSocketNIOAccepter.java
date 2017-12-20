@@ -47,7 +47,7 @@ public class ServerSocketNIOAccepter implements Runnable {
             try{
                 SocketChannel socketChannel = this.serverSocket.accept();
 
-                System.out.println("Socket accepted: " + socketChannel);
+                log.debug(classname, "Socket accepted: " + socketChannel);
 
                 //todo check if the queue can even accept more sockets.
                 this.socketQueue.add(new SocketNIO(socketChannel));
