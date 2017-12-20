@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.server;
+package com.apu.auctionserver.server.IO;
 
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.NetworkController;
