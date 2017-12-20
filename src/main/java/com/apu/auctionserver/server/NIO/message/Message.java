@@ -25,6 +25,11 @@ public class Message {
     public Message(MessageBuffer messageBuffer) {
         this.messageBuffer = messageBuffer;
     }
+    
+    public String getMessageStr() {
+        String str = new String(sharedArray, offset, length);        
+        return str;
+    }
 
     /**
      * Writes data from the ByteBuffer into this message - meaning into the buffer backing this message.

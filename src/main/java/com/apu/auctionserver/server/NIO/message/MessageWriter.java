@@ -30,6 +30,7 @@ public class MessageWriter {
     }
 
     public void write(SocketNIO socket, ByteBuffer byteBuffer) throws IOException {
+        this.bytesWritten = 0;//apu changes
         byteBuffer.put(this.messageInProgress.sharedArray, this.messageInProgress.offset + this.bytesWritten, this.messageInProgress.length - this.bytesWritten);
         byteBuffer.flip();
 
