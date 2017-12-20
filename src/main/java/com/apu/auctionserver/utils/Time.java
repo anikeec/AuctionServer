@@ -19,7 +19,7 @@ public class Time {
     public static final long USER_CHECK_TIMEOUT = 5*SECOND;
     
     public static String getTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSSZ");
         return dateFormat.format(new Date());
     }
     
