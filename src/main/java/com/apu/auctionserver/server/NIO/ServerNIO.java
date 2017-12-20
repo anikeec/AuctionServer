@@ -5,18 +5,72 @@
  */
 package com.apu.auctionserver.server.NIO;
 
+import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageReaderFactory;
+import com.apu.auctionserver.server.NIO.message.IMessageReaderFactory;
+import com.apu.auctionserver.server.NIO.message.MessageBuffer;
+import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageProcessor;
+import com.apu.auctionserver.server.NIO.message.IMessageProcessor;
 import com.apu.auctionserver.server.Server;
+import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  *
  * @author apu
  */
 public class ServerNIO implements Server {
+    
+    public static final int CONNECTION_QUEUE_SIZE = 1024;
+    private final Log log = Log.getInstance();
+    private final Class classname = ServerNIO.class;
+    
+    private ServerSocketChannel serverSocketChannel;
+    private final int serverPort;
+    private final int backlog;
+    
+    private ServerSocketNIOAccepter  socketAccepter  = null;
+    private ServerSocketNIOProcessor socketProcessor = null;
+    
+    private IMessageReaderFactory messageReaderFactory = 
+            new AuctionAPIMessageReaderFactory();
+    
+    private IMessageProcessor messageProcessor = 
+            new AuctionAPIMessageProcessor();
+
+    public ServerNIO(int port, int backlog) {
+        this.serverPort = port;
+        this.backlog = backlog;
+    }    
 
     @Override
     public void accept() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Queue socketQueue = new ArrayBlockingQueue(CONNECTION_QUEUE_SIZE);
+        
+        this.socketAccepter  = 
+                new ServerSocketNIOAccepter(serverPort, socketQueue);
+        
+        
+        MessageBuffer readBuffer  = new MessageBuffer();
+        MessageBuffer writeBuffer = new MessageBuffer(); 
+        
+        this.socketProcessor = 
+                new ServerSocketNIOProcessor(socketQueue, 
+                                                readBuffer, 
+                                                writeBuffer, 
+                                                this.messageReaderFactory, 
+                                                this.messageProcessor);
+        
+        Thread accepterThread  = new Thread(this.socketAccepter);
+        Thread processorThread = new Thread(this.socketProcessor);
+        
+        accepterThread.start();
+        processorThread.start();
     }
     
 }
