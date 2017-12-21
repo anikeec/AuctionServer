@@ -5,16 +5,18 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
+import com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor;
+
 /**
  *
  * @author apu
  */
 public class AuctionAPIUtil {
 
-    public static int parseRequest(byte[] src, int startIndex, int endIndex){
+    public static int parseRequest(byte[] src, int length){
 
         //wait for end of line
-        int endOfFirstLine = findNextLineBreak(src, startIndex, endIndex);
+        int endOfFirstLine = findNextLineBreak(src, 0, length);
         if(endOfFirstLine == -1) return -1;
 
         return endOfFirstLine;

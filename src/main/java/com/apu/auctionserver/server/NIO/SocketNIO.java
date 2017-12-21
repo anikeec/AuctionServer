@@ -6,7 +6,7 @@
 package com.apu.auctionserver.server.NIO;
 
 import com.apu.auctionserver.server.NIO.message.MessageWriter;
-import com.apu.auctionserver.server.NIO.message.IMessageReader;
+import com.apu.auctionserver.server.NIO.message.MessageReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -19,7 +19,7 @@ public class SocketNIO {
     public long socketId;
 
     public SocketChannel  socketChannel = null;
-    public IMessageReader messageReader = null;
+    public MessageReader messageReader = null;
     public MessageWriter  messageWriter = null;
 
     public boolean endOfStreamReached = false;

@@ -5,6 +5,7 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
+import com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor;
 import com.apu.auctionserver.server.NIO.SocketNIO;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -21,6 +22,9 @@ public class MessageWriter {
     private Message  messageInProgress = null;
     private int      bytesWritten      =    0;
     
+    public MessageWriter() {
+    }
+    
     public void enqueue(Message message) {
         if(this.messageInProgress == null){
             this.messageInProgress = message;
@@ -28,26 +32,43 @@ public class MessageWriter {
             this.writeQueue.add(message);
         }
     }
-
+    
+    /*
+        1 - we have to check if bytes are available in the byteBuffer,
+        1a - if available(messageInProgress != null) then send them,
+        1b - if no data in bytebuffer then move next message to messageInProgress and then to byteBuffer, previously clear buffer    
+    */
     public void write(SocketNIO socket, ByteBuffer byteBuffer) throws IOException {
-        this.bytesWritten = 0;//apu changes
-        byteBuffer.put(this.messageInProgress.sharedArray, this.messageInProgress.offset + this.bytesWritten, this.messageInProgress.length - this.bytesWritten);
-        byteBuffer.flip();
-
-        this.bytesWritten += socket.write(byteBuffer);
-        byteBuffer.clear();
-
-        if(bytesWritten >= this.messageInProgress.length){
+//        ByteBuffer byteBuffer = ByteBuffer.allocate(ServerSocketNIOProcessor.BYTE_BUFFER_SIZE);
+        if(this.messageInProgress != null) {
+            // we have some data in the byteBuffer, full size of data = messageInProgress.size
+            byteBuffer.clear();
+            byteBuffer.put(this.messageInProgress.getMessageAsArray(), 
+                    this.bytesWritten, 
+                    this.messageInProgress.getMessageAsArray().length - this.bytesWritten);
+            byteBuffer.flip();
+            
+            this.bytesWritten += socket.write(byteBuffer);
+            byteBuffer.clear();
+            
+            if(bytesWritten >= this.messageInProgress.getMessageAsArray().length){
+                this.messageInProgress = null;
+            } 
+        }
+        
+        if(this.messageInProgress == null) {
             if(this.writeQueue.size() > 0){
                 this.messageInProgress = this.writeQueue.remove(0);
             } else {
                 this.messageInProgress = null;
                 //todo unregister from selector
             }
-        }
+            bytesWritten = 0;
+        }  
+               
     }
 
     public boolean isEmpty() {
-        return this.writeQueue.isEmpty() && this.messageInProgress == null;
+        return this.writeQueue.isEmpty();// && this.messageInProgress == null
     }
 }

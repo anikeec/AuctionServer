@@ -9,23 +9,19 @@ import com.apu.auctionserver.nw.NetworkController;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.server.NIO.WriteProxy;
 import com.apu.auctionserver.utils.Log;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  *
  * @author apu
  */
-public class AuctionAPIMessageProcessor implements IMessageProcessor {
+public class MessageProcessor {
     
     private final Log log = Log.getInstance();
-    private final Class classname = AuctionAPIMessageProcessor.class;
+    private final Class classname = MessageProcessor.class;
     
     private static int counter = 0;
 
-    @Override
     public void process(Message message, WriteProxy writeProxy) {
         String query = message.getMessageStr();
         log.debug(classname, "Message Received from socket: " + message.socketId);
@@ -38,7 +34,7 @@ public class AuctionAPIMessageProcessor implements IMessageProcessor {
             if(counter > 1) {
                 log.debug(classname, "pause");
             }
-            Message response = writeProxy.getMessage();
+            Message response = new Message();
             response.socketId = message.socketId;
             
             response.writeToMessage(answer.getBytes());

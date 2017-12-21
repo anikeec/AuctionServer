@@ -6,10 +6,9 @@
 package com.apu.auctionserver.server.NIO;
 
 import com.apu.auctionserver.server.NIO.message.MessageWriter;
-import com.apu.auctionserver.server.NIO.message.MessageBuffer;
 import com.apu.auctionserver.server.NIO.message.Message;
-import com.apu.auctionserver.server.NIO.message.IMessageProcessor;
-import com.apu.auctionserver.server.NIO.message.IMessageReader;
+import com.apu.auctionserver.server.NIO.message.MessageReader;
+import com.apu.auctionserver.server.NIO.message.MessageProcessor;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -35,23 +34,23 @@ public class ServerSocketNIOProcessor implements Runnable {
     private final Log log = Log.getInstance();
     private final Class classname = ServerSocketNIOProcessor.class;
     
+    public static int BYTE_BUFFER_SIZE = 1024;
+    private final Map<Long,ByteBuffer> readBuffersMap = new HashMap<>();//here we store all buffers for every socket SocketId -> ByteBuffer
+    private final Map<Long,ByteBuffer> writeBuffersMap = new HashMap<>();
+    
     private Queue<SocketNIO>  inboundSocketQueue   = null;
 
-    private MessageBuffer  readMessageBuffer    = null; //todo   Not used now - but perhaps will be later - to check for space in the buffer before reading from sockets
-    private MessageBuffer  writeMessageBuffer   = null; //todo   Not used now - but perhaps will be later - to check for space in the buffer before reading from sockets (space for more to write?)
-
-    private IMessageReader messageReader = null;
+    private MessageReader messageReader = null;
 
     private Queue<Message> outboundMessageQueue = new LinkedList<>(); //todo use a better / faster queue.
 
     private Map<Long, SocketNIO> socketMap         = new HashMap<>();
 
-    private ByteBuffer readByteBuffer  = ByteBuffer.allocate(1024 * 1024);
     private ByteBuffer writeByteBuffer = ByteBuffer.allocate(1024 * 1024);
     private Selector   readSelector    = null;
     private Selector   writeSelector   = null;
 
-    private IMessageProcessor messageProcessor = null;
+    private MessageProcessor messageProcessor = null;
     private WriteProxy        writeProxy       = null;
 
     private long              nextSocketId = 16 * 1024; //start incoming socket ids from 16K - reserve bottom ids for pre-defined sockets (servers).
@@ -59,16 +58,12 @@ public class ServerSocketNIOProcessor implements Runnable {
     private Set<SocketNIO> emptyToNonEmptySockets = new HashSet<>();
     private Set<SocketNIO> nonEmptyToEmptySockets = new HashSet<>();
 
-    public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue,
-                                    MessageBuffer readMessageBuffer, 
-                                    MessageBuffer writeMessageBuffer, 
-                                    IMessageReader messageReader, 
-                                    IMessageProcessor messageProcessor) throws IOException {
+    public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue, 
+                                    MessageReader messageReader, 
+                                    MessageProcessor messageProcessor) throws IOException {
         this.inboundSocketQueue = inboundSocketQueue;
         
-        this.readMessageBuffer    = readMessageBuffer;
-        this.writeMessageBuffer   = writeMessageBuffer;
-        this.writeProxy           = new WriteProxy(writeMessageBuffer, this.outboundMessageQueue);
+        this.writeProxy           = new WriteProxy(this.outboundMessageQueue);
         
         this.messageReader        = messageReader;
         
@@ -111,11 +106,13 @@ public class ServerSocketNIOProcessor implements Runnable {
             newSocket.socketChannel.configureBlocking(false);
 
             newSocket.messageReader = this.messageReader;
-            newSocket.messageReader.init(this.readMessageBuffer);
+//            newSocket.messageReader.init(this.readMessageBuffer);
 
             newSocket.messageWriter = new MessageWriter();
 
             this.socketMap.put(newSocket.socketId, newSocket);
+            this.readBuffersMap.put(newSocket.socketId, ByteBuffer.allocate(BYTE_BUFFER_SIZE));
+            this.writeBuffersMap.put(newSocket.socketId, ByteBuffer.allocate(BYTE_BUFFER_SIZE));
 
             SelectionKey key = newSocket.socketChannel
                         .register(this.readSelector, SelectionKey.OP_READ);
@@ -145,7 +142,8 @@ public class ServerSocketNIOProcessor implements Runnable {
     
     private void readFromSocket(SelectionKey key) throws IOException {
         SocketNIO socket = (SocketNIO) key.attachment();
-        socket.messageReader.read(socket, this.readByteBuffer);
+        ByteBuffer bBuffer = this.readBuffersMap.get(socket.socketId);
+        socket.messageReader.read(socket, bBuffer);
 
         List<Message> fullMessages = socket.messageReader.getMessages();
         if(fullMessages.size() > 0){
@@ -188,7 +186,8 @@ public class ServerSocketNIOProcessor implements Runnable {
 
                 SocketNIO socket = (SocketNIO) key.attachment();
 
-                socket.messageWriter.write(socket, this.writeByteBuffer);
+                ByteBuffer bBuffer = this.writeBuffersMap.get(socket.socketId);
+                socket.messageWriter.write(socket, bBuffer);
 
                 if(socket.messageWriter.isEmpty()){
                     this.nonEmptyToEmptySockets.add(socket);

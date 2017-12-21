@@ -5,7 +5,10 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
+import com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,100 +16,44 @@ import java.nio.ByteBuffer;
  */
 public class Message {
     
-    private MessageBuffer messageBuffer = null;
+    private StringBuffer stringBuffer = new StringBuffer();
     
     public long socketId = 0; // the id of source socket or destination socket, depending on whether is going in or out.
-
-    public byte[] sharedArray = null;
-    public int    offset      = 0; //offset into sharedArray where this message data starts.
-    public int    capacity    = 0; //the size of the section in the sharedArray allocated to this message.
-    public int    length      = 0; //the number of bytes used of the allocated section.
     
-    public Message(MessageBuffer messageBuffer) {
-        this.messageBuffer = messageBuffer;
+    public Message() {
     }
     
-    public String getMessageStr() {
-        String str = new String(sharedArray, offset, length);        
-        return str;
+    public byte[] getMessageAsArray() {        
+        byte[] array = stringBuffer.toString().getBytes();
+        return array;
+    }
+    
+    public String getMessageStr() {       
+        return stringBuffer.toString();
     }
 
-    /**
-     * Writes data from the ByteBuffer into this message - meaning into the buffer backing this message.
-     *
-     * @param byteBuffer The ByteBuffer containing the message data to write.
-     * @return
-     */
-    public int writeToMessage(ByteBuffer byteBuffer){
-        int remaining = byteBuffer.remaining();
-
-        while(this.length + remaining > capacity){
-            if(!this.messageBuffer.expandMessage(this)) {
-                return -1;
-            }
-        }
-
-        int bytesToCopy = Math.min(remaining, this.capacity - this.length);
-        byteBuffer.get(this.sharedArray, this.offset + this.length, bytesToCopy);
-        this.length += bytesToCopy;
-
-        return bytesToCopy;
+    public void writeToMessage(byte[] byteArray){
+        String str = new String(byteArray);
+        this.stringBuffer = new StringBuffer(str);
     }
 
-
-
-
-    /**
-     * Writes data from the byte array into this message - meaning into the buffer backing this message.
-     *
-     * @param byteArray The byte array containing the message data to write.
-     * @return
-     */
-    public int writeToMessage(byte[] byteArray){
-        return writeToMessage(byteArray, 0, byteArray.length);
-    }
-
-
-    /**
-     * Writes data from the byte array into this message - meaning into the buffer backing this message.
-     *
-     * @param byteArray The byte array containing the message data to write.
-     * @return
-     */
-    public int writeToMessage(byte[] byteArray, int offset, int length){
-        int remaining = length;
-
-        while(this.length + remaining > capacity){
-            if(!this.messageBuffer.expandMessage(this)) {
-                return -1;
-            }
-        }
-
-        int bytesToCopy = Math.min(remaining, this.capacity - this.length);
-        System.arraycopy(byteArray, offset, this.sharedArray, this.offset + this.length, bytesToCopy);
-        this.length += bytesToCopy;
-        return bytesToCopy;
-    }
-
-
-
-
-    /**
-     * In case the buffer backing the nextMessage contains more than one HTTP message, move all data after the first
-     * message to a new Message object.
-     *
-     * @param message   The message containing the partial message (after the first message).
-     * @param endIndex  The end index of the first message in the buffer of the message given as parameter.
-     */
-    public void writePartialMessageToMessage(Message message, int endIndex){
-        int startIndexOfPartialMessage = message.offset + endIndex;
-        int lengthOfPartialMessage     = (message.offset + message.length) - endIndex;
-
-        System.arraycopy(message.sharedArray, startIndexOfPartialMessage, this.sharedArray, this.offset, lengthOfPartialMessage);
-    }
-
-    public int writeToByteBuffer(ByteBuffer byteBuffer){
-        return 0;
+    public void writePartialMessageToMessage(ByteBuffer srcBuffer, int endIndex){
+        int size = ServerSocketNIOProcessor.BYTE_BUFFER_SIZE;
+        int length = endIndex + 1;                                              //question ????????
+//        int addSymbolsLength = 2;
+        byte[] destBuffer = new byte[length];
+        System.arraycopy(srcBuffer.array(), 0, destBuffer, 0, length);
+        String str = new String(destBuffer);
+        destBuffer = new byte[size];
+        this.stringBuffer.append(str);
+        
+        System.arraycopy(srcBuffer.array(), 
+                            length, 
+                            destBuffer, 
+                            0, 
+                            size - length);
+        srcBuffer.clear();
+        srcBuffer.put(destBuffer, 0, size);
     }
     
 }

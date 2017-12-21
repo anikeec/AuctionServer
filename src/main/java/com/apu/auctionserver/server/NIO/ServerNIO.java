@@ -5,11 +5,8 @@
  */
 package com.apu.auctionserver.server.NIO;
 
-import com.apu.auctionserver.server.NIO.message.MessageBuffer;
-import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageProcessor;
-import com.apu.auctionserver.server.NIO.message.AuctionAPIMessageReader;
-import com.apu.auctionserver.server.NIO.message.IMessageProcessor;
-import com.apu.auctionserver.server.NIO.message.IMessageReader;
+import com.apu.auctionserver.server.NIO.message.MessageProcessor;
+import com.apu.auctionserver.server.NIO.message.MessageReader;
 import com.apu.auctionserver.server.Server;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
@@ -34,11 +31,11 @@ public class ServerNIO implements Server {
     private ServerSocketNIOAccepter  socketAccepter  = null;
     private ServerSocketNIOProcessor socketProcessor = null;
     
-    private final IMessageReader messageReader = 
-                                new AuctionAPIMessageReader();
+    private final MessageReader messageReader = 
+                                new MessageReader();
     
-    private final IMessageProcessor messageProcessor = 
-                                new AuctionAPIMessageProcessor();
+    private final MessageProcessor messageProcessor = 
+                                new MessageProcessor();
 
     public ServerNIO(int port, int backlog) {
         this.serverPort = port;
@@ -51,16 +48,10 @@ public class ServerNIO implements Server {
         Queue socketQueue = new ArrayBlockingQueue(CONNECTION_QUEUE_SIZE);
         
         this.socketAccepter  = 
-                new ServerSocketNIOAccepter(serverPort, socketQueue);
-        
-        
-        MessageBuffer readBuffer  = new MessageBuffer();
-        MessageBuffer writeBuffer = new MessageBuffer(); 
+                new ServerSocketNIOAccepter(serverPort, socketQueue); 
         
         this.socketProcessor = 
                 new ServerSocketNIOProcessor(socketQueue, 
-                                                readBuffer, 
-                                                writeBuffer, 
                                                 this.messageReader, 
                                                 this.messageProcessor);
         

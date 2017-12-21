@@ -5,7 +5,6 @@
  */
 package com.apu.auctionserver.server.NIO;
 
-import com.apu.auctionserver.server.NIO.message.MessageBuffer;
 import com.apu.auctionserver.server.NIO.message.Message;
 import java.util.Queue;
 
@@ -15,16 +14,10 @@ import java.util.Queue;
  */
 public class WriteProxy {
     
-    private MessageBuffer messageBuffer = null;
     private Queue        writeQueue     = null;
 
-    public WriteProxy(MessageBuffer messageBuffer, Queue writeQueue) {
-        this.messageBuffer = messageBuffer;
+    public WriteProxy(Queue writeQueue) {
         this.writeQueue = writeQueue;
-    }
-
-    public Message getMessage(){
-        return this.messageBuffer.getMessage();
     }
 
     public boolean enqueue(Message message){
