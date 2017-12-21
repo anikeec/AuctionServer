@@ -5,8 +5,8 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
-import com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor;
 import com.apu.auctionserver.server.NIO.SocketNIO;
+import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -17,6 +17,9 @@ import java.util.List;
  * @author apu
  */
 public class MessageWriter {
+    
+    private final Log log = Log.getInstance();
+    private final Class classname = MessageWriter.class;
     
     private List<Message> writeQueue   = new ArrayList<>();
     private Message  messageInProgress = null;
@@ -43,6 +46,7 @@ public class MessageWriter {
         if(this.messageInProgress != null) {
             // we have some data in the byteBuffer, full size of data = messageInProgress.size
             byteBuffer.clear();
+            int length = this.messageInProgress.getMessageAsArray().length;
             byteBuffer.put(this.messageInProgress.getMessageAsArray(), 
                     this.bytesWritten, 
                     this.messageInProgress.getMessageAsArray().length - this.bytesWritten);
@@ -51,8 +55,9 @@ public class MessageWriter {
             this.bytesWritten += socket.write(byteBuffer);
             byteBuffer.clear();
             
-            if(bytesWritten >= this.messageInProgress.getMessageAsArray().length){
+            if(bytesWritten >= this.messageInProgress.getMessageStr().length()){
                 this.messageInProgress = null;
+                log.debug(classname, "Answer sended.");
             } 
         }
         

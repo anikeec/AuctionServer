@@ -8,6 +8,8 @@ package com.apu.auctionserver.server.NIO;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
+import static java.net.StandardSocketOptions.SO_SNDBUF;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Queue;
@@ -36,6 +38,7 @@ public class ServerSocketNIOAccepter implements Runnable {
     public void run() {
         try{
             this.serverSocket = ServerSocketChannel.open();
+//            this.serverSocket.setOption(SO_SNDBUF, 100);
             this.serverSocket.bind(new InetSocketAddress(tcpPort));
         } catch(IOException ex){
             log.debug(classname,ExceptionUtils.getStackTrace(ex));

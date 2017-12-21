@@ -108,7 +108,8 @@ public class ConnectionHandler implements Runnable{
             }
     }
     
-    private void packetSend(Socket socket, String answer) throws IOException {                          
+    private void packetSend(Socket socket, String answer) throws IOException { 
+        log.debug(classname, "Answer: " + answer);
         OutputStream os = socket.getOutputStream();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(os));
         out.write(answer);
