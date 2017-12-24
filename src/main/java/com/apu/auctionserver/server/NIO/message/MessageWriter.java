@@ -53,6 +53,7 @@ public class MessageWriter {
             byteBuffer.flip();
             
             this.bytesWritten += socket.write(byteBuffer);
+            byteBuffer.rewind();
             byteBuffer.clear();
             
             if(bytesWritten >= this.messageInProgress.getMessageStr().length()){

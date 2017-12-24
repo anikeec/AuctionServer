@@ -44,16 +44,16 @@ public class Message {
         byte[] destBuffer = new byte[length];
         System.arraycopy(srcBuffer.array(), 0, destBuffer, 0, length);
         String str = new String(destBuffer);
-        destBuffer = new byte[size];
+//        destBuffer = new byte[size];
         this.stringBuffer.append(str);
         
-        System.arraycopy(srcBuffer.array(), 
-                            length, 
-                            destBuffer, 
-                            0, 
-                            size - length);
+//        System.arraycopy(srcBuffer.array(), 
+//                            length, 
+//                            destBuffer, 
+//                            0, 
+//                            size - length);
         srcBuffer.clear();
-        srcBuffer.put(destBuffer, 0, size);
+//        srcBuffer.put(destBuffer, 0, size);
     }
     
 }
