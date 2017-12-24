@@ -46,7 +46,6 @@ public class ServerSocketNIOProcessor implements Runnable {
 
     private Map<Long, SocketNIO> socketMap         = new HashMap<>();
 
-    private ByteBuffer writeByteBuffer = ByteBuffer.allocate(1024 * 1024);
     private Selector   readSelector    = null;
     private Selector   writeSelector   = null;
 
@@ -126,6 +125,7 @@ public class ServerSocketNIOProcessor implements Runnable {
         int readReady = this.readSelector.selectNow();
 
         if(readReady > 0){
+            log.debug(classname, "Have some keys");
             Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
 

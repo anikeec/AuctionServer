@@ -6,6 +6,7 @@
 package com.apu.auctionserver.server.NIO.message;
 
 import com.apu.auctionserver.server.NIO.SocketNIO;
+import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import java.util.List;
  * @author apu
  */
 public class MessageReader {
+    
+    private final Log log = Log.getInstance();
+    private final Class classname = MessageReader.class;
 
     private final List<Message> completeMessages = new ArrayList<>();
     
@@ -23,6 +27,7 @@ public class MessageReader {
     }
 
     public void read(SocketNIO socket, ByteBuffer byteBuffer) throws IOException {
+        log.debug(classname, "Begin reading bytes");
         int bytesRead = socket.read(byteBuffer);
         byteBuffer.flip();
 
@@ -38,6 +43,8 @@ public class MessageReader {
             message.writePartialMessageToMessage(byteBuffer, endIndex);
 
             completeMessages.add(message);
+        } else {
+            log.debug(classname, "Bytes read = " + bytesRead);
         }
 //        byteBuffer.clear();
     }
