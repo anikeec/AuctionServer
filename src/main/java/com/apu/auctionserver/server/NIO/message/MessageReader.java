@@ -28,6 +28,7 @@ public class MessageReader {
 
     public void read(SocketNIO socket, ByteBuffer byteBuffer) throws IOException {
         log.debug(classname, "Begin reading bytes");
+//        if(!socket.socketChannel.isConnected()) return;
         int bytesRead = socket.read(byteBuffer);
         byteBuffer.flip();
 

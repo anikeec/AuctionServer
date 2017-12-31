@@ -115,8 +115,19 @@ public class ServerSocketNIOProcessor implements Runnable {
 
             while(keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();
-
-                readFromSocket(key);
+                try {
+                    readFromSocket(key);
+                } catch (IOException ex) {
+                    log.debug(classname,ExceptionUtils.getStackTrace(ex));
+                    SocketNIO socket = (SocketNIO) key.attachment();
+                    log.debug(classname, "Socket closed: " + socket.socketId);
+                    this.socketMap.remove(socket.socketId);
+                    this.readBuffersMap.remove(socket.socketId);
+                    this.writeBuffersMap.remove(socket.socketId);
+                    key.attach(null);
+                    key.cancel();
+                    key.channel().close();
+                }
 
                 keyIterator.remove();
             }
