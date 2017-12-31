@@ -21,12 +21,9 @@ public class MessageWriter {
     private final Log log = Log.getInstance();
     private final Class classname = MessageWriter.class;
     
-    private List<Message> writeQueue   = new ArrayList<>();
+    private final List<Message> writeQueue   = new ArrayList<>();
     private Message  messageInProgress = null;
-    private int      bytesWritten      =    0;
-    
-    public MessageWriter() {
-    }
+    private int      bytesWritten  = 0;
     
     public void enqueue(Message message) {
         if(this.messageInProgress == null){
@@ -42,11 +39,9 @@ public class MessageWriter {
         1b - if no data in bytebuffer then move next message to messageInProgress and then to byteBuffer, previously clear buffer    
     */
     public void write(SocketNIO socket, ByteBuffer byteBuffer) throws IOException {
-//        ByteBuffer byteBuffer = ByteBuffer.allocate(ServerSocketNIOProcessor.BYTE_BUFFER_SIZE);
         if(this.messageInProgress != null) {
             // we have some data in the byteBuffer, full size of data = messageInProgress.size
             byteBuffer.clear();
-            int length = this.messageInProgress.getMessageAsArray().length;
             byteBuffer.put(this.messageInProgress.getMessageAsArray(), 
                     this.bytesWritten, 
                     this.messageInProgress.getMessageAsArray().length - this.bytesWritten);

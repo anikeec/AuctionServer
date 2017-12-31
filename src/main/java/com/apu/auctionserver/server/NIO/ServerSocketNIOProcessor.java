@@ -35,44 +35,34 @@ public class ServerSocketNIOProcessor implements Runnable {
     private final Class classname = ServerSocketNIOProcessor.class;
     
     public static int BYTE_BUFFER_SIZE = 1024;
-    private final Map<Long,ByteBuffer> readBuffersMap = new HashMap<>();//here we store all buffers for every socket SocketId -> ByteBuffer
-    private final Map<Long,ByteBuffer> writeBuffersMap = new HashMap<>();
+    private long nextSocketId = 16 * 1024; //start incoming socket ids from 16K - reserve bottom ids for pre-defined sockets (servers).
     
-    private Queue<SocketNIO>  inboundSocketQueue   = null;
+    private final Map<Long,ByteBuffer> readBuffersMap = new HashMap<>();
+    private final Map<Long,ByteBuffer> writeBuffersMap = new HashMap<>();
+    private final Map<Long, SocketNIO> socketMap = new HashMap<>();
+    private final Set<SocketNIO> emptyToNonEmptySockets = new HashSet<>();
+    private final Set<SocketNIO> nonEmptyToEmptySockets = new HashSet<>();
+    
+    private Queue<SocketNIO>  inboundSocketQueue = null;
+    private final Queue<Message> outboundMessageQueue = new LinkedList<>(); 
+    //todo use a better / faster queue.
 
-    private MessageReader messageReader = null;
-
-    private Queue<Message> outboundMessageQueue = new LinkedList<>(); //todo use a better / faster queue.
-
-    private Map<Long, SocketNIO> socketMap         = new HashMap<>();
-
-    private Selector   readSelector    = null;
-    private Selector   writeSelector   = null;
-
+    private MessageReader messageReader = null; 
     private MessageProcessor messageProcessor = null;
-    private WriteProxy        writeProxy       = null;
-
-    private long              nextSocketId = 16 * 1024; //start incoming socket ids from 16K - reserve bottom ids for pre-defined sockets (servers).
-
-    private Set<SocketNIO> emptyToNonEmptySockets = new HashSet<>();
-    private Set<SocketNIO> nonEmptyToEmptySockets = new HashSet<>();
+    private Selector   readSelector    = null;
+    private Selector   writeSelector   = null;    
+    private WriteProxy writeProxy      = null;
 
     public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue, 
                                     MessageReader messageReader, 
                                     MessageProcessor messageProcessor) throws IOException {
-        this.inboundSocketQueue = inboundSocketQueue;
-        
-        this.writeProxy           = new WriteProxy(this.outboundMessageQueue);
-        
-        this.messageReader        = messageReader;
-        
-        this.messageProcessor     = messageProcessor;
-        
+        this.inboundSocketQueue   = inboundSocketQueue;        
+        this.writeProxy           = new WriteProxy(this.outboundMessageQueue);        
+        this.messageReader        = messageReader;        
+        this.messageProcessor     = messageProcessor;        
         this.readSelector         = Selector.open();
         this.writeSelector        = Selector.open();
-    }
-    
-    
+    }    
 
     @Override
     public void run() {
@@ -98,15 +88,14 @@ public class ServerSocketNIOProcessor implements Runnable {
         while(newSocket != null){
             newSocket.socketId = this.nextSocketId++;
             newSocket.socketChannel.configureBlocking(false);
-
             newSocket.messageReader = this.messageReader;
-//            newSocket.messageReader.init(this.readMessageBuffer);
-
             newSocket.messageWriter = new MessageWriter();
 
             this.socketMap.put(newSocket.socketId, newSocket);
-            this.readBuffersMap.put(newSocket.socketId, ByteBuffer.allocate(BYTE_BUFFER_SIZE));
-            this.writeBuffersMap.put(newSocket.socketId, ByteBuffer.allocate(BYTE_BUFFER_SIZE));
+            this.readBuffersMap.put(newSocket.socketId, 
+                                    ByteBuffer.allocate(BYTE_BUFFER_SIZE));
+            this.writeBuffersMap.put(newSocket.socketId, 
+                                    ByteBuffer.allocate(BYTE_BUFFER_SIZE));
 
             SelectionKey key = newSocket.socketChannel
                         .register(this.readSelector, SelectionKey.OP_READ);
@@ -144,7 +133,7 @@ public class ServerSocketNIOProcessor implements Runnable {
         if(fullMessages.size() > 0){
             for(Message message : fullMessages){
                 message.socketId = socket.socketId;
-                this.messageProcessor.process(message, this.writeProxy);  //the message processor will eventually push outgoing messages into an IMessageWriter for this socket.
+                this.messageProcessor.process(message, this.writeProxy);  
             }
             fullMessages.clear();
         }
@@ -208,7 +197,6 @@ public class ServerSocketNIOProcessor implements Runnable {
     private void cancelEmptySockets() {
         for(SocketNIO socket : nonEmptyToEmptySockets){
             SelectionKey key = socket.socketChannel.keyFor(this.writeSelector);
-
             key.cancel();
         }
         nonEmptyToEmptySockets.clear();
@@ -224,7 +212,7 @@ public class ServerSocketNIOProcessor implements Runnable {
                 if(messageWriter.isEmpty()){
                     messageWriter.enqueue(outMessage);
                     nonEmptyToEmptySockets.remove(socket);
-                    emptyToNonEmptySockets.add(socket);    //not necessary if removed from nonEmptyToEmptySockets in prev. statement.
+                    emptyToNonEmptySockets.add(socket);    
                 } else{
                    messageWriter.enqueue(outMessage);
                 }
