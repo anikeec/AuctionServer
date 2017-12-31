@@ -79,13 +79,8 @@ public class ServerSocketNIOProcessor implements Runnable {
         while(true){
             try{
                 executeCycle();
-            } catch(IOException ex){
-                log.debug(classname,ExceptionUtils.getStackTrace(ex));
-            }
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
+                Thread.sleep(1);
+            } catch(IOException | InterruptedException ex){
                 log.debug(classname,ExceptionUtils.getStackTrace(ex));
             }
         }
@@ -157,6 +152,8 @@ public class ServerSocketNIOProcessor implements Runnable {
         if(socket.endOfStreamReached){
             log.debug(classname, "Socket closed: " + socket.socketId);
             this.socketMap.remove(socket.socketId);
+            this.readBuffersMap.remove(socket.socketId);
+            this.writeBuffersMap.remove(socket.socketId);
             key.attach(null);
             key.cancel();
             key.channel().close();
