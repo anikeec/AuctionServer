@@ -30,12 +30,6 @@ public class ServerNIO implements Server {
     
     private ServerSocketNIOAccepter  socketAccepter  = null;
     private ServerSocketNIOProcessor socketProcessor = null;
-    
-    private final MessageReader messageReader = 
-                                new MessageReader();
-    
-    private final MessageProcessor messageProcessor = 
-                                new MessageProcessor();
 
     public ServerNIO(int port, int backlog) {
         this.serverPort = port;
@@ -51,9 +45,7 @@ public class ServerNIO implements Server {
                 new ServerSocketNIOAccepter(serverPort, socketQueue); 
         
         this.socketProcessor = 
-                new ServerSocketNIOProcessor(socketQueue, 
-                                                this.messageReader, 
-                                                this.messageProcessor);
+                new ServerSocketNIOProcessor(socketQueue);
         
         Thread accepterThread  = new Thread(this.socketAccepter);
         Thread processorThread = new Thread(this.socketProcessor);

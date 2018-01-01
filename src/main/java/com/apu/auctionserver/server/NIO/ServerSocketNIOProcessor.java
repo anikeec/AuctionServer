@@ -47,21 +47,17 @@ public class ServerSocketNIOProcessor implements Runnable {
     private final Queue<Message> outboundMessageQueue = new LinkedList<>(); 
     //todo use a better / faster queue.
 
-    private MessageReader messageReader = null; 
-    private MessageProcessor messageProcessor = null;
+    private final MessageReader messageReader;    
+    private final MessageProcessor messageProcessor;
     private Selector   readSelector    = null;
     private Selector   writeSelector   = null;    
     private WriteProxy writeProxy      = null;
 
-    public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue, 
-                                    MessageReader messageReader, 
-                                    MessageProcessor messageProcessor) throws IOException {
+    public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue) throws IOException {
         this.inboundSocketQueue   = inboundSocketQueue;        
         this.writeProxy           = new WriteProxy(this.outboundMessageQueue);        
-        this.messageReader        = messageReader;        
-        this.messageProcessor     = messageProcessor;
-        this.messageProcessor.setWriteProxy(writeProxy);
-        this.messageProcessor.init();
+        this.messageReader        = new MessageReader();        
+        this.messageProcessor     = new MessageProcessor(writeProxy);
         this.readSelector         = Selector.open();
         this.writeSelector        = Selector.open();
     }    

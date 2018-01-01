@@ -19,6 +19,7 @@ public class MessageProcessorPool {
     
     List<Thread> mpThreadList = new ArrayList<>();
     
+    private final static int MP_POOL_SIZE = 3;
     private final BlockingQueue<Message> inputMessageQueue;
     private final BlockingQueue<Message> outputMessageQueue;
     private final NetworkController networkController;
@@ -35,7 +36,7 @@ public class MessageProcessorPool {
     }
     
     public void init() {
-        for(int i=0; i<10; i++) {
+        for(int i=0; i<MP_POOL_SIZE; i++) {
             Thread mpThread = 
                 new Thread(new MessageProcessorThread(networkController,
                                                         inputMessageQueue,

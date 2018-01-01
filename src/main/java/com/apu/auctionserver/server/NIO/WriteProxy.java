@@ -20,7 +20,7 @@ public class WriteProxy {
         this.writeQueue = writeQueue;
     }
 
-    public boolean enqueue(Message message){
+    public synchronized boolean enqueue(Message message){
         return this.writeQueue.offer(message);
     }
 

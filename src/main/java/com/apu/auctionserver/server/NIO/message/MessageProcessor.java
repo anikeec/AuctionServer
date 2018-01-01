@@ -6,13 +6,10 @@
 package com.apu.auctionserver.server.NIO.message;
 
 import com.apu.auctionserver.nw.NetworkController;
-import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.server.NIO.WriteProxy;
 import com.apu.auctionserver.utils.Log;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
@@ -30,25 +27,17 @@ public class MessageProcessor {
     private final BlockingQueue<Message> inputMessageQueue;
     private final BlockingQueue<Message> outputMessageQueue;
     
-    private MessageProcessorPool messageProcessorPool;
-    private WriteProxy writeProxy;
+    private final MessageProcessorPool messageProcessorPool;
 
-    public MessageProcessor() {
+    public MessageProcessor(WriteProxy writeProxy) {
         inputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
-        outputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);        
-    }
-    
-    public void init() {
+        outputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
         messageProcessorPool = 
                 new MessageProcessorPool(networkController,
                                             inputMessageQueue, 
                                             outputMessageQueue,
                                             writeProxy);
         messageProcessorPool.init();
-    }
-    
-    public void setWriteProxy(WriteProxy writeProxy) {
-        this.writeProxy = writeProxy;
     }
 
     public void process(Message message, WriteProxy writeProxy) {

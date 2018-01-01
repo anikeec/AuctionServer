@@ -10,8 +10,6 @@ import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.server.NIO.WriteProxy;
 import com.apu.auctionserver.utils.Log;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
