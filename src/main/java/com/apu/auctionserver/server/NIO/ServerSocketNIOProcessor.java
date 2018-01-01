@@ -59,7 +59,9 @@ public class ServerSocketNIOProcessor implements Runnable {
         this.inboundSocketQueue   = inboundSocketQueue;        
         this.writeProxy           = new WriteProxy(this.outboundMessageQueue);        
         this.messageReader        = messageReader;        
-        this.messageProcessor     = messageProcessor;        
+        this.messageProcessor     = messageProcessor;
+        this.messageProcessor.setWriteProxy(writeProxy);
+        this.messageProcessor.init();
         this.readSelector         = Selector.open();
         this.writeSelector        = Selector.open();
     }    
