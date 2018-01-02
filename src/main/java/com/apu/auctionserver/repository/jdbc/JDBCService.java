@@ -8,6 +8,7 @@ package com.apu.auctionserver.repository.jdbc;
 import com.apu.auctionserver.utils.Log;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -36,10 +37,9 @@ public class JDBCService {
     
     private static String loadProperty(String propertyName) throws IOException {
         Properties props = new Properties();
-        try (FileInputStream fis = 
-                new FileInputStream("src/main/resources/config.properties")) {
-            props.load(fis);
-        }
+        InputStream fins = JDBCService.class.getResourceAsStream("/config.properties");
+        if(fins!=null)
+            props.load(fins);
         return props.getProperty(propertyName, "");        
     }
     
