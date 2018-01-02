@@ -47,17 +47,19 @@ public class MessageProcessorThread implements Runnable {
         while(!Thread.currentThread().isInterrupted()) {
             message = null;
             try {
-                message = inputMessageQueue.take();
+                message = inputMessageQueue.take();                
             } catch (InterruptedException ex) {
                 log.debug(classname,ExceptionUtils.getStackTrace(ex));
             }
             if(message == null) continue;
             query = message.getMessageStr();
+            log.debug(classname,"Take from inputQuery: " + query);
             try {
                 answer = networkController.handle(query);
                 answerMessage = new Message();
                 answerMessage.socketId = message.socketId;
                 answerMessage.writeToMessage(answer.getBytes());
+                log.debug(classname,"Write to answerQuery: " + answerMessage.getMessageStr());
                 writeProxy.enqueue(answerMessage);
 //                outputMessageQueue.put(message);
             } catch (ErrorQueryException ex) {

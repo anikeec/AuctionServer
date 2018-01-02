@@ -23,14 +23,14 @@ public class MessageProcessor {
     
     NetworkController networkController = new NetworkController();
     
-    private static final int MESSAGE_QUEUE_SIZE = 10;
+    private static final int MESSAGE_QUEUE_SIZE = 100;
     private final BlockingQueue<Message> inputMessageQueue;
     private final BlockingQueue<Message> outputMessageQueue;
     
     private final MessageProcessorPool messageProcessorPool;
 
     public MessageProcessor(WriteProxy writeProxy) {
-        inputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
+        inputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE, true);
         outputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
         messageProcessorPool = 
                 new MessageProcessorPool(networkController,

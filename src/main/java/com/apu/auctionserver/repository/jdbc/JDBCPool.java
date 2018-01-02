@@ -18,7 +18,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  * @author apu
  */
 public class JDBCPool {
-    private static final int MAX_CONNECTIONS = 10;
+    private static final int MAX_CONNECTIONS = 20;
     private static final Deque<Connection> connectionsStack = new LinkedList<>();
     private static final JDBCService dbService = JDBCService.getInstance();
     private static final Log log = Log.getInstance();

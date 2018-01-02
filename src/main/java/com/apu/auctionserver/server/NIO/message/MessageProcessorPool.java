@@ -19,7 +19,7 @@ public class MessageProcessorPool {
     
     List<Thread> mpThreadList = new ArrayList<>();
     
-    private final static int MP_POOL_SIZE = 3;
+    private final static int MP_POOL_SIZE = 10;
     private final BlockingQueue<Message> inputMessageQueue;
     private final BlockingQueue<Message> outputMessageQueue;
     private final NetworkController networkController;
