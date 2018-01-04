@@ -67,8 +67,8 @@ public class ServerSocketNIOProcessor implements Runnable {
         while(true){
             try{
                 executeCycle();
-                Thread.sleep(1);
-            } catch(IOException | InterruptedException ex){
+//                Thread.sleep(1);
+            } catch(IOException  ex){
                 log.debug(classname,ExceptionUtils.getStackTrace(ex));
             }
         }
@@ -107,7 +107,7 @@ public class ServerSocketNIOProcessor implements Runnable {
         int readReady = this.readSelector.selectNow();
 
         if(readReady > 0){
-            log.debug(classname, "Have some keys");
+            log.debug(classname, "Have some keys. Amount: " + readReady);
             Set<SelectionKey> selectedKeys = this.readSelector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
 

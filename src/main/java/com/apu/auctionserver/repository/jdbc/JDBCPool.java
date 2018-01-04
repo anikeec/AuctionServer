@@ -51,12 +51,12 @@ public class JDBCPool {
             }
         }
         Connection con = connectionsStack.pollFirst();
-        log.debug(classname,"Get connection. Id: " + con.toString());
+//        log.debug(classname,"Get connection. Id: " + con.toString());
         return con;
     }
     
     public synchronized void putConnection(Connection con) {
-        log.debug(classname,"Put connection. Id: " + con.toString());
+//        log.debug(classname,"Put connection. Id: " + con.toString());
         connectionsStack.addFirst(con);
         notifyAll();
     }    

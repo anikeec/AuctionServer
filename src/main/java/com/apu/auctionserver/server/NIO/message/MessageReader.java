@@ -30,6 +30,7 @@ public class MessageReader {
         log.debug(classname, "Begin reading bytes");
 //        if(!socket.socketChannel.isConnected()) return;
         int bytesRead = socket.read(byteBuffer);
+        log.debug(classname, "Read bytes. Amount: " + bytesRead);
         byteBuffer.flip();
 
         if(byteBuffer.remaining() == 0){
