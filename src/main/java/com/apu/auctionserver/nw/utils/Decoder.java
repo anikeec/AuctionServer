@@ -30,23 +30,21 @@ public class Decoder {
     private static final Log log = Log.getInstance();
     private final Class classname = Decoder.class;
     
-    private String query;
     private final JsonParser parser = new JsonParser();
     private static Decoder instance;
     
-    private JsonElement jsonElement;
     private JsonObject rootObject;
     
     private Decoder() {
     }
     
-    public static Decoder getInstance() {
+    public synchronized static Decoder getInstance() {
         if(instance == null)
             instance = new Decoder();
         return instance;
     }
     
-    private void decode(RegistrationQuery result) throws Exception {
+    private synchronized void decode(RegistrationQuery result) throws Exception {
         log.debug(classname, "Registration packet");
         JsonArray array = rootObject.get("observableLotIdList").getAsJsonArray();
         Integer lotId;
@@ -56,15 +54,15 @@ public class Decoder {
         }
     }
     
-    private void decode(DisconnectQuery result)  throws Exception {
+    private synchronized void decode(DisconnectQuery result)  throws Exception {
         log.debug(classname, "DisconnectQuery packet");        
     }
     
-    private void decode(PingQuery result)  throws Exception {
+    private synchronized void decode(PingQuery result)  throws Exception {
         throw new Exception("Method has not ready yet");        
     }
     
-    private void decode(NewRateQuery result)  throws Exception {
+    private synchronized void decode(NewRateQuery result)  throws Exception {
         log.debug(classname, "NewRateQuery packet"); 
         int lotId = rootObject.get("lotId").getAsInt();
         result.setLotId(lotId);
@@ -76,21 +74,20 @@ public class Decoder {
 //        throw new Exception("Method has not ready yet");        
 //    }
     
-    private void decode(PollQuery result)  throws Exception {
+    private synchronized void decode(PollQuery result)  throws Exception {
         log.debug(classname, "Poll packet");        
     }
     
-    private void decode(SubscribeQuery result)  throws Exception {
+    private synchronized void decode(SubscribeQuery result)  throws Exception {
         log.debug(classname, "Subscribe packet decode");
         int lotId = rootObject.get("lotId").getAsInt();
         result.setLotId(lotId);
     }
     
-    public AuctionQuery decode(String query) throws ErrorQueryException {
-        this.query = query;
+    public synchronized AuctionQuery decode(String query) throws ErrorQueryException {
         AuctionQuery result = null;
         try {
-            jsonElement = parser.parse(query);
+            JsonElement jsonElement = parser.parse(query);
             rootObject = jsonElement.getAsJsonObject();
             String queryType = rootObject.get("queryType").getAsString();
             String time = rootObject.get("time").getAsString();
