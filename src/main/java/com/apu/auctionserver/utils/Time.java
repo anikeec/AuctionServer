@@ -23,4 +23,8 @@ public class Time {
         return dateFormat.format(new Date());
     }
     
+    public static long getTimeMs() {
+        return new Date().getTime();
+    }
+    
 }

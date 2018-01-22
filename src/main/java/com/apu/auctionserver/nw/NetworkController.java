@@ -23,6 +23,7 @@ import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
 import com.apu.auctionserver.server.UserControlService;
 import com.apu.auctionserver.utils.Log;
+import com.apu.auctionserver.utils.Time;
 import java.util.List;
 
 /**
@@ -86,6 +87,21 @@ public class NetworkController {
         AnswerQuery answer;
         if((lot != null)&& (user != null)) {
             UserControlService.notifyService(user.getUserId());
+            boolean auctionFinished = false;
+            if(lot.getFinishDate() != null) {
+                long finishTime = lot.getFinishDate().getTime();
+                long currentTime = Time.getTimeMs();
+                if(currentTime >= finishTime)
+                        auctionFinished = true;
+            } else {
+                auctionFinished = true;
+            }
+            if(auctionFinished) {
+                answer = new AnswerQuery(query.getPacketId(), 
+                                        user.getUserId(), 
+                        "NewRateQuery - Error. Auction has already finished.");
+                return answer;
+            }
             int price = query.getPrice();        
             if(price > lot.getLastRate()) {
                 lot.setLastRate(price);                
@@ -158,6 +174,14 @@ public class NetworkController {
                     lastRateUserId = 0;
                 List<Integer> observers = 
                         auction.getObserverIdListByAuctionLot(lot);
+                
+                long timeToFinish = 0;
+                if(lot.getFinishDate() != null) {
+                    long finishTime = lot.getFinishDate().getTime();
+                    long currentTime = Time.getTimeMs();
+                    if(finishTime > currentTime)
+                        timeToFinish = finishTime - currentTime;
+                }                
             
                 AuctionLotEntity entity = 
                         new AuctionLotEntity(lot.getLotId(),
@@ -165,7 +189,8 @@ public class NetworkController {
                                             lot.getLotName(),
                                             lot.getLastRate(),
                                             lastRateUserId,
-                                            observers.size());
+                                            observers.size(),
+                                            timeToFinish);
                 answer.addLotToCollection(entity);
         }
         return answer;
