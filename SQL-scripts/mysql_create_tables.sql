@@ -7,6 +7,7 @@ CREATE TABLE USER(
  login VARCHAR(20) DEFAULT '',
  passw_hash VARCHAR(20) DEFAULT '',
  status VARCHAR(20) DEFAULT 'OFFLINE',
+ socket_id  BIGINT,
  used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id) 
 );
