@@ -5,12 +5,15 @@
  */
 package com.apu.auctionserver.nw.utils;
 
+import com.apu.auctionapi.AuctionLotEntity;
 import com.apu.auctionapi.AuctionQuery;
 import com.apu.auctionapi.query.NewRateQuery;
 import com.apu.auctionapi.query.PingQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.QueryType;
 import com.apu.auctionapi.query.DisconnectQuery;
+import com.apu.auctionapi.query.InternalQuery;
+import com.apu.auctionapi.query.NotifyQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
@@ -84,6 +87,30 @@ public class Decoder {
         result.setLotId(lotId);
     }
     
+    private synchronized void decode(InternalQuery result)  throws Exception {
+        log.debug(classname, "Internal packet decode");
+        rootObject = rootObject.get("lot").getAsJsonObject();
+        Integer lotId = rootObject.get("lotId").getAsInt();
+        Integer startPrice = rootObject.get("startPrice").getAsInt();
+        String lotName = rootObject.get("lotName").getAsString();
+        Integer lastRate = rootObject.get("lastRate").getAsInt();
+        Integer lastRateUserId = rootObject.get("lastRateUserId").getAsInt();
+        Integer amountObservers = rootObject.get("amountObservers").getAsInt();
+        long timeToFinish = rootObject.get("timeToFinish").getAsLong();
+        AuctionLotEntity lot = new AuctionLotEntity(lotId,
+                                    startPrice,
+                                    lotName,
+                                    lastRate,
+                                    lastRateUserId,
+                                    amountObservers,
+                                    timeToFinish);
+        result.setLot(lot);
+    }
+    
+    private synchronized void decode(NotifyQuery result)  throws Exception {
+        log.debug(classname, "Notify packet decode");
+    }
+    
     public synchronized AuctionQuery decode(String query) throws ErrorQueryException {
         AuctionQuery result = null;
         try {
@@ -112,6 +139,12 @@ public class Decoder {
             } else if(queryType.equals(QueryType.SUBSCRIBE.toString())) {
                 result = new SubscribeQuery(packetId, userId, time);
                 decode((SubscribeQuery)result);
+            } else if(queryType.equals(QueryType.INTERNAL_QUERY.toString())) {
+                result = new InternalQuery(packetId, userId, time);
+                decode((InternalQuery)result);
+            } else if(queryType.equals(QueryType.NOTIFY.toString())) {
+                result = new NotifyQuery(packetId, userId, time);
+                decode((NotifyQuery)result);
             }
         } catch (Exception ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));

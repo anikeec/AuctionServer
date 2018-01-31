@@ -12,6 +12,8 @@ import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.NewRateQuery;
 import com.apu.auctionapi.query.PingQuery;
 import com.apu.auctionapi.answer.PollAnswerQuery;
+import com.apu.auctionapi.query.InternalQuery;
+import com.apu.auctionapi.query.NotifyQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
@@ -39,7 +41,7 @@ public class NetworkController {
     private final Decoder decoder = Decoder.getInstance();
     private final Coder coder = Coder.getInstance();    
     
-    public String handle(String queryStr) throws ErrorQueryException {
+    public String handle(String queryStr, long socketId) throws ErrorQueryException {
         AuctionQuery query = decoder.decode(queryStr);
         AuctionQuery answer;
         
@@ -52,11 +54,21 @@ public class NetworkController {
         } else if(query instanceof PollQuery) { 
             answer = handle((PollQuery)query);
         } else if(query instanceof RegistrationQuery) {
-            answer = handle((RegistrationQuery)query);
+            answer = handle((RegistrationQuery)query, socketId);
+        } else if(query instanceof InternalQuery) {
+            answer = handle((InternalQuery)query);
         } else {
             answer = null;
         }
         return coder.code(answer);    
+    }
+    
+    public AuctionQuery handle(InternalQuery query) { 
+        log.debug(classname, "Internal query to controller");
+        NotifyQuery answer = 
+            new NotifyQuery(query.getPacketId(), query.getUserId());            
+        answer.setLot(query.getLot());
+        return answer;
     }
     
     public AnswerQuery handle(DisconnectQuery query) {
@@ -107,6 +119,7 @@ public class NetworkController {
                 lot.setLastRate(price);                
                 lot.setLastRateUser(user);
                 auction.updateAuctionLot(lot);
+                lot.notifyObservers();
                 answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
                                         "NewRateQuery - OK. Your rate is last.");
@@ -197,16 +210,18 @@ public class NetworkController {
         }         
     } 
     
-    public AuctionQuery handle(RegistrationQuery query) {
+    public AuctionQuery handle(RegistrationQuery query, long socketId) {
         log.debug(classname, "Registration query to controller");
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId());
             user.setStatus(Auction.USER_ONLINE);
+            user.setSocketId(socketId);
             auction.addUserToAuction(user);            
         } else {
             auction.clearObservableAuctionLotsByUser(user);
             user.setStatus(Auction.USER_ONLINE);
+            user.setSocketId(socketId);
             auction.updateUser(user);
         }
 //        socketRepository.addSocket(user, socket); 
@@ -244,7 +259,7 @@ public class NetworkController {
     public static void main(String[] args) {
         RegistrationQuery query = new RegistrationQuery(1);
         query.addLotIdToObservableList(1);
-        new NetworkController().handle(query);
+//        new NetworkController().handle(query);
     }
     
 }

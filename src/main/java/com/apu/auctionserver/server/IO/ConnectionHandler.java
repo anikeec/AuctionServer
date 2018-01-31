@@ -87,7 +87,7 @@ public class ConnectionHandler implements Runnable{
                         if(line != null) {
                             log.debug(classname, line);
                             try {
-                                String answer = new NetworkController().handle(line);
+                                String answer = new NetworkController().handle(line, 0);
                                 packetSend(socket, answer);
                             } catch (ErrorQueryException ex) {
                                 log.debug(classname, ExceptionUtils.getStackTrace(ex));

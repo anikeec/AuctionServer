@@ -53,9 +53,10 @@ public class MessageProcessorThread implements Runnable {
             }
             if(message == null) continue;
             query = message.getMessageStr();
+            long socketId = message.socketId;
             log.debug(classname,"Take from inputQuery: " + query);
             try {
-                answer = networkController.handle(query);
+                answer = networkController.handle(query, socketId);
                 answerMessage = new Message();
                 answerMessage.socketId = message.socketId;
                 answerMessage.writeToMessage(answer.getBytes());
