@@ -8,6 +8,7 @@ package com.apu.auctionserver.repository.jdbc;
 import com.apu.auctionserver.repository.entity.AuctionLot;
 import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
+import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import java.sql.Connection;
@@ -130,6 +131,14 @@ public class LotRepositoryJDBC implements LotRepository {
                     Integer userId = rs.getInt("last_rate_user");
                     auctionLot.setLastRateUser(new User(userId));
                     auctionLot.setStatus(rs.getString("status"));
+                    List<Integer> list = ObserveRepositoryJDBC.getInstance()
+                            .getObserverIdListByAuctionLot(auctionLot);
+                    User user;
+                    UserRepository ur = UserRepositoryJDBC.getInstance();
+                    for(Integer uId:list){
+                        user = ur.getUserById(uId);
+                        auctionLot.registerObserver(user);
+                    }                    
                 }
             } finally {
                 if (findStatement != null) {

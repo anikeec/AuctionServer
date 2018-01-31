@@ -5,7 +5,11 @@
  */
 package com.apu.auctionserver.repository.entity;
 
+import com.apu.auctionserver.auction.Auction;
+import com.apu.auctionserver.observer.Observable;
+import com.apu.auctionserver.observer.Observer;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -41,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "AuctionLot.findByFinishDate", query = "SELECT a FROM AuctionLot a WHERE a.finishDate = :finishDate")
     , @NamedQuery(name = "AuctionLot.findByLastRate", query = "SELECT a FROM AuctionLot a WHERE a.lastRate = :lastRate")
     , @NamedQuery(name = "AuctionLot.findByStatus", query = "SELECT a FROM AuctionLot a WHERE a.status = :status")})
-public class AuctionLot implements Serializable {
+public class AuctionLot implements Observable,Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,6 +71,8 @@ public class AuctionLot implements Serializable {
     private User lastRateUser;
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "lot", fetch = FetchType.EAGER)
     private List<Observe> observeList;
+    @XmlTransient
+    private final List<Observer> observerList = new ArrayList<>();
 
     public AuctionLot() {
     }
@@ -175,6 +181,29 @@ public class AuctionLot implements Serializable {
     @Override
     public String toString() {
         return "com.apu.auctionserver.DB.entity.AuctionLot[ lotId=" + lotId + " ]";
+    }
+
+    public List<Observer> getObserverList() {
+        return observerList;
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observerList.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observerList.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer o:observerList) {
+            if(((User)o).getStatus().equals(Auction.USER_ONLINE)) {
+                o.update(this);
+            }
+        }
     }
     
 }
