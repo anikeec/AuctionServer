@@ -142,7 +142,7 @@ public class ServerSocketNIOProcessor implements Runnable {
         if(fullMessages.size() > 0){
             for(Message message : fullMessages){
                 message.socketId = socket.socketId;
-                this.messageProcessor.process(message, this.writeProxy);  
+                this.messageProcessor.process(message);  
             }
             fullMessages.clear();
         }

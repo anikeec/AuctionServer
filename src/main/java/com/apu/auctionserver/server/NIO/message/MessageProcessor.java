@@ -28,6 +28,14 @@ public class MessageProcessor {
     private final BlockingQueue<Message> outputMessageQueue;
     
     private final MessageProcessorPool messageProcessorPool;
+    
+    private static MessageProcessor instance;
+    
+    public static MessageProcessor getInstance() {
+//        if(instance == null)
+//            instance = new MessageProcessor();
+        return instance;
+    }
 
     public MessageProcessor(WriteProxy writeProxy) {
         inputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE, true);
@@ -38,9 +46,10 @@ public class MessageProcessor {
                                             outputMessageQueue,
                                             writeProxy);
         messageProcessorPool.init();
+        instance = this;
     }
 
-    public void process(Message message, WriteProxy writeProxy) {
+    public void process(Message message) {
         String query = message.getMessageStr();
         log.debug(classname, "Message Received from socket: " + message.socketId);
         log.debug(classname, "Message: " + query);
