@@ -7,7 +7,6 @@ package com.apu.auctionserver;
 
 import com.apu.auctionserver.auction.Auction;
 import com.apu.auctionserver.server.Server;
-import com.apu.auctionserver.server.IO.ServerIO;
 import com.apu.auctionserver.server.NIO.ServerNIO;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
