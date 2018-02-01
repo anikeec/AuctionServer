@@ -34,13 +34,12 @@ public class UserRepositoryJDBC implements UserRepository {
     String findAllString =
         "select * from USER"; 
     String insertString = 
-        " insert into USER(user_id,login,passw_hash,status,socket_id) "
-            + "values(?,?,?,?,?);";
+        " insert into USER(user_id,login,passw_hash,status) "
+            + "values(?,?,?,?);";
     String updateString = 
         " update USER set login = ?," +
         " passw_hash = ?," +
-        " status = ?," +
-        " socket_id = ? " +
+        " status = ?" +
         " where user_id = ? ";    
     String removeString =
         "delete from USER where user.user_id = ?";
@@ -77,7 +76,6 @@ public class UserRepositoryJDBC implements UserRepository {
                     user.setLogin(rs.getString("login"));
                     user.setPasswHash(rs.getString("passw_hash"));
                     user.setStatus(rs.getString("status"));
-                    user.setSocketId(rs.getLong("socket_id"));
                     userList.add(user);
                 }
             } finally {
@@ -115,7 +113,6 @@ public class UserRepositoryJDBC implements UserRepository {
                     user.setLogin(rs.getString("login"));
                     user.setPasswHash(rs.getString("passw_hash"));
                     user.setStatus(rs.getString("status"));
-                    user.setSocketId(rs.getLong("socket_id"));
                 }
             } finally {
                 if (findStatement != null) {
@@ -203,8 +200,6 @@ public class UserRepositoryJDBC implements UserRepository {
                     if(str == null) 
                         str = "";
                     insertStatement.setString(4, str);
-                    longValue = user.getSocketId();   
-                    insertStatement.setLong(5, longValue);
                     insertStatement.executeUpdate();
                 } else {
                     updateStatement = con.prepareStatement(updateString);                    
@@ -220,14 +215,10 @@ public class UserRepositoryJDBC implements UserRepository {
                     if(str == null) 
                         str = "";
                     updateStatement.setString(3, str);
-                    longValue = user.getSocketId();  
-                    if(longValue == null) 
-                        longValue = 0l;
-                    updateStatement.setLong(4, longValue);
                     intValue = user.getUserId();
                     if(intValue == null) 
                         intValue = 0;    
-                    updateStatement.setInt(5, intValue);                    
+                    updateStatement.setInt(4, intValue);                    
                     updateStatement.executeUpdate();
                 }                
                 con.commit();

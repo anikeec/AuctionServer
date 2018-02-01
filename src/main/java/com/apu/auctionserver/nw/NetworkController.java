@@ -23,6 +23,8 @@ import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
+import com.apu.auctionserver.repository.SocketRepository;
+import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
 import com.apu.auctionserver.server.UserControlService;
 import com.apu.auctionserver.utils.Log;
 import com.apu.auctionserver.utils.Time;
@@ -212,16 +214,17 @@ public class NetworkController {
     
     public AuctionQuery handle(RegistrationQuery query, long socketId) {
         log.debug(classname, "Registration query to controller");
+        SocketRepository sr = SocketRepositoryRAM.getInstance();
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId());
             user.setStatus(Auction.USER_ONLINE);
-            user.setSocketId(socketId);
+            sr.setSocketId(user.getUserId(), socketId);
             auction.addUserToAuction(user);            
         } else {
             auction.clearObservableAuctionLotsByUser(user);
             user.setStatus(Auction.USER_ONLINE);
-            user.setSocketId(socketId);
+            sr.setSocketId(user.getUserId(), socketId);
             auction.updateUser(user);
         }
 //        socketRepository.addSocket(user, socket); 

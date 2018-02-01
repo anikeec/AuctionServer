@@ -10,6 +10,8 @@ import com.apu.auctionapi.query.InternalQuery;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.observer.Observable;
 import com.apu.auctionserver.observer.Observer;
+import com.apu.auctionserver.repository.SocketRepository;
+import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
 import com.apu.auctionserver.server.NIO.message.Message;
 import com.apu.auctionserver.server.NIO.message.MessageProcessor;
 import com.apu.auctionserver.utils.Time;
@@ -61,8 +63,6 @@ public class User implements Observer, Serializable {
     private List<AuctionLot> auctionLotList;
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Observe> observeList;
-    @XmlTransient
-    private Long socketId = 0l;
 
     public User() {
     }
@@ -158,14 +158,6 @@ public class User implements Observer, Serializable {
         return "com.apu.auctionserver.DB.entity.User[ userId=" + userId + " ]";
     }
 
-    public Long getSocketId() {
-        return socketId;
-    }
-
-    public void setSocketId(Long socketId) {
-        this.socketId = socketId;
-    }
-
     @Override
     public void update(Observable object) {
         AuctionLot lot = (AuctionLot)object;
@@ -181,10 +173,14 @@ public class User implements Observer, Serializable {
                                                         timeToFinish);
         query.setLot(entity);        
         
-        Message message = new Message();
-        message.socketId = this.socketId;        
-        message.writeToMessage(Coder.getInstance().code(query).getBytes());
-        MessageProcessor.getInstance().process(message);
+        SocketRepository sr = SocketRepositoryRAM.getInstance();
+        Long socketId = sr.getSocketIdByUserId(this.userId);
+        if(socketId != null) {
+            Message message = new Message();
+            message.socketId = socketId;
+            message.writeToMessage(Coder.getInstance().code(query).getBytes());
+            MessageProcessor.getInstance().process(message);
+        }
     }
     
 }
