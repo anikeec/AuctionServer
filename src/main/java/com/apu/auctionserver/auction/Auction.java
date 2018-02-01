@@ -11,9 +11,11 @@ import java.util.List;
 import com.apu.auctionserver.repository.LotRepository;
 import com.apu.auctionserver.repository.ObserveRepository;
 import com.apu.auctionserver.repository.UserRepository;
+import com.apu.auctionserver.repository.UserStatusRepository;
 import com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC;
 import com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC;
 import com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC;
+import com.apu.auctionserver.repository.ram.UserStatusRepositoryRAM;
 
 /**
  *
@@ -26,9 +28,6 @@ public class Auction implements AuctionI {
                         UserRepositoryJDBC.getInstance();
     private final ObserveRepository observeRepository = 
                         ObserveRepositoryJDBC.getInstance();
-    
-    public static String USER_ONLINE = "online";
-    public static String USER_OFFLINE = "offline";
     
     private static Auction instance;
     
@@ -137,22 +136,9 @@ public class Auction implements AuctionI {
     }
     
     private void initUsers() {
-        updateUserAllSetStatus(USER_OFFLINE);
-    }
-
-    @Override
-    public void updateUserByIdSetOnline(int userId) {
-        userRepository.updateUserByIdSetOnline(userId);
-    }
-
-    @Override
-    public void updateUserByIdSetOffline(int userId) {
-        userRepository.updateUserByIdSetOffline(userId);
-    }
-
-    @Override
-    public void updateUserAllSetStatus(String status) {
-        userRepository.updateUserAllSetStatus(status);
+        UserStatusRepository usr = 
+                            UserStatusRepositoryRAM.getInstance();
+        usr.updateUserAllSetOffline();
     }
     
 }

@@ -22,10 +22,4 @@ public interface UserRepository {
 
     void saveUser(User user);
     
-    void updateUserByIdSetOnline(int userId);
-    
-    void updateUserByIdSetOffline(int userId);
-    
-    void updateUserAllSetStatus(String status);
-    
 }

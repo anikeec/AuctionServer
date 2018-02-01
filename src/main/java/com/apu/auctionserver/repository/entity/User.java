@@ -55,8 +55,6 @@ public class User implements Observer, Serializable {
     private String login;
     @Column(name = "passw_hash")
     private String passwHash;
-    @Column(name = "status")
-    private String status;
     @Column(name = "used")
     private Boolean used;
     @OneToMany(mappedBy = "lastRateUser", fetch = FetchType.EAGER)
@@ -71,7 +69,6 @@ public class User implements Observer, Serializable {
         this.userId = userId;
         this.login = "";
         this.passwHash = "";
-        this.status = "OFFLINE";
         this.used = true;
     }
 
@@ -97,14 +94,6 @@ public class User implements Observer, Serializable {
 
     public void setPasswHash(String passwHash) {
         this.passwHash = passwHash;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Boolean getUsed() {

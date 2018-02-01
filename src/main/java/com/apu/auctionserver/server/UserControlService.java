@@ -6,6 +6,8 @@
 package com.apu.auctionserver.server;
 
 import com.apu.auctionserver.auction.Auction;
+import com.apu.auctionserver.repository.UserStatusRepository;
+import com.apu.auctionserver.repository.ram.UserStatusRepositoryRAM;
 import com.apu.auctionserver.utils.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,10 +23,12 @@ public class UserControlService {
     
     private static final Map<Integer,Date> userLastQueryTime = new HashMap<>();
     private static final Auction auction = Auction.getInstance();
+    private static final UserStatusRepository usr = 
+                                UserStatusRepositoryRAM.getInstance();
     
     public static synchronized void notifyService(int userId) {
         if(!userLastQueryTime.containsKey(userId)) {
-            auction.updateUserByIdSetOnline(userId);
+            usr.updateUserByIdSetOnline(userId);
         }
         userLastQueryTime.put(userId, new Date());            
     }
@@ -42,7 +46,7 @@ public class UserControlService {
             }            
         }
         for(int id:idsToRemove) {
-            auction.updateUserByIdSetOffline(id);
+            usr.updateUserByIdSetOffline(id);
             userLastQueryTime.remove(id);
         }
     }

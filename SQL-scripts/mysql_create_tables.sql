@@ -6,7 +6,6 @@ CREATE TABLE USER(
  user_id  INT NOT NULL,
  login VARCHAR(20) DEFAULT '',
  passw_hash VARCHAR(20) DEFAULT '',
- status VARCHAR(20) DEFAULT 'OFFLINE',
  used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id) 
 );

@@ -24,7 +24,9 @@ import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.nw.utils.Decoder;
 import com.apu.auctionserver.repository.SocketRepository;
+import com.apu.auctionserver.repository.UserStatusRepository;
 import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
+import com.apu.auctionserver.repository.ram.UserStatusRepositoryRAM;
 import com.apu.auctionserver.server.UserControlService;
 import com.apu.auctionserver.utils.Log;
 import com.apu.auctionserver.utils.Time;
@@ -41,7 +43,10 @@ public class NetworkController {
     
     private final Auction auction = Auction.getInstance();
     private final Decoder decoder = Decoder.getInstance();
-    private final Coder coder = Coder.getInstance();    
+    private final Coder coder = Coder.getInstance();   
+    
+    private final UserStatusRepository usr = 
+                            UserStatusRepositoryRAM.getInstance();
     
     public String handle(String queryStr, long socketId) throws ErrorQueryException {
         AuctionQuery query = decoder.decode(queryStr);
@@ -79,8 +84,7 @@ public class NetworkController {
         AnswerQuery answer;
         if(user != null) {
             auction.clearObservableAuctionLotsByUser(user);
-            user.setStatus(Auction.USER_OFFLINE);
-//            auction.removeUserFromAuction(user);
+            usr.updateUserByIdSetOffline(user.getUserId());
             answer = new AnswerQuery(query.getPacketId(), 
                                         user.getUserId(), 
                                         "DisconnectQuery - OK. Disconnected");
@@ -218,12 +222,12 @@ public class NetworkController {
         User user = auction.getAuctionUserById(query.getUserId());
         if(user == null) {
             user = new User(query.getUserId());
-            user.setStatus(Auction.USER_ONLINE);
+            usr.updateUserByIdSetOnline(user.getUserId());
             sr.setSocketId(user.getUserId(), socketId);
             auction.addUserToAuction(user);            
         } else {
             auction.clearObservableAuctionLotsByUser(user);
-            user.setStatus(Auction.USER_ONLINE);
+            usr.updateUserByIdSetOnline(user.getUserId());
             sr.setSocketId(user.getUserId(), socketId);
             auction.updateUser(user);
         }
