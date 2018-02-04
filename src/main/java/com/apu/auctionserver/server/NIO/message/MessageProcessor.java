@@ -5,11 +5,9 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
-import com.apu.auctionserver.nw.NetworkController;
-import com.apu.auctionserver.server.NIO.WriteProxy;
+import com.apu.auctionserver.nw.controller.NwInputController;
+import com.apu.auctionserver.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.utils.Log;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
@@ -21,14 +19,6 @@ public class MessageProcessor {
     private final Log log = Log.getInstance();
     private final Class classname = MessageProcessor.class;
     
-    NetworkController networkController = new NetworkController();
-    
-    private static final int MESSAGE_QUEUE_SIZE = 100;
-    private final BlockingQueue<Message> inputMessageQueue;
-    private final BlockingQueue<Message> outputMessageQueue;
-    
-    private final MessageProcessorPool messageProcessorPool;
-    
     private static MessageProcessor instance;
     
     public static MessageProcessor getInstance() {
@@ -37,26 +27,16 @@ public class MessageProcessor {
         return instance;
     }
 
-    public MessageProcessor(WriteProxy writeProxy) {
-        inputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE, true);
-        outputMessageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
-        messageProcessorPool = 
-                new MessageProcessorPool(networkController,
-                                            inputMessageQueue, 
-                                            outputMessageQueue,
-                                            writeProxy);
-        messageProcessorPool.init();
-        instance = this;
+    public MessageProcessor() {
+        instance = this;        
     }
 
     public void process(Message message) {
         String query = message.getMessageStr();
-        log.debug(classname, "Message Received from socket: " + message.socketId);
-        log.debug(classname, "Message: " + query);
-        
+        log.debug(classname, "Socket: " + message.socketId + ". Message: " + query);
         try {
-            inputMessageQueue.put(message);
-        } catch (InterruptedException ex) {
+            NwInputController.getInstance().handle(query, message.socketId);
+        } catch (ErrorQueryException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         }
 

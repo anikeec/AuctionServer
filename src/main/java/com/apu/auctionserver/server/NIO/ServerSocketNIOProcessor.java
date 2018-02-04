@@ -49,18 +49,22 @@ public class ServerSocketNIOProcessor implements Runnable {
 
     private final MessageReader messageReader;    
     private final MessageProcessor messageProcessor;
-    private Selector   readSelector    = null;
-    private Selector   writeSelector   = null;    
-    private WriteProxy writeProxy      = null;
+    private final Selector readSelector;
+    private final Selector writeSelector;    
+//    private final WriteProxy writeProxy;
 
     public ServerSocketNIOProcessor(Queue<SocketNIO> inboundSocketQueue) throws IOException {
         this.inboundSocketQueue   = inboundSocketQueue;        
-        this.writeProxy           = new WriteProxy(this.outboundMessageQueue);        
+//        this.writeProxy           = new WriteProxy(this.outboundMessageQueue);        
         this.messageReader        = new MessageReader();        
-        this.messageProcessor     = new MessageProcessor(writeProxy);
+        this.messageProcessor     = new MessageProcessor();
         this.readSelector         = Selector.open();
         this.writeSelector        = Selector.open();
-    }    
+    } 
+    
+    public Queue<Message> getOutboundMessageQueue() {
+        return this.outboundMessageQueue;
+    }
 
     @Override
     public void run() {

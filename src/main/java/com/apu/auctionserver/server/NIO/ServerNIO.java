@@ -5,8 +5,9 @@
  */
 package com.apu.auctionserver.server.NIO;
 
-import com.apu.auctionserver.server.NIO.message.MessageProcessor;
-import com.apu.auctionserver.server.NIO.message.MessageReader;
+import com.apu.auctionserver.controller.AuctionController;
+import com.apu.auctionserver.nw.controller.NwInputController;
+import com.apu.auctionserver.nw.controller.NwOutputController;
 import com.apu.auctionserver.server.Server;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
@@ -49,6 +50,30 @@ public class ServerNIO implements Server {
         
         Thread accepterThread  = new Thread(this.socketAccepter);
         Thread processorThread = new Thread(this.socketProcessor);
+        
+        AuctionController alController = AuctionController.getInstance();
+        
+        NwInputController niController = 
+                new NwInputController(alController.getInputMsgQueue(),
+                                        alController.getOutputMsgQueue());
+        
+        WriteProxy writeProxy = 
+                new WriteProxy(socketProcessor.getOutboundMessageQueue());
+        
+        NwOutputController noController = 
+                new NwOutputController(alController.getOutputMsgQueue(), 
+                                        writeProxy);
+        
+        Thread businessLogicThread = new Thread(alController);
+        businessLogicThread.setDaemon(true);    
+//        Thread nwInputThread = new Thread(niController);
+//        nwInputThread.setDaemon(true);
+        Thread nwOutputThread = new Thread(noController);
+        nwOutputThread.setDaemon(true);    
+        
+        businessLogicThread.start();
+        nwOutputThread.start();
+//        nwInputThread.start();        
         
         accepterThread.start();
         processorThread.start();

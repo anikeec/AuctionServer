@@ -26,27 +26,27 @@ public class UserStatusRepositoryRAM implements UserStatusRepository {
     }
 
     @Override
-    public String getUserStatusByUserId(int id) {
+    public synchronized String getUserStatusByUserId(int id) {
         return userStatus.get(id);
     }
 
     @Override
-    public void setUserStatus(int userId, String status) {
+    public synchronized void setUserStatus(int userId, String status) {
         userStatus.put(userId, status);
     }
 
     @Override
-    public void updateUserByIdSetOnline(int id) {
+    public synchronized void updateUserByIdSetOnline(int id) {
         setUserStatus(id, USER_ONLINE);
     }
 
     @Override
-    public void updateUserByIdSetOffline(int id) {
+    public synchronized void updateUserByIdSetOffline(int id) {
         setUserStatus(id, USER_OFFLINE);
     }
 
     @Override
-    public void updateUserAllSetOffline() {
+    public synchronized void updateUserAllSetOffline() {
         Iterator it = userStatus.entrySet().iterator();
         Map.Entry<Integer, String> entry;
         while(it.hasNext()) {
