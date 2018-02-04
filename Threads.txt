@@ -1,0 +1,17 @@
+ѕотоки:
+- CON_THREAD - поток приема входных подключений,
+- IN_OUT_THREAD - поток обслуживани€ сокетов (прием, передача),
+-- отдает данные в NetworkController, который отдает данные в очередь,
+- BUSINESS_THREAD - поток бизнес-логики (работает в пуле потоков), 
+берет данные из блокирующей очереди сообщений, обрабатывает их, 
+если нужно что-то отправл€ть, то ложит сообщени€ в блокирующую очередь сообщений, которые забирает IN_OUT_THREAD при опросе,
+BUSINESS_THREAD работает с пулом соединений с Ѕƒ,
+
+
+CON_THREAD -> ConnectionSocketBlockingQueue -> IN_OUT_THREAD;
+
+IN_OUT_THREAD -> InputMessageQueue -> networkInputProcess -> InputMsgBlockingQueue -> BUSINESS_LOGIC_THREAD_POOL;
+
+IN_OUT_THREAD <- OutputMessageQueue <- networkOutputProcess <- OutputMsgQueue <- BUSINESS_LOGIC_THREAD_POOL;
+
+BUSINESS_LOGIC_THREAD_POOL <-> repository <-> DB_CONNECTION_POOL;
