@@ -1,331 +1,122 @@
-01.02.18 18:58:43.516 DEBUG Thread-3 - (com.apu.auctionserver.server.NIO.ServerSocketNIOAccepter) - Socket accepted: java.nio.channels.SocketChannel[connected local=/127.0.0.1:5050 remote=/127.0.0.1:11859]
-01.02.18 18:58:43.563 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:43.564 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:43.566 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 113
-01.02.18 18:58:43.567 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:58:43.567 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2018.02.01 18:58:43.554","packetId":0,"userId":1}
-01.02.18 18:58:43.568 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2018.02.01 18:58:43.554","packetId":0,"userId":1}
-01.02.18 18:58:43.572 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Registration packet
-01.02.18 18:58:43.573 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - Registration query to controller
-01.02.18 18:58:43.581 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:43.582 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:43.661 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'insert into OBSERVE(user,lot) values(?,?);', parameters : [1,1]
-01.02.18 18:58:43.769 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"Registration answer","queryType":"ANSWER","time":"2018.02.01 18:58:43.763","packetId":0,"userId":1}
-01.02.18 18:58:43.770 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:48.776 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:48.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:48.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:58:48.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:58:48.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:58:48.775","packetId":1,"userId":1}
-01.02.18 18:58:48.780 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:58:48.775","packetId":1,"userId":1}
-01.02.18 18:58:48.780 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:58:48.781 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:58:48.783 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:48.785 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:58:48.787 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:48.790 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:48.792 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:48.795 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:48.799 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:48.808 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4500,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573271199}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:58:48.801","packetId":1,"userId":1}
-01.02.18 18:58:48.810 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:53.471 DEBUG Thread-3 - (com.apu.auctionserver.server.NIO.ServerSocketNIOAccepter) - Socket accepted: java.nio.channels.SocketChannel[connected local=/127.0.0.1:5050 remote=/127.0.0.1:11863]
-01.02.18 18:58:53.521 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:53.522 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:53.523 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 113
-01.02.18 18:58:53.524 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:58:53.525 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2018.02.01 18:58:53.513","packetId":0,"userId":2}
-01.02.18 18:58:53.526 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2018.02.01 18:58:53.513","packetId":0,"userId":2}
-01.02.18 18:58:53.528 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Registration packet
-01.02.18 18:58:53.529 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Registration query to controller
-01.02.18 18:58:53.531 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:53.533 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'delete from OBSERVE where user = ?', parameters : [2]
-01.02.18 18:58:53.568 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:53.598 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'insert into OBSERVE(user,lot) values(?,?);', parameters : [2,1]
-01.02.18 18:58:53.676 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"Registration answer","queryType":"ANSWER","time":"2018.02.01 18:58:53.676","packetId":0,"userId":2}
-01.02.18 18:58:53.678 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:53.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:53.778 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:53.780 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:58:53.781 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:58:53.782 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:58:53.776","packetId":2,"userId":1}
-01.02.18 18:58:53.783 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:58:53.776","packetId":2,"userId":1}
-01.02.18 18:58:53.785 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:58:53.787 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:58:53.789 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:53.790 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:58:53.792 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:53.795 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:53.797 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:53.798 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:53.800 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:53.802 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4500,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573266198}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:58:53.802","packetId":2,"userId":1}
-01.02.18 18:58:53.804 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:58.685 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:58.686 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:58.687 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:58:58.688 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:58:58.689 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:58:58.684","packetId":1,"userId":2}
-01.02.18 18:58:58.690 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:58:58.684","packetId":1,"userId":2}
-01.02.18 18:58:58.691 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:58:58.692 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:58:58.694 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:58.696 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [2]
-01.02.18 18:58:58.697 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:58.698 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:58.700 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:58.702 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:58.704 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:58.705 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4500,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573261295}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:58:58.705","packetId":1,"userId":2}
-01.02.18 18:58:58.707 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:58.776 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:58.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:58.778 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:58:58.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:58:58.780 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:58:58.776","packetId":3,"userId":1}
-01.02.18 18:58:58.781 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:58:58.776","packetId":3,"userId":1}
-01.02.18 18:58:58.782 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:58:58.783 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:58:58.784 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:58.786 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:58:58.787 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:58.789 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:58.791 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:58.793 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:58.795 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:58.797 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4500,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573261204}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:58:58.796","packetId":3,"userId":1}
-01.02.18 18:58:58.798 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:58:59.938 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:58:59.939 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:58:59.940 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
-01.02.18 18:58:59.942 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:58:59.943 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lotId":1,"price":4510,"queryType":"NEW_RATE","time":"2018.02.01 18:58:59.936","packetId":4,"userId":1}
-01.02.18 18:58:59.946 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lotId":1,"price":4510,"queryType":"NEW_RATE","time":"2018.02.01 18:58:59.936","packetId":4,"userId":1}
-01.02.18 18:58:59.948 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
-01.02.18 18:58:59.949 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - NewRateQuery query to controller
-01.02.18 18:58:59.950 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:59.953 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:58:59.955 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:59.957 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:58:59.959 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:58:59.961 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:58:59.998 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:00.000 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573260003},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:58:59.998","packetId":0,"userId":1}
-01.02.18 18:59:00.002 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573260003},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:58:59.998","packetId":0,"userId":1}
-01.02.18 18:59:00.004 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:00.005 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573259998},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:00.002","packetId":0,"userId":2}
-01.02.18 18:59:00.006 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:00.007 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:00.008 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"NewRateQuery - OK. Your rate is last.","queryType":"ANSWER","time":"2018.02.01 18:59:00.006","packetId":4,"userId":1}
-01.02.18 18:59:00.010 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573259998},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:00.002","packetId":0,"userId":2}
-01.02.18 18:59:00.012 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:00.013 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:00.015 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573259998},"queryType":"NOTIFY","time":"2018.02.01 18:59:00.015","packetId":0,"userId":2}
-01.02.18 18:59:00.017 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:00.019 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4510,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573260003},"queryType":"NOTIFY","time":"2018.02.01 18:59:00.009","packetId":0,"userId":1}
-01.02.18 18:59:00.022 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:00.025 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:02.544 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:02.545 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:02.546 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
-01.02.18 18:59:02.547 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:02.548 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lotId":1,"price":4520,"queryType":"NEW_RATE","time":"2018.02.01 18:59:02.544","packetId":5,"userId":1}
-01.02.18 18:59:02.549 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lotId":1,"price":4520,"queryType":"NEW_RATE","time":"2018.02.01 18:59:02.544","packetId":5,"userId":1}
-01.02.18 18:59:02.551 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
-01.02.18 18:59:02.552 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - NewRateQuery query to controller
-01.02.18 18:59:02.553 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:02.555 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:02.557 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:02.559 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:02.560 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:02.561 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:02.609 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:02.610 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257391},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:02.609","packetId":0,"userId":1}
-01.02.18 18:59:02.611 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257391},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:02.609","packetId":0,"userId":1}
-01.02.18 18:59:02.613 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:02.614 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:02.615 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257389},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:02.611","packetId":0,"userId":2}
-01.02.18 18:59:02.616 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:02.617 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"NewRateQuery - OK. Your rate is last.","queryType":"ANSWER","time":"2018.02.01 18:59:02.616","packetId":5,"userId":1}
-01.02.18 18:59:02.618 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257389},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:02.611","packetId":0,"userId":2}
-01.02.18 18:59:02.621 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:02.622 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257391},"queryType":"NOTIFY","time":"2018.02.01 18:59:02.617","packetId":0,"userId":1}
-01.02.18 18:59:02.623 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:02.624 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:02.625 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:02.626 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573257389},"queryType":"NOTIFY","time":"2018.02.01 18:59:02.626","packetId":0,"userId":2}
-01.02.18 18:59:02.629 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:03.685 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:03.686 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:03.686 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:59:03.687 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:03.688 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:59:03.684","packetId":2,"userId":2}
-01.02.18 18:59:03.689 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:59:03.684","packetId":2,"userId":2}
-01.02.18 18:59:03.690 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:59:03.691 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:59:03.693 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:03.694 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [2]
-01.02.18 18:59:03.696 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:03.698 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:03.700 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:03.704 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:03.706 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:03.709 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573256292}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:59:03.708","packetId":2,"userId":2}
-01.02.18 18:59:03.710 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:03.776 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:03.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:03.778 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:59:03.778 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:03.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:59:03.776","packetId":6,"userId":1}
-01.02.18 18:59:03.780 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:59:03.776","packetId":6,"userId":1}
-01.02.18 18:59:03.781 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:59:03.782 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:59:03.783 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:03.785 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:59:03.787 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:03.789 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:03.790 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:03.792 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:03.794 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:03.795 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4520,"lastRateUserId":1,"amountObservers":2,"timeToFinish":1573256205}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:59:03.795","packetId":6,"userId":1}
-01.02.18 18:59:03.797 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:04.601 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:04.602 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:04.603 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
-01.02.18 18:59:04.604 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:04.605 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lotId":1,"price":4530,"queryType":"NEW_RATE","time":"2018.02.01 18:59:04.600","packetId":3,"userId":2}
-01.02.18 18:59:04.607 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lotId":1,"price":4530,"queryType":"NEW_RATE","time":"2018.02.01 18:59:04.600","packetId":3,"userId":2}
-01.02.18 18:59:04.612 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
-01.02.18 18:59:04.613 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - NewRateQuery query to controller
-01.02.18 18:59:04.615 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:04.618 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:04.620 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:04.622 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:04.624 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:04.625 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:04.668 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:04.669 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255332},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:04.668","packetId":0,"userId":1}
-01.02.18 18:59:04.672 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:04.672 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255329},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:04.671","packetId":0,"userId":2}
-01.02.18 18:59:04.674 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255329},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:04.671","packetId":0,"userId":2}
-01.02.18 18:59:04.677 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255332},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:04.668","packetId":0,"userId":1}
-01.02.18 18:59:04.680 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:04.681 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:04.682 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255329},"queryType":"NOTIFY","time":"2018.02.01 18:59:04.682","packetId":0,"userId":2}
-01.02.18 18:59:04.685 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"NewRateQuery - OK. Your rate is last.","queryType":"ANSWER","time":"2018.02.01 18:59:04.674","packetId":3,"userId":2}
-01.02.18 18:59:04.689 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:04.690 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:04.691 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:04.693 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:04.696 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":2,"timeToFinish":1573255332},"queryType":"NOTIFY","time":"2018.02.01 18:59:04.693","packetId":0,"userId":1}
-01.02.18 18:59:04.698 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:07.641 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:07.644 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:07.645 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 85
-01.02.18 18:59:07.646 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16385
-01.02.18 18:59:07.647 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"DISCONNECT","time":"2018.02.01 18:59:07.641","packetId":4,"userId":2}
-01.02.18 18:59:07.649 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"DISCONNECT","time":"2018.02.01 18:59:07.641","packetId":4,"userId":2}
-01.02.18 18:59:07.650 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - DisconnectQuery packet
-01.02.18 18:59:07.651 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Disconnect query to controller
-01.02.18 18:59:07.652 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:07.655 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'delete from OBSERVE where user = ?', parameters : [2]
-01.02.18 18:59:07.686 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [2]
-01.02.18 18:59:07.723 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"DisconnectQuery - OK. Disconnected","queryType":"ANSWER","time":"2018.02.01 18:59:07.723","packetId":4,"userId":2}
-01.02.18 18:59:07.725 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:07.730 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:07.731 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:07.732 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: -1
-01.02.18 18:59:07.733 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Socket closed: 16385
-01.02.18 18:59:08.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:08.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:08.778 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:59:08.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:08.780 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:59:08.776","packetId":7,"userId":1}
-01.02.18 18:59:08.781 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:59:08.776","packetId":7,"userId":1}
-01.02.18 18:59:08.783 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:59:08.783 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:59:08.785 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:08.786 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:59:08.788 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:08.789 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:08.791 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:08.793 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:08.794 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4530,"lastRateUserId":2,"amountObservers":1,"timeToFinish":1573251206}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:59:08.794","packetId":7,"userId":1}
-01.02.18 18:59:08.796 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:10.913 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:10.914 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:10.915 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
-01.02.18 18:59:10.916 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:10.917 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lotId":1,"price":4540,"queryType":"NEW_RATE","time":"2018.02.01 18:59:10.912","packetId":8,"userId":1}
-01.02.18 18:59:10.919 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lotId":1,"price":4540,"queryType":"NEW_RATE","time":"2018.02.01 18:59:10.912","packetId":8,"userId":1}
-01.02.18 18:59:10.920 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
-01.02.18 18:59:10.921 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - NewRateQuery query to controller
-01.02.18 18:59:10.922 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:10.924 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:10.925 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:10.927 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:10.929 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:10.968 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:10.969 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4540,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573249033},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:10.968","packetId":0,"userId":1}
-01.02.18 18:59:10.970 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4540,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573249033},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:10.968","packetId":0,"userId":1}
-01.02.18 18:59:10.972 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"NewRateQuery - OK. Your rate is last.","queryType":"ANSWER","time":"2018.02.01 18:59:10.970","packetId":8,"userId":1}
-01.02.18 18:59:10.973 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:10.974 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:10.976 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:10.977 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4540,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573249033},"queryType":"NOTIFY","time":"2018.02.01 18:59:10.976","packetId":0,"userId":1}
-01.02.18 18:59:10.979 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:13.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:13.777 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:13.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
-01.02.18 18:59:13.779 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:13.780 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"POLL","time":"2018.02.01 18:59:13.776","packetId":9,"userId":1}
-01.02.18 18:59:13.781 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"POLL","time":"2018.02.01 18:59:13.776","packetId":9,"userId":1}
-01.02.18 18:59:13.782 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
-01.02.18 18:59:13.783 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Poll query to controller
-01.02.18 18:59:13.784 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:13.786 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:59:13.788 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:13.789 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:13.791 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:13.793 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:13.795 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4540,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573246206}],"queryType":"POLL_ANSWER","time":"2018.02.01 18:59:13.794","packetId":9,"userId":1}
-01.02.18 18:59:13.796 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:14.352 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:14.353 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:14.355 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 107
-01.02.18 18:59:14.356 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:14.356 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lotId":1,"price":4550,"queryType":"NEW_RATE","time":"2018.02.01 18:59:14.352","packetId":10,"userId":1}
-01.02.18 18:59:14.358 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lotId":1,"price":4550,"queryType":"NEW_RATE","time":"2018.02.01 18:59:14.352","packetId":10,"userId":1}
-01.02.18 18:59:14.359 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
-01.02.18 18:59:14.360 DEBUG Thread-1 - (com.apu.auctionserver.nw.NetworkController) - NewRateQuery query to controller
-01.02.18 18:59:14.361 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:14.363 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
-01.02.18 18:59:14.364 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:14.366 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:14.368 DEBUG Thread-1 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
-01.02.18 18:59:14.401 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:14.402 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4550,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573245599},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:14.401","packetId":0,"userId":1}
-01.02.18 18:59:14.404 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4550,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573245599},"queryType":"INTERNAL_QUERY","time":"2018.02.01 18:59:14.401","packetId":0,"userId":1}
-01.02.18 18:59:14.405 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"NewRateQuery - OK. Your rate is last.","queryType":"ANSWER","time":"2018.02.01 18:59:14.404","packetId":10,"userId":1}
-01.02.18 18:59:14.407 DEBUG Thread-2 - (com.apu.auctionserver.nw.utils.Decoder) - Internal packet decode
-01.02.18 18:59:14.408 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:14.409 DEBUG Thread-2 - (com.apu.auctionserver.nw.NetworkController) - Internal query to controller
-01.02.18 18:59:14.410 DEBUG Thread-2 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4550,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1573245599},"queryType":"NOTIFY","time":"2018.02.01 18:59:14.410","packetId":0,"userId":1}
-01.02.18 18:59:14.413 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:16.593 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:16.596 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:16.598 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 86
-01.02.18 18:59:16.598 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message Received from socket: 16384
-01.02.18 18:59:16.599 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Message: {"queryType":"DISCONNECT","time":"2018.02.01 18:59:16.593","packetId":11,"userId":1}
-01.02.18 18:59:16.600 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Take from inputQuery: {"queryType":"DISCONNECT","time":"2018.02.01 18:59:16.593","packetId":11,"userId":1}
-01.02.18 18:59:16.601 DEBUG Thread-0 - (com.apu.auctionserver.nw.utils.Decoder) - DisconnectQuery packet
-01.02.18 18:59:16.603 DEBUG Thread-0 - (com.apu.auctionserver.nw.NetworkController) - Disconnect query to controller
-01.02.18 18:59:16.604 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:16.651 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'delete from OBSERVE where user = ?', parameters : [1]
-01.02.18 18:59:16.690 DEBUG Thread-0 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
-01.02.18 18:59:16.834 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.message.MessageProcessorThread) - Write to answerQuery: {"message":"DisconnectQuery - OK. Disconnected","queryType":"ANSWER","time":"2018.02.01 18:59:16.834","packetId":11,"userId":1}
-01.02.18 18:59:16.836 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
-01.02.18 18:59:16.842 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
-01.02.18 18:59:16.843 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
-01.02.18 18:59:16.844 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: -1
-01.02.18 18:59:16.845 DEBUG Thread-4 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Socket closed: 16384
+04.02.18 14:33:28.374 DEBUG Thread-0 - (com.apu.auctionserver.server.NIO.ServerSocketNIOAccepter) - Socket accepted: java.nio.channels.SocketChannel[connected local=/127.0.0.1:5050 remote=/127.0.0.1:27434]
+04.02.18 14:33:28.424 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:28.424 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:28.426 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 113
+04.02.18 14:33:28.427 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"observableLotIdList":[1],"queryType":"REGISTRATION","time":"2018.02.04 14:33:28.415","packetId":0,"userId":1}
+04.02.18 14:33:28.431 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Registration packet
+04.02.18 14:33:28.438 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:28.432","packetId":0,"userId":1}
+04.02.18 14:33:28.439 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Registration query to controller
+04.02.18 14:33:28.440 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:28.453 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:28.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'delete from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:28.457 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:28.492 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'insert into OBSERVE(user,lot) values(?,?);', parameters : [1,1]
+04.02.18 14:33:33.448 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:33.449 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:33.449 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
+04.02.18 14:33:33.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"queryType":"POLL","time":"2018.02.04 14:33:33.447","packetId":1,"userId":1}
+04.02.18 14:33:33.451 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
+04.02.18 14:33:33.451 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:33.451","packetId":1,"userId":1}
+04.02.18 14:33:33.452 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Poll query to controller
+04.02.18 14:33:33.452 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:33.453 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:33.454 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:33.455 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:33.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:33.458 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:33.460 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:33.466 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4680,"lastRateUserId":2,"amountObservers":1,"timeToFinish":1329986538}],"queryType":"POLL_ANSWER","time":"2018.02.04 14:33:33.463","packetId":0,"userId":1}
+04.02.18 14:33:33.469 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:38.448 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:38.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:38.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
+04.02.18 14:33:38.451 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"queryType":"POLL","time":"2018.02.04 14:33:38.448","packetId":2,"userId":1}
+04.02.18 14:33:38.452 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
+04.02.18 14:33:38.453 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:38.453","packetId":2,"userId":1}
+04.02.18 14:33:38.454 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Poll query to controller
+04.02.18 14:33:38.454 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:38.454 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:38.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:38.457 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:38.458 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:38.459 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:38.460 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:38.461 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4680,"lastRateUserId":2,"amountObservers":1,"timeToFinish":1329981539}],"queryType":"POLL_ANSWER","time":"2018.02.04 14:33:38.461","packetId":0,"userId":1}
+04.02.18 14:33:38.462 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:40.775 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:40.776 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:40.777 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
+04.02.18 14:33:40.778 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"lotId":1,"price":4690,"queryType":"NEW_RATE","time":"2018.02.04 14:33:40.774","packetId":3,"userId":1}
+04.02.18 14:33:40.779 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
+04.02.18 14:33:40.779 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:40.779","packetId":3,"userId":1}
+04.02.18 14:33:40.780 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - NewRateQuery query to controller
+04.02.18 14:33:40.781 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:40.782 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:40.783 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:40.784 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:40.785 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:40.787 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:40.828 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4690,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1329979173},"queryType":"NOTIFY","time":"2018.02.04 14:33:40.827","packetId":0,"userId":1}
+04.02.18 14:33:40.829 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:43.448 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:43.449 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:43.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
+04.02.18 14:33:43.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"queryType":"POLL","time":"2018.02.04 14:33:43.448","packetId":4,"userId":1}
+04.02.18 14:33:43.451 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
+04.02.18 14:33:43.452 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:43.452","packetId":4,"userId":1}
+04.02.18 14:33:43.453 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Poll query to controller
+04.02.18 14:33:43.453 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:43.454 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:43.455 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:43.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:43.457 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:43.458 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:43.458 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:43.459 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4690,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1329976541}],"queryType":"POLL_ANSWER","time":"2018.02.04 14:33:43.459","packetId":0,"userId":1}
+04.02.18 14:33:43.460 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:48.448 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:48.449 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:48.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 79
+04.02.18 14:33:48.450 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"queryType":"POLL","time":"2018.02.04 14:33:48.448","packetId":5,"userId":1}
+04.02.18 14:33:48.451 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - Poll packet
+04.02.18 14:33:48.452 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:48.452","packetId":5,"userId":1}
+04.02.18 14:33:48.453 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Poll query to controller
+04.02.18 14:33:48.453 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:48.454 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:48.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:48.456 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:48.458 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:48.459 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:48.461 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:48.462 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"auctionLots":[{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4690,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1329971538}],"queryType":"POLL_ANSWER","time":"2018.02.04 14:33:48.462","packetId":0,"userId":1}
+04.02.18 14:33:48.464 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:50.632 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:50.633 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:50.634 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 106
+04.02.18 14:33:50.634 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"lotId":1,"price":4700,"queryType":"NEW_RATE","time":"2018.02.04 14:33:50.631","packetId":6,"userId":1}
+04.02.18 14:33:50.635 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - NewRateQuery packet
+04.02.18 14:33:50.636 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:50.635","packetId":6,"userId":1}
+04.02.18 14:33:50.636 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - NewRateQuery query to controller
+04.02.18 14:33:50.636 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:50.637 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:50.638 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'select * from OBSERVE where lot = ?', parameters : [1]
+04.02.18 14:33:50.639 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:50.639 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:50.640 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.LotRepositoryJDBC) - sql : 'select * from AUCTIONLOT where lot_id = ?', parameters : [1]
+04.02.18 14:33:50.668 DEBUG Thread-3 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"lot":{"lotId":1,"startPrice":10,"lotName":"Book","lastRate":4700,"lastRateUserId":1,"amountObservers":1,"timeToFinish":1329969332},"queryType":"NOTIFY","time":"2018.02.04 14:33:50.668","packetId":0,"userId":1}
+04.02.18 14:33:50.670 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:52.830 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:52.832 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:52.832 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: 85
+04.02.18 14:33:52.833 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageProcessor) - Socket: 16384. Message: {"queryType":"DISCONNECT","time":"2018.02.04 14:33:52.823","packetId":7,"userId":1}
+04.02.18 14:33:52.834 DEBUG Thread-1 - (com.apu.auctionserver.nw.utils.Decoder) - DisconnectQuery packet
+04.02.18 14:33:52.835 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwOutputController) - Write to output: {"message":"OK","queryType":"ANSWER","time":"2018.02.04 14:33:52.835","packetId":7,"userId":1}
+04.02.18 14:33:52.836 DEBUG Thread-1 - (com.apu.auctionserver.nw.controller.NwInputController) - Disconnect query to controller
+04.02.18 14:33:52.837 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
+04.02.18 14:33:52.837 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageWriter) - Answer sended.
+04.02.18 14:33:52.839 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.ObserveRepositoryJDBC) - sql : 'delete from OBSERVE where user = ?', parameters : [1]
+04.02.18 14:33:52.843 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Have some keys. Amount: 1
+04.02.18 14:33:52.843 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Begin reading bytes
+04.02.18 14:33:52.844 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.message.MessageReader) - Read bytes. Amount: -1
+04.02.18 14:33:52.845 DEBUG Thread-1 - (com.apu.auctionserver.server.NIO.ServerSocketNIOProcessor) - Socket closed: 16384
+04.02.18 14:33:52.893 DEBUG Thread-2 - (com.apu.auctionserver.repository.jdbc.UserRepositoryJDBC) - sql : 'select * from USER where user.user_id = ?', parameters : [1]
