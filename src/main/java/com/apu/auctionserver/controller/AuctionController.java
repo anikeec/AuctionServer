@@ -37,31 +37,16 @@ public class AuctionController implements Runnable {
     private final Auction auction = Auction.getInstance();
     private final UserStatusRepository usr = 
                             UserStatusRepositoryRAM.getInstance();
-    
-    private final int MESSAGE_QUEUE_SIZE = 10;
-    private final BlockingQueue<Msg> inputMessageQueue = 
-                    new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE, true);
-    private final BlockingQueue<Msg> outputMessageQueue = 
-                    new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE); 
 
-    private static AuctionController instance;
-    
-    public static AuctionController getInstance() {
-        if(instance == null)
-            instance = new AuctionController();
-        return instance;
+    private final BlockingQueue<Msg> inputMessageQueue;
+    private final BlockingQueue<Msg> outputMessageQueue; 
+
+    public AuctionController(BlockingQueue<Msg> inputMessageQueue, 
+                                BlockingQueue<Msg> outputMessageQueue) {
+        this.inputMessageQueue = inputMessageQueue;
+        this.outputMessageQueue = outputMessageQueue;
     }
-    
-    private AuctionController() {}
-    
-    public BlockingQueue<Msg> getInputMsgQueue() {
-        return this.inputMessageQueue;
-    }
-    
-    public BlockingQueue<Msg> getOutputMsgQueue() {
-        return this.outputMessageQueue;
-    }
-    
+      
     @Override
     public void run() {
         Msg message;

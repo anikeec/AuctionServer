@@ -5,7 +5,7 @@
  */
 package com.apu.auctionserver.server.NIO;
 
-import com.apu.auctionserver.controller.AuctionController;
+import com.apu.auctionserver.controller.AuctionControllerPool;
 import com.apu.auctionserver.nw.controller.NwInputController;
 import com.apu.auctionserver.nw.controller.NwOutputController;
 import com.apu.auctionserver.server.Server;
@@ -50,30 +50,25 @@ public class ServerNIO implements Server {
         
         Thread accepterThread  = new Thread(this.socketAccepter);
         Thread processorThread = new Thread(this.socketProcessor);
-        
-        AuctionController alController = AuctionController.getInstance();
+
+        AuctionControllerPool acPool = new AuctionControllerPool();
         
         NwInputController niController = 
-                new NwInputController(alController.getInputMsgQueue(),
-                                        alController.getOutputMsgQueue());
+                new NwInputController(acPool.getInputMsgQueue(),
+                                        acPool.getOutputMsgQueue());
         
         WriteProxy writeProxy = 
                 new WriteProxy(socketProcessor.getOutboundMessageQueue());
         
         NwOutputController noController = 
-                new NwOutputController(alController.getOutputMsgQueue(), 
+                new NwOutputController(acPool.getOutputMsgQueue(), 
                                         writeProxy);
-        
-        Thread businessLogicThread = new Thread(alController);
-        businessLogicThread.setDaemon(true);    
-//        Thread nwInputThread = new Thread(niController);
-//        nwInputThread.setDaemon(true);
+               
         Thread nwOutputThread = new Thread(noController);
         nwOutputThread.setDaemon(true);    
         
-        businessLogicThread.start();
-        nwOutputThread.start();
-//        nwInputThread.start();        
+        acPool.init();
+        nwOutputThread.start();       
         
         accepterThread.start();
         processorThread.start();
