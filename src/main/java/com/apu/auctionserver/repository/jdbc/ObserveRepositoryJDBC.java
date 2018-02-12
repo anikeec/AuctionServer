@@ -26,12 +26,17 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  */
 public class ObserveRepositoryJDBC implements ObserveRepository {
     
-    private static ObserveRepositoryJDBC instance;
-    private static JDBCPool dbPool = JDBCPool.getInstance();
-    private final LotRepository lotRepository = LotRepositoryJDBC.getInstance();
-    private final UserRepository userRepository = UserRepositoryJDBC.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = ObserveRepositoryJDBC.class;
+    
+    private static ObserveRepositoryJDBC instance;
+    
+    private static JDBCPool dbPool = 
+                            JDBCPool.getInstance();
+    private LotRepository lotRepository;
+    private final UserRepository userRepository = 
+                            UserRepositoryJDBC.getInstance();
+    
 
     String findByIdString =
         "select * from OBSERVE where lot_id = ?";
@@ -63,6 +68,7 @@ public class ObserveRepositoryJDBC implements ObserveRepository {
     public List<AuctionLot> getObservableAuctionLotsByUser(User user) {
         Connection con = null;
         PreparedStatement findStatement = null;
+        lotRepository = LotRepositoryJDBC.getInstance();
         List<AuctionLot> lotList = new ArrayList<>();
         try {        
             try {

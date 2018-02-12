@@ -8,6 +8,7 @@ package com.apu.auctionserver.repository.jdbc;
 import com.apu.auctionserver.repository.entity.AuctionLot;
 import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.repository.LotRepository;
+import com.apu.auctionserver.repository.ObserveRepository;
 import com.apu.auctionserver.repository.UserRepository;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
@@ -24,12 +25,18 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  *
  * @author apu
  */
-public class LotRepositoryJDBC implements LotRepository {
+public class LotRepositoryJDBC implements LotRepository {    
     
-    private static LotRepositoryJDBC instance;
-    private static JDBCPool dbPool = JDBCPool.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = LotRepositoryJDBC.class;
+    
+    private static LotRepositoryJDBC instance;
+    
+    private static final JDBCPool dbPool = 
+                                        JDBCPool.getInstance();
+    private ObserveRepository observeRepository;
+    private final UserRepository userRepository = 
+                                        UserRepositoryJDBC.getInstance();
     
     String findByIdString =
         "select * from AUCTIONLOT where lot_id = ?"; 
@@ -113,6 +120,7 @@ public class LotRepositoryJDBC implements LotRepository {
         Connection con = null;
         PreparedStatement findStatement = null;
         AuctionLot auctionLot = null;
+        observeRepository = ObserveRepositoryJDBC.getInstance();
         try {        
             try {
                 con = dbPool.getConnection();
@@ -131,12 +139,11 @@ public class LotRepositoryJDBC implements LotRepository {
                     Integer userId = rs.getInt("last_rate_user");
                     auctionLot.setLastRateUser(new User(userId));
                     auctionLot.setStatus(rs.getString("status"));
-                    List<Integer> list = ObserveRepositoryJDBC.getInstance()
+                    List<Integer> list = observeRepository
                             .getObserverIdListByAuctionLot(auctionLot);
-                    User user;
-                    UserRepository ur = UserRepositoryJDBC.getInstance();
+                    User user;                    
                     for(Integer uId:list){
-                        user = ur.getUserById(uId);
+                        user = userRepository.getUserById(uId);
                         auctionLot.registerObserver(user);
                     }                    
                 }

@@ -28,6 +28,8 @@ public class Auction implements AuctionI {
                         UserRepositoryJDBC.getInstance();
     private final ObserveRepository observeRepository = 
                         ObserveRepositoryJDBC.getInstance();
+    private final UserStatusRepository usr = 
+                            UserStatusRepositoryRAM.getInstance();
     
     private static Auction instance;
     
@@ -135,9 +137,7 @@ public class Auction implements AuctionI {
         addLotToAuction(lot2);
     }
     
-    private void initUsers() {
-        UserStatusRepository usr = 
-                            UserStatusRepositoryRAM.getInstance();
+    private void initUsers() {        
         usr.updateUserAllSetOffline();
     }
     

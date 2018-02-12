@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.controller;
+package com.apu.auctionserver.auction.controller;
 
 import com.apu.auctionserver.auction.Auction;
-import com.apu.auctionserver.observer.Observer;
+import com.apu.auctionserver.repository.interfaces.Observer;
 import com.apu.auctionserver.repository.SocketRepository;
 import com.apu.auctionserver.repository.UserStatusRepository;
 import com.apu.auctionserver.repository.entity.AuctionLot;
 import com.apu.auctionserver.repository.entity.User;
 import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
 import com.apu.auctionserver.repository.ram.UserStatusRepositoryRAM;
-import com.apu.auctionserver.server.NIO.msg.Msg;
-import com.apu.auctionserver.server.NIO.msg.MsgParameter;
-import com.apu.auctionserver.server.NIO.msg.MsgType;
+import com.apu.auctionserver.msg.Msg;
+import com.apu.auctionserver.msg.MsgParameter;
+import com.apu.auctionserver.msg.MsgType;
 import com.apu.auctionserver.server.UserControlService;
 import java.util.concurrent.BlockingQueue;
 import com.apu.auctionserver.utils.Log;
@@ -36,9 +36,12 @@ public class AuctionController implements Runnable {
     private final Auction auction = Auction.getInstance();
     private final UserStatusRepository usr = 
                             UserStatusRepositoryRAM.getInstance();
+    private final SocketRepository socketRepository = 
+                                SocketRepositoryRAM.getInstance();
 
     private final BlockingQueue<Msg> inputMessageQueue;
-    private final BlockingQueue<Msg> outputMessageQueue; 
+    private final BlockingQueue<Msg> outputMessageQueue;    
+    
 
     public AuctionController(BlockingQueue<Msg> inputMessageQueue, 
                                 BlockingQueue<Msg> outputMessageQueue) {
@@ -250,9 +253,8 @@ public class AuctionController implements Runnable {
         
     }
     
-    private void sendMessage(Msg message) {
-        SocketRepository sr = SocketRepositoryRAM.getInstance();
-        Long socketId = sr.getSocketIdByUserId(message.getUserId());
+    private void sendMessage(Msg message) {        
+        Long socketId = socketRepository.getSocketIdByUserId(message.getUserId());
         message.setParameter(MsgParameter.SOCKET_ID, socketId);
         if(socketId != null) {
             try {

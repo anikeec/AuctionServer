@@ -5,8 +5,8 @@
  */
 package com.apu.auctionserver.server.NIO.message;
 
-import com.apu.auctionserver.nw.controller.NwInputController;
-import com.apu.auctionserver.nw.exception.ErrorQueryException;
+import com.apu.auctionserver.server.nw.controller.NwInputController;
+import com.apu.auctionserver.server.nw.exception.ErrorQueryException;
 import com.apu.auctionserver.utils.Log;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -21,11 +21,7 @@ public class MessageProcessor {
     
     private static MessageProcessor instance;
     
-    public static MessageProcessor getInstance() {
-//        if(instance == null)
-//            instance = new MessageProcessor();
-        return instance;
-    }
+    private NwInputController nwInputController;
 
     public MessageProcessor() {
         instance = this;        
@@ -35,7 +31,8 @@ public class MessageProcessor {
         String query = message.getMessageStr();
         log.debug(classname, "Socket: " + message.socketId + ". Message: " + query);
         try {
-            NwInputController.getInstance().handle(query, message.socketId);
+            nwInputController = NwInputController.getInstance();
+            nwInputController.handle(query, message.socketId);
         } catch (ErrorQueryException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         }

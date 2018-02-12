@@ -23,8 +23,11 @@ public class Main {
     private static final int CONNECTION_PORT = 5050;    
     static Server server;
     
+   private static final Auction auction = 
+                                    Auction.getInstance();
+    
     public static void main(String[] args) {
-        Auction.getInstance().init();
+        auction.init();
         
         try {
             server = new ServerNIO(CONNECTION_PORT, CONNECTIONS_MAX);

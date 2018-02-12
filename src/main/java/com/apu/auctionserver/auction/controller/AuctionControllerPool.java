@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.controller;
+package com.apu.auctionserver.auction.controller;
 
-import com.apu.auctionserver.server.NIO.msg.Msg;
+import com.apu.auctionserver.msg.Msg;
 import com.apu.auctionserver.utils.Log;
 import java.util.ArrayList;
 import java.util.List;

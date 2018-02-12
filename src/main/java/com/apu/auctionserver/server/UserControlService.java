@@ -22,7 +22,9 @@ import java.util.Map;
 public class UserControlService {
     
     private static final Map<Integer,Date> userLastQueryTime = new HashMap<>();
-    private static final Auction auction = Auction.getInstance();
+    
+    private static final Auction auction = 
+                                Auction.getInstance();
     private static final UserStatusRepository usr = 
                                 UserStatusRepositoryRAM.getInstance();
     

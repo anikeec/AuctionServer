@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.nw.controller;
+package com.apu.auctionserver.server.nw.controller;
 
 import com.apu.auctionapi.answer.AnswerQuery;
 import com.apu.auctionapi.AuctionQuery;
@@ -14,13 +14,13 @@ import com.apu.auctionapi.query.InternalQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
-import com.apu.auctionserver.nw.exception.ErrorQueryException;
-import com.apu.auctionserver.nw.utils.Coder;
-import com.apu.auctionserver.nw.utils.Decoder;
+import com.apu.auctionserver.server.nw.exception.ErrorQueryException;
+import com.apu.auctionserver.server.nw.utils.Coder;
+import com.apu.auctionserver.server.nw.utils.Decoder;
 import com.apu.auctionserver.server.NIO.message.Message;
-import com.apu.auctionserver.server.NIO.msg.Msg;
-import com.apu.auctionserver.server.NIO.msg.MsgParameter;
-import com.apu.auctionserver.server.NIO.msg.MsgType;
+import com.apu.auctionserver.msg.Msg;
+import com.apu.auctionserver.msg.MsgParameter;
+import com.apu.auctionserver.msg.MsgType;
 import com.apu.auctionserver.utils.Log;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -36,7 +36,8 @@ public class NwInputController {
     private final Class classname = NwInputController.class;    
     
     private final Decoder decoder = Decoder.getInstance();
-    private final Coder coder = Coder.getInstance();   
+    private final Coder coder = Coder.getInstance();    
+    private NwOutputController nwOutputController;
 
     private final BlockingQueue<Msg> inputMessageQueue;
     private final BlockingQueue<Msg> outputMessageQueue; 
@@ -56,16 +57,6 @@ public class NwInputController {
         return instance;
     }
     
-//    private NwInputController() {}
-//
-//    public void setInputMsgQueue(BlockingQueue<Msg> queue) {
-//        this.inputMessageQueue = queue;
-//    }
-//    
-//    public void setOutputMsgQueue(BlockingQueue<Msg> queue) {
-//        this.outputMessageQueue = queue;
-//    }
-    
     public void handle(String queryStr, long socketId) throws ErrorQueryException {
         AuctionQuery query = decoder.decode(queryStr);
         
@@ -76,7 +67,8 @@ public class NwInputController {
         Message answerMessage = new Message();
         answerMessage.socketId = socketId;
         answerMessage.writeToMessage(answerStr.getBytes());
-        NwOutputController.getInstance().sendMessage(answerMessage);
+        nwOutputController = NwOutputController.getInstance();
+        nwOutputController.sendMessage(answerMessage);
         
         if(query instanceof RegistrationQuery) {
             handle((RegistrationQuery)query, socketId);

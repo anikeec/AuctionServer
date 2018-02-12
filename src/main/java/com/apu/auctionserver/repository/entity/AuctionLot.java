@@ -5,8 +5,8 @@
  */
 package com.apu.auctionserver.repository.entity;
 
-import com.apu.auctionserver.observer.Observable;
-import com.apu.auctionserver.observer.Observer;
+import com.apu.auctionserver.repository.interfaces.Observable;
+import com.apu.auctionserver.repository.interfaces.Observer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;

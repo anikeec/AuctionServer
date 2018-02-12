@@ -22,10 +22,12 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
  */
 public class UserRepositoryJDBC implements UserRepository {
     
-    private static UserRepositoryJDBC instance;
-    private static JDBCPool dbPool = JDBCPool.getInstance();
     private static final Log log = Log.getInstance();
     private static final Class classname = UserRepositoryJDBC.class;
+    
+    private static UserRepositoryJDBC instance;
+    
+    private static final JDBCPool dbPool = JDBCPool.getInstance();    
     
     String findByIdString =
         "select * from USER where user.user_id = ?"; 

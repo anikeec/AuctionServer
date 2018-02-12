@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.apu.auctionserver.nw.controller;
+package com.apu.auctionserver.server.nw.controller;
 
 import com.apu.auctionapi.AuctionLotEntity;
 import com.apu.auctionapi.AuctionQuery;
-import com.apu.auctionapi.answer.AnswerQuery;
 import com.apu.auctionapi.answer.PollAnswerQuery;
 import com.apu.auctionapi.query.NotifyQuery;
-import com.apu.auctionserver.nw.utils.Coder;
+import com.apu.auctionserver.server.nw.utils.Coder;
 import com.apu.auctionserver.server.NIO.WriteProxy;
 import com.apu.auctionserver.server.NIO.message.Message;
-import com.apu.auctionserver.server.NIO.msg.Msg;
-import com.apu.auctionserver.server.NIO.msg.MsgParameter;
+import com.apu.auctionserver.msg.Msg;
+import com.apu.auctionserver.msg.MsgParameter;
 import com.apu.auctionserver.utils.Log;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
