@@ -22,7 +22,6 @@ import com.apu.auctionserver.utils.Log;
 import com.apu.auctionserver.utils.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**

@@ -5,16 +5,8 @@
  */
 package com.apu.auctionserver.repository.entity;
 
-import com.apu.auctionapi.AuctionLotEntity;
-import com.apu.auctionapi.query.InternalQuery;
-import com.apu.auctionserver.nw.utils.Coder;
 import com.apu.auctionserver.observer.Observable;
 import com.apu.auctionserver.observer.Observer;
-import com.apu.auctionserver.repository.SocketRepository;
-import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
-import com.apu.auctionserver.server.NIO.message.Message;
-import com.apu.auctionserver.server.NIO.message.MessageProcessor;
-import com.apu.auctionserver.utils.Time;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -149,27 +141,6 @@ public class User implements Observer, Serializable {
 
     @Override
     public void update(Observable object) {
-        AuctionLot lot = (AuctionLot)object;
-        long timeToFinish = 
-                lot.getFinishDate().getTime() - Time.getTimeMs();
-        InternalQuery query = new InternalQuery(0, this.userId);
-        AuctionLotEntity entity = new AuctionLotEntity(lot.getLotId(),
-                                                        lot.getStartPrice(),
-                                                        lot.getLotName(),
-                                                        lot.getLastRate(),
-                                                        lot.getLastRateUser().getUserId(),
-                                                        lot.getObserverList().size(),
-                                                        timeToFinish);
-        query.setLot(entity);        
-        
-        SocketRepository sr = SocketRepositoryRAM.getInstance();
-        Long socketId = sr.getSocketIdByUserId(this.userId);
-        if(socketId != null) {
-            Message message = new Message();
-            message.socketId = socketId;
-            message.writeToMessage(Coder.getInstance().code(query).getBytes());
-            MessageProcessor.getInstance().process(message);
-        }
     }
     
 }

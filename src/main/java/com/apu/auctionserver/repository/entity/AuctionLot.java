@@ -5,11 +5,8 @@
  */
 package com.apu.auctionserver.repository.entity;
 
-import com.apu.auctionserver.auction.Auction;
 import com.apu.auctionserver.observer.Observable;
 import com.apu.auctionserver.observer.Observer;
-import com.apu.auctionserver.repository.UserStatusRepository;
-import com.apu.auctionserver.repository.ram.UserStatusRepositoryRAM;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -201,15 +198,6 @@ public class AuctionLot implements Observable,Serializable {
 
     @Override
     public void notifyObservers() {
-        UserStatusRepository usr = UserStatusRepositoryRAM.getInstance();
-        User user;
-        for(Observer o:observerList) {
-            user = (User)o;
-            if(usr.getUserStatusByUserId(user.getUserId())
-                            .equals(UserStatusRepository.USER_ONLINE)) {
-                user.update(this);
-            }
-        }
     }
     
 }
