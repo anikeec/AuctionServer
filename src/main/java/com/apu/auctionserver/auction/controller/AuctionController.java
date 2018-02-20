@@ -95,7 +95,7 @@ public class AuctionController implements Runnable {
         SocketRepository sr = SocketRepositoryRAM.getInstance();
         User user = auction.getAuctionUserById(userId);        
         if(user == null) {
-            user = new User(userId);
+            user = new User(userId);                //here must be login-passw checking
             usr.updateUserByIdSetOnline(userId);
             sr.setSocketId(userId, socketId);
             auction.addUserToAuction(user);            
