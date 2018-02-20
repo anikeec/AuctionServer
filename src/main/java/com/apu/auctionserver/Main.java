@@ -6,6 +6,7 @@
 package com.apu.auctionserver;
 
 import com.apu.auctionserver.auction.Auction;
+import com.apu.auctionserver.server.Jetty.ServerJetty;
 import com.apu.auctionserver.server.Server;
 import com.apu.auctionserver.server.NIO.ServerNIO;
 import com.apu.auctionserver.utils.Log;
@@ -30,7 +31,7 @@ public class Main {
         auction.init();
         
         try {
-            server = new ServerNIO(CONNECTION_PORT, CONNECTIONS_MAX);
+            server = new ServerJetty(CONNECTION_PORT, CONNECTIONS_MAX);
             server.accept();
         } catch (IOException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));

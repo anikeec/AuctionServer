@@ -24,6 +24,7 @@
         <jaxen.version>1.1.6</jaxen.version>
         <eclipse.persistence.jpa.version>2.5.2</eclipse.persistence.jpa.version>       
         <eclipselink.version>2.5.2</eclipselink.version> 
+        <jetty-version>8.1.21.v20160908</jetty-version><!--9.4.6.v20170531-->
     </properties>
     <build>
         <resources>
@@ -104,6 +105,21 @@
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-websocket</artifactId>
+            <version>${jetty-version}</version>
+        </dependency>
         <dependency>
             <groupId>com.apu</groupId>
             <artifactId>AuctionAPI</artifactId>
