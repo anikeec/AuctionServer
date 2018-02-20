@@ -57,8 +57,8 @@ public class ServerNIO implements Server {
                 new NwInputController(acPool.getInputMsgQueue(),
                                         acPool.getOutputMsgQueue());
         
-        WriteProxy writeProxy = 
-                new WriteProxy(socketProcessor.getOutboundMessageQueue());
+        WriteProxyNIO writeProxy = 
+                new WriteProxyNIO(socketProcessor.getOutboundMessageQueue());
         
         NwOutputController noController = 
                 new NwOutputController(acPool.getOutputMsgQueue(), 

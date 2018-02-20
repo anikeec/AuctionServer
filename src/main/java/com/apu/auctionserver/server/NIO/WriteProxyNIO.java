@@ -5,6 +5,7 @@
  */
 package com.apu.auctionserver.server.NIO;
 
+import com.apu.auctionserver.server.WriteProxy;
 import com.apu.auctionserver.server.NIO.message.Message;
 import java.util.Queue;
 
@@ -12,14 +13,15 @@ import java.util.Queue;
  *
  * @author apu
  */
-public class WriteProxy {
+public class WriteProxyNIO implements WriteProxy {
     
     private Queue        writeQueue     = null;
 
-    public WriteProxy(Queue writeQueue) {
+    public WriteProxyNIO(Queue writeQueue) {
         this.writeQueue = writeQueue;
     }
 
+    @Override
     public synchronized boolean enqueue(Message message){
         return this.writeQueue.offer(message);
     }
