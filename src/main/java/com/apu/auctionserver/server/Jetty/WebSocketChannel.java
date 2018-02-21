@@ -5,8 +5,12 @@
  */
 package com.apu.auctionserver.server.Jetty;
 
+import com.apu.auctionapi.query.DisconnectQuery;
+import com.apu.auctionserver.repository.SocketRepository;
+import com.apu.auctionserver.repository.ram.SocketRepositoryRAM;
 import com.apu.auctionserver.server.nw.controller.NwInputController;
 import com.apu.auctionserver.server.nw.exception.ErrorQueryException;
+import com.apu.auctionserver.server.nw.utils.Coder;
 import com.apu.auctionserver.utils.Log;
 import java.io.IOException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -25,6 +29,8 @@ public class WebSocketChannel implements WebSocket.OnTextMessage {
     private long socketId;
     private final WebSocketCollection socketCollection = 
                             WebSocketCollection.getInstance();
+    private final SocketRepository socketRepository = 
+                            SocketRepositoryRAM.getInstance();
     private NwInputController nwInputController;
 
     @Override
@@ -43,10 +49,18 @@ public class WebSocketChannel implements WebSocket.OnTextMessage {
     public synchronized void onOpen(Connection cnctn) {
         this.connection = cnctn;
         this.socketId = socketCollection.put(this);
+        log.debug(classname, "Client is connected. SocketId: " + this.socketId);
     }
 
     @Override
     public synchronized void onClose(int i, String string) {
+        log.debug(classname, "Client is disconnected. SocketId: " + this.socketId);        
+        Integer userId = socketRepository.getUserIdBySocketId(this.socketId);    //it is wrong way
+        if(userId != null) {
+            DisconnectQuery query = new DisconnectQuery(0, userId, "");
+            String queryStr = Coder.getInstance().code(query);
+            this.onMessage(queryStr);
+        }
         socketCollection.remove(this);
     }
     
