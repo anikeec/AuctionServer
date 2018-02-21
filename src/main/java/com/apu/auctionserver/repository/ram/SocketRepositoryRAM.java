@@ -7,7 +7,9 @@ package com.apu.auctionserver.repository.ram;
 
 import com.apu.auctionserver.repository.SocketRepository;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -32,6 +34,20 @@ public class SocketRepositoryRAM implements SocketRepository {
     @Override
     public void setSocketId(int userId, long socketId) {
         sockets.put(userId, socketId);
+    }
+
+    @Override
+    public Integer getUserIdBySocketId(long socketId) {
+        if(sockets.containsValue(socketId) == false)
+            return null;
+        Iterator<Entry<Integer, Long>> it = sockets.entrySet().iterator();
+        Entry<Integer, Long> entry;
+        while(it.hasNext()) {
+            entry = it.next();
+            if(entry.getValue() == socketId)
+                return entry.getKey();
+        }
+        return null;
     }
     
 }

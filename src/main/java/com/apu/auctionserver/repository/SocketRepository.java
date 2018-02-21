@@ -13,5 +13,6 @@ public interface SocketRepository {
     
     Long getSocketIdByUserId(int id);
     void setSocketId(int userId, long socketId);
+    Integer getUserIdBySocketId(long socketId);
     
 }
