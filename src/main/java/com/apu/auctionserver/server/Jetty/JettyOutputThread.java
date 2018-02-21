@@ -7,6 +7,7 @@ package com.apu.auctionserver.server.Jetty;
 
 import com.apu.auctionserver.server.NIO.message.Message;
 import com.apu.auctionserver.utils.Log;
+import java.util.List;
 import java.util.Queue;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -40,9 +41,15 @@ public class JettyOutputThread implements Runnable {
                 continue;
             }
             long socketId = mess.socketId;
-            WebSocketChannel socketChannel = 
-                        socketCollection.get(socketId);
-            socketChannel.sendTextMessage(mess.getMessageStr());
+            List<WebSocketChannel> socketChannelList = 
+                        socketCollection.getChannelListBySocketId(socketId);
+            for(WebSocketChannel socketChannel:socketChannelList) {
+                if(socketChannel != null) {
+                    log.debug(classname, "Send to socketId: " + socketId + 
+                                    ", socketChannel: " + socketChannel);
+                    socketChannel.sendTextMessage(mess.getMessageStr());
+                }
+            }
         }
     }
     
