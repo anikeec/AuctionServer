@@ -46,7 +46,8 @@ public class JettyOutputThread implements Runnable {
             for(WebSocketChannel socketChannel:socketChannelList) {
                 if(socketChannel != null) {
                     log.debug(classname, "Send to socketId: " + socketId + 
-                                    ", socketChannel: " + socketChannel);
+                                    ", socketChannel: " + socketChannel +
+                                    ", " + mess.getMessageStr());
                     socketChannel.sendTextMessage(mess.getMessageStr());
                 }
             }

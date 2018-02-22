@@ -6,6 +6,7 @@
 package com.apu.auctionserver.server.nw.utils;
 
 import com.apu.auctionapi.AuctionQuery;
+import com.apu.auctionapi.answer.LoadLotsAnswerQuery;
 import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.NewRateQuery;
 import com.apu.auctionapi.query.PingQuery;
@@ -83,6 +84,12 @@ public class Coder {
     }
     
     private String code(RegistrationQuery object) {
+        String ret = null;
+        
+        return ret;
+    }
+    
+    private String code(LoadLotsAnswerQuery object) {
         String ret = null;
         
         return ret;

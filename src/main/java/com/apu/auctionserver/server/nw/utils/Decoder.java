@@ -13,6 +13,7 @@ import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.QueryType;
 import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.InternalQuery;
+import com.apu.auctionapi.query.LoadLotsQuery;
 import com.apu.auctionapi.query.NotifyQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
@@ -81,6 +82,10 @@ public class Decoder {
         log.debug(classname, "Poll packet");        
     }
     
+    private synchronized void decode(LoadLotsQuery result)  throws Exception {
+        log.debug(classname, "LoadLotsQuery packet decode");
+    }
+    
     private synchronized void decode(SubscribeQuery result)  throws Exception {
         log.debug(classname, "Subscribe packet decode");
         int lotId = rootObject.get("lotId").getAsInt();
@@ -136,6 +141,9 @@ public class Decoder {
             } else if(queryType.equals(QueryType.REGISTRATION.toString())) {
                 result = new RegistrationQuery(packetId, userId, time);
                 decode((RegistrationQuery)result);
+            } else if(queryType.equals(QueryType.LOAD_LOTS.toString())) {
+                result = new LoadLotsQuery(packetId, userId, time);
+                decode((LoadLotsQuery)result);
             } else if(queryType.equals(QueryType.SUBSCRIBE.toString())) {
                 result = new SubscribeQuery(packetId, userId, time);
                 decode((SubscribeQuery)result);

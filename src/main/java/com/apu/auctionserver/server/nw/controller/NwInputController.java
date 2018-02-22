@@ -11,6 +11,7 @@ import com.apu.auctionapi.query.DisconnectQuery;
 import com.apu.auctionapi.query.NewRateQuery;
 import com.apu.auctionapi.query.PingQuery;
 import com.apu.auctionapi.query.InternalQuery;
+import com.apu.auctionapi.query.LoadLotsQuery;
 import com.apu.auctionapi.query.PollQuery;
 import com.apu.auctionapi.query.RegistrationQuery;
 import com.apu.auctionapi.query.SubscribeQuery;
@@ -82,7 +83,11 @@ public class NwInputController {
             handle((PollQuery)query);
         } else if(query instanceof InternalQuery) {
             handle((InternalQuery)query);
-        }   
+        } else if(query instanceof LoadLotsQuery) {
+            handle((LoadLotsQuery)query);
+        } else if(query instanceof SubscribeQuery) {
+            handle((SubscribeQuery)query);
+        } 
     }
     
     public void handle(RegistrationQuery query, long socketId) {
@@ -117,11 +122,20 @@ public class NwInputController {
     public void handle(PingQuery query) {
         log.debug(classname, "Ping query to controller");
 
-    }  
+    }
+    
+    public void handle(LoadLotsQuery query) {
+        log.debug(classname, "LoadLotsQuery query to controller");
+        Msg msg = new Msg(MsgType.LOAD_LOTS, query.getUserId());
+        handle(msg);
+    }
     
     public void handle(SubscribeQuery query) {
         log.debug(classname, "Subscribe query to controller");
-        
+        Msg msg = new Msg(MsgType.SUBSCRIBE, query.getUserId());
+        Integer lotId = query.getLotId();
+        msg.setParameter(MsgParameter.LOT_ID, lotId);
+        handle(msg);
     }
         
     public void handle(InternalQuery query) { 

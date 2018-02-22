@@ -81,6 +81,12 @@ public class AuctionController implements Runnable {
             case PING:
                                 handlePingQuery(message);
                                 break;
+            case LOAD_LOTS:
+                                handleLoadLotsQuery(message);
+                                break;
+            case SUBSCRIBE:
+                                handleSubscribeQuery(message);
+                                break;
             default:
                                 
                                 break;
@@ -251,6 +257,33 @@ public class AuctionController implements Runnable {
     
     private void handlePingQuery(Msg message) {
         
+    }
+    
+    private void handleLoadLotsQuery(Msg message) {
+        int userId = message.getUserId();
+        User user = auction.getAuctionUserById(userId);
+        if(user != null) {    
+            UserControlService.notifyService(userId);
+            Msg msgOut = new Msg(MsgType.LOAD_LOTS_ANSWER, userId);
+            List<AuctionLot> lots = auction.getAuctionLots();
+            List<Integer> observableList = new ArrayList<>();
+            for(AuctionLot lot: lots) {                
+                observableList.add(lot.getLotId());
+            }
+            msgOut.setParameter(MsgParameter.OBSERVABLE_LIST, observableList);            
+            sendMessage(msgOut);
+        }               
+    }
+    
+    private void handleSubscribeQuery(Msg message) {
+        int userId = message.getUserId();
+        Integer lotId = (Integer)message.getParameter(MsgParameter.LOT_ID);
+        User user = auction.getAuctionUserById(userId);        
+        if(user != null) {
+            auction.addAuctionLotToObservableByUser(user, 
+                                auction.getAuctionLotById(lotId));
+            UserControlService.notifyService(userId);
+        }               
     }
     
     private void sendMessage(Msg message) {        

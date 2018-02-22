@@ -7,6 +7,7 @@ package com.apu.auctionserver.server.nw.controller;
 
 import com.apu.auctionapi.AuctionLotEntity;
 import com.apu.auctionapi.AuctionQuery;
+import com.apu.auctionapi.answer.LoadLotsAnswerQuery;
 import com.apu.auctionapi.answer.PollAnswerQuery;
 import com.apu.auctionapi.query.NotifyQuery;
 import com.apu.auctionserver.server.nw.utils.Coder;
@@ -69,6 +70,9 @@ public class NwOutputController implements Runnable {
             case POLL_ANSWER:
                         answer = handlePollAnswerQuery(msg);
                         break;
+            case LOAD_LOTS_ANSWER:
+                        answer = handleLoadLotsAnswerQuery(msg);
+                        break;
             default:
                         break;
         }
@@ -107,6 +111,14 @@ public class NwOutputController implements Runnable {
                         (long)message.getParameter(MsgParameter.TIME_TO_FINISH));
             query.addLotToCollection(entity);
         }
+        return query;
+    }
+    
+    private AuctionQuery handleLoadLotsAnswerQuery(Msg msg) {
+        LoadLotsAnswerQuery query = new LoadLotsAnswerQuery(0, msg.getUserId());        
+        List<Integer> lotIdList = 
+                    (List<Integer>)msg.getParameter(MsgParameter.OBSERVABLE_LIST);
+        query.setAuctionLotIdList(lotIdList);
         return query;
     }
     
