@@ -94,7 +94,12 @@ public class Auction implements AuctionI {
     
     @Override
     public void addAuctionLotIdListToObservableByUser(User user, List<Integer> list) {
-        observeRepository.addAuctionLotIdListToObservableByUser(user, list);
+        AuctionLot auctionLot;
+        for(Integer itemId:list) {
+            auctionLot = getAuctionLotById(itemId);
+            if(auctionLot != null)
+                addAuctionLotToObservableByUser(user, auctionLot);
+        }
     }
     
     @Override

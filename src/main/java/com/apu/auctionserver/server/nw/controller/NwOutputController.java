@@ -118,7 +118,7 @@ public class NwOutputController implements Runnable {
         LoadLotsAnswerQuery query = new LoadLotsAnswerQuery(0, msg.getUserId());        
         List<Integer> lotIdList = 
                     (List<Integer>)msg.getParameter(MsgParameter.OBSERVABLE_LIST);
-        query.setAuctionLotIdList(lotIdList);
+        query.addAuctionLotIdList(lotIdList);
         return query;
     }
     
