@@ -41,8 +41,7 @@ public class WebSocketChannel implements WebSocket.OnTextMessage {
             nwInputController.handle(query, this.socketId);
         } catch (ErrorQueryException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
-        }    
-        
+        }        
     }
 
     @Override
@@ -70,6 +69,10 @@ public class WebSocketChannel implements WebSocket.OnTextMessage {
         } catch (IOException ex) {
             log.debug(classname,ExceptionUtils.getStackTrace(ex));
         }
+    }
+    
+    public void close() {
+        connection.close();
     }
     
 }

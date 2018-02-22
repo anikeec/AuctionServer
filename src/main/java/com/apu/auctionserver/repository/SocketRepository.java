@@ -5,6 +5,8 @@
  */
 package com.apu.auctionserver.repository;
 
+import java.util.List;
+
 /**
  *
  * @author apu
@@ -14,5 +16,6 @@ public interface SocketRepository {
     Long getSocketIdByUserId(int id);
     void setSocketId(int userId, long socketId);
     Integer getUserIdBySocketId(long socketId);
+    List<Long> getSocketIdListByUserId(int id);
     
 }

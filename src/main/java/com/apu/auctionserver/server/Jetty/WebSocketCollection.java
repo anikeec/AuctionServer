@@ -66,6 +66,7 @@ public class WebSocketCollection {
             entry = it.next();
             Long value = entry.getValue();
             if((value != null) && (value.longValue() == socketId)) {
+                entry.getKey().close();     //close socket before removing
                 it.remove();
             }                
         }

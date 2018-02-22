@@ -6,8 +6,10 @@
 package com.apu.auctionserver.repository.ram;
 
 import com.apu.auctionserver.repository.SocketRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,7 +19,7 @@ import java.util.Map.Entry;
  */
 public class SocketRepositoryRAM implements SocketRepository {
     
-    private static final Map<Integer, Long> sockets = new HashMap<>();
+    private static final Map<Long, Integer> sockets = new HashMap<>();
     private static SocketRepositoryRAM instance;
     
     public static SocketRepositoryRAM getInstance() {
@@ -28,26 +30,44 @@ public class SocketRepositoryRAM implements SocketRepository {
 
     @Override
     public Long getSocketIdByUserId(int id) {
-        return sockets.get(id);
+        if(sockets.containsValue(id) == false)
+            return null;
+        Iterator<Entry<Long, Integer>> it = sockets.entrySet().iterator();
+        Entry<Long, Integer> entry;
+        while(it.hasNext()) {
+            entry = it.next();
+            if(entry.getValue() == id)
+                return entry.getKey();
+        }
+        return null;
     }
 
     @Override
     public void setSocketId(int userId, long socketId) {
-        sockets.put(userId, socketId);
+        sockets.put(socketId, userId);
     }
 
     @Override
     public Integer getUserIdBySocketId(long socketId) {
-        if(sockets.containsValue(socketId) == false)
-            return null;
-        Iterator<Entry<Integer, Long>> it = sockets.entrySet().iterator();
-        Entry<Integer, Long> entry;
+        return sockets.get(socketId);
+    }
+
+    @Override
+    public List<Long> getSocketIdListByUserId(int id) {
+        List<Long> list = new ArrayList<>();
+        
+        if(sockets.containsValue(id) == false) 
+            return list;
+        
+        Iterator<Entry<Long, Integer>> it = sockets.entrySet().iterator();
+        Entry<Long, Integer> entry;
         while(it.hasNext()) {
             entry = it.next();
-            if(entry.getValue() == socketId)
-                return entry.getKey();
-        }
-        return null;
+            if(entry.getValue() == id)
+                list.add(entry.getKey());
+        }    
+        
+        return list;
     }
     
 }
